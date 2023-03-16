@@ -5,7 +5,7 @@
     android:id="@+id/layout_webview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.WebViewLogin">
+    tools:context=".ui.login.WebViewLoginFragment">
 
     <FrameLayout
         android:id="@+id/webViewContainer"

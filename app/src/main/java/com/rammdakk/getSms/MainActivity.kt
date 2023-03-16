@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.rammdakk.getSms.ui.login.WebViewLogin
+import com.rammdakk.getSms.ui.login.WebViewLoginFragment
 import com.rammdakk.getSms.ui.mainScreen.MainScreenFragment
 
 
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 replace(
                     R.id.content_container,
-                    WebViewLogin(),
+                    WebViewLoginFragment(),
                     "WebViewClient"
                 )
                 Log.d("Mow", "web")

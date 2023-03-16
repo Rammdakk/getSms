@@ -25,14 +25,13 @@ interface ResultHandler {
     fun onError(string: String)
 }
 
-class WebViewLogin : Fragment(), ResultHandler {
+class WebViewLoginFragment : Fragment(), ResultHandler {
     private lateinit var navigator: AppNavigator
     private lateinit var webView: WebView
     private lateinit var binding: FragmentWebViewLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         navigator = AppNavigator(parentFragmentManager, R.id.content_container)
     }
 
