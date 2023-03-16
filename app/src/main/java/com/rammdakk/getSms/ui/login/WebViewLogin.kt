@@ -3,123 +3,126 @@ package com.rammdakk.getSms.ui.login
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.rammdakk.getSms.AppNavigator
+import com.rammdakk.getSms.Infra.UrlLinks
 import com.rammdakk.getSms.MainScreen
 import com.rammdakk.getSms.R
+import com.rammdakk.getSms.databinding.FragmentWebViewLoginBinding
+import com.rammdakk.getSms.ioc.login.ResetPSWRDWebViewLoadHandlerImpl
+import com.rammdakk.getSms.ioc.login.SignInWebViewLoadHandlerImpl
+import com.rammdakk.getSms.ioc.login.SignUpWebViewLoadHandlerImpl
+import com.rammdakk.getSms.ioc.login.WebViewLoadHandler
 
-/**
- * A simple [Fragment] subclass.
- * Use the [WebViewLogin.newInstance] factory method to
- * create an instance of this fragment.
- */
-class WebViewLogin : Fragment() {
+interface ResultHandler {
+    fun onSuccess(string: String)
+    fun onError(string: String)
+}
+
+class WebViewLogin : Fragment(), ResultHandler {
     private lateinit var navigator: AppNavigator
     private lateinit var webView: WebView
-
-    companion object {
-        const val URL_LK = "https://vak-sms.com/lk/"
-        const val URL_LOGIN = "https://vak-sms.com/accounts/login/"
-
-    }
+    private lateinit var binding: FragmentWebViewLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         navigator = AppNavigator(parentFragmentManager, R.id.content_container)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_web_view_login, container, false)
-        configureWebView(view)
-        webView.loadUrl(URL_LK)
+    ): View {
+        binding = FragmentWebViewLoginBinding.inflate(layoutInflater)
+        val view = binding.root
+        binding.signInBtn.setOnClickListener {
+            binding.warningTextView.isVisible = false
+            if (binding.loginEditText.text.isNotEmpty() && binding.pswrdEditText.text.isNotEmpty()) {
+                configureWebView(
+                    SignInWebViewLoadHandlerImpl(
+                        this,
+                        binding.loginEditText.text.toString(),
+                        binding.pswrdEditText.text.toString()
+                    ),
+                    UrlLinks.URL_LK
+                )
+            } else {
+                binding.warningTextView.apply {
+                    text = "Поля логин и пароль не должны быть пустые"
+                    isVisible = true
+                }
+            }
+        }
+        binding.signUpBtn.setOnClickListener {
+            binding.loginConstraint.isVisible = false
+            binding.webViewContainer.isVisible = true
+            configureWebView(
+                SignUpWebViewLoadHandlerImpl(
+                    this
+                ),
+                UrlLinks.URL_SIGN_UP
+            )
+        }
+        binding.resetPswrdBtn.setOnClickListener {
+            binding.loginConstraint.isVisible = false
+            binding.webViewContainer.isVisible = true
+            configureWebView(
+                ResetPSWRDWebViewLoadHandlerImpl(
+                    this
+                ),
+                UrlLinks.URl_RESET_PASSWORD
+            )
+        }
         return view
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private fun configureWebView(view: View) {
-        webView = view.findViewById(R.id.webview)
+    private fun configureWebView(loadHandler: WebViewLoadHandler, url: String) {
+        webView = binding.webview
         webView.settings.javaScriptEnabled = true
-        webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(
-                view: WebView,
-                request: WebResourceRequest
-            ): Boolean {
-                val url = request.url.toString()
-                return !(url.startsWith(URL_LK) || url.startsWith(URL_LOGIN))
-            }
-
-            override fun onPageFinished(view: WebView, url: String) {
-                if (view.url == URL_LK) {
-                    webView.evaluateJavascript(
-                        "(function() { return ('<html>'+document.getElementsByClassName('sidebar')[0].outerHTML+'</html>'); })();"
-                    ) { html ->
-                        if (view.url != URL_LK) return@evaluateJavascript
-                        var html = html
-                        try {
-                            val s = html.indexOf("data-api") + "data-api=".length + 2
-                            html = html.substring(s)
-                            Log.d("HTML", Integer.toString(s))
-                            val str = html.substring(0, html.indexOf("\\"))
-                            Log.d("HTML", str)
-                            if (str.isNotBlank()) {
-                                val prefs = context?.getSharedPreferences(
-                                    "com.rammdakk.getSms", Context.MODE_PRIVATE
-                                )
-                                Log.d("test", str)
-//                            prefs?.edit()?.putString("accessKey", str)?.apply()
-                                navigator.navigateTo(MainScreen)
-                            }
-                        } catch (ignore: Exception) {
-                            Log.d("html-ex", ignore.message!!)
-                        }
-                    }
-                } else {
-                    webView.evaluateJavascript(
-                        "(function() { (document.getElementsByName('username')[0].value = 'pukis'); (document.getElementsByName('password')[0].value = 'WLjJH2or'); (document.getElementsByClassName('btn btn-success btn-fill center-block')[0].click());})();"
-                    ) { html ->
-                        if (view.url != URL_LK) return@evaluateJavascript
-                        var html = html
-                        try {
-                            val s = html.indexOf("data-api") + "data-api=".length + 2
-                            html = html.substring(s)
-                            Log.d("HTML", Integer.toString(s))
-                            val str = html.substring(0, html.indexOf("\\"))
-                            Log.d("HTML", str)
-                            if (str.isNotBlank()) {
-                                val prefs = context?.getSharedPreferences(
-                                    "com.rammdakk.getSms", Context.MODE_PRIVATE
-                                )
-                                Log.d("test", str)
-//                            prefs?.edit()?.putString("accessKey", str)?.apply()
-                                navigator.navigateTo(MainScreen)
-                            }
-                        } catch (ignore: Exception) {
-                            Log.d("html-ex", ignore.message!!)
-                        }
-                    }
-                }
-            }
+        webView.webViewClient = LoginWebViewClient(
+            loadHandler
+        )
+        webView.loadUrl(url).apply {
+            showLoading(true)
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("WebViewLogin", "OnDestroy")
-        val webViewContainer: ViewGroup? = view?.findViewById(R.id.layout_webview)
-        webViewContainer?.removeView(webView).apply {
-            Log.d("WebViewLogin", "OnDestroyWebview")
+    private fun showLoading(showProgressBar: Boolean) {
+        binding.loginEditText.isVisible = !showProgressBar
+        binding.pswrdEditText.isVisible = !showProgressBar
+        binding.signInBtn.isVisible = !showProgressBar
+        binding.signUpBtn.isVisible = !showProgressBar
+        binding.resetPswrdBtn.isVisible = !showProgressBar
+        binding.progressBar.isVisible = showProgressBar
+    }
+
+
+    override fun onSuccess(string: String) {
+        val prefs = context?.getSharedPreferences(
+            "com.rammdakk.getSms", Context.MODE_PRIVATE
+        )
+        prefs?.edit()?.putString("accessKey", string)?.apply()
+        navigator.navigateTo(MainScreen)
+    }
+
+    override fun onError(string: String) {
+        binding.loginConstraint.isVisible = true
+        binding.webViewContainer.isVisible = false
+        if (string.isNotEmpty()) {
+            binding.warningTextView.apply {
+                text = string
+                isVisible = true
+            }
         }
-        webView.destroy()
+        binding.webview.webViewClient = WebViewClient()
+        showLoading(false)
     }
 }
