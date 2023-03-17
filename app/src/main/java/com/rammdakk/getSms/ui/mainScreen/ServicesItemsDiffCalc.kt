@@ -1,11 +1,11 @@
 package com.rammdakk.getSms.ui.mainScreen
 
 import androidx.recyclerview.widget.DiffUtil
-import com.rammdakk.getSms.data.Service
+import com.rammdakk.getSms.data.model.Service
 
-class ServicesItemsDiffCalc : DiffUtil.ItemCallback<com.rammdakk.getSms.data.Service>() {
+class ServicesItemsDiffCalc : DiffUtil.ItemCallback<Service>() {
     override fun areItemsTheSame(oldItem: Service, newItem: Service): Boolean {
-        return oldItem.ServiceName == newItem.ServiceName
+        return oldItem.serviceName == newItem.serviceName
     }
 
     override fun areContentsTheSame(oldItem: Service, newItem: Service): Boolean {
