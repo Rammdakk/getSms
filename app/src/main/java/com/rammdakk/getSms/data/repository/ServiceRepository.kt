@@ -8,10 +8,6 @@ import com.rammdakk.getSms.data.model.Service
 import com.rammdakk.getSms.ioc.ApplicationComponentScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.BufferedReader
-import java.io.File
-import java.io.InputStream
-import java.io.InputStreamReader
 import javax.inject.Inject
 
 @ApplicationComponentScope
@@ -25,16 +21,6 @@ class ServiceRepository @Inject constructor(
     suspend fun loadServices() {
         Log.d("repo", "load")
         try {
-//            val builder = StringBuilder()
-//            val reader = BufferedReader(withContext(Dispatchers.IO) {
-//                InputStreamReader(inputStream, "UTF-8")
-//            })
-//            var line: String?
-//            while (withContext(Dispatchers.IO) {
-//                    reader.readLine()
-//                }.also { line = it } != null) {
-//                builder.append(line)
-//            }
             val loadedList = withContext(Dispatchers.IO) {
                 dataSource.loadServices()
             }

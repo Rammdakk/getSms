@@ -5,7 +5,6 @@ import androidx.lifecycle.MediatorLiveData
 import com.rammdakk.getSms.data.model.Service
 import com.rammdakk.getSms.data.repository.ServiceRepository
 import kotlinx.coroutines.*
-import java.io.InputStream
 import javax.inject.Inject
 
 class ServiceUseCase @Inject constructor(private val servicesRepository: ServiceRepository) {

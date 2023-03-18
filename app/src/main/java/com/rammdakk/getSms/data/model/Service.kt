@@ -4,7 +4,7 @@ import java.util.*
 
 data class Service(
     val serviceName: String = "",
+    val serviceID: String,
     val price: Double = 0.0,
-    val imageUrl: String,
-    val updatedDay: Date = Date(System.currentTimeMillis())
+    val imageUrl: String
 )

@@ -1,14 +1,13 @@
-package com.rammdakk.getSms.data.api
+package com.rammdakk.getSms.data.api.vakSms
 
 import com.rammdakk.getSms.data.model.ServiceInfoResponse
-import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
 
-interface JsonPlaceHolderApi {
+interface VakSmsApi {
     @GET("getCountNumberList/")
     suspend fun getServices(
         @Query("apiKey") apiKey: String,
         @Query("country") country: String = "ru"
-    ): Response<ResponseBody>
+    ): Response<Map<String, ServiceInfoResponse>>
 }

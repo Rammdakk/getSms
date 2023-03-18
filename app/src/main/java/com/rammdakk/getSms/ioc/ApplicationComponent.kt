@@ -2,12 +2,12 @@ package com.rammdakk.getSms.ioc
 
 import com.rammdakk.getSms.App
 import com.rammdakk.getSms.connectvity.ConnectivityModule
-import com.rammdakk.getSms.data.api.RetrofitModule
-import java.io.InputStream
+import com.rammdakk.getSms.data.api.infra.InfraRetrofitModule
+import com.rammdakk.getSms.data.api.vakSms.VakSmsRetrofitModule
 
 
 @ApplicationComponentScope
-@dagger.Component(modules = [RetrofitModule::class, ConnectivityModule::class])
+@dagger.Component(modules = [VakSmsRetrofitModule::class, InfraRetrofitModule::class, ConnectivityModule::class])
 interface ApplicationComponent {
 
     fun getViewModelFactory(): ViewModelFactory

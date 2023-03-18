@@ -1,23 +1,17 @@
 package com.rammdakk.getSms.data.datasource
 
 import android.util.Log
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.rammdakk.getSms.data.api.JsonPlaceHolderApi
+import com.rammdakk.getSms.data.api.infra.InfraApi
+import com.rammdakk.getSms.data.api.vakSms.VakSmsApi
 import com.rammdakk.getSms.data.model.Service
-import com.rammdakk.getSms.data.model.ServiceIDResponse
-import com.rammdakk.getSms.data.model.ServiceInfoResponse
 import com.rammdakk.getSms.ioc.ApplicationComponentScope
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import java.io.BufferedReader
-import java.io.File
 import javax.inject.Inject
 
 
 @ApplicationComponentScope
 class DataSource @Inject constructor(
-    private val jsonPlaceHolderApi: JsonPlaceHolderApi
+    private val vakSmsApi: VakSmsApi,
+    private val infraApi: InfraApi
 ) {
 
     val regex = "\"\\w{1,10}\": \\{".toRegex()
@@ -29,16 +23,25 @@ class DataSource @Inject constructor(
     }
 
     suspend fun loadServices(): List<Service> {
-        val response = jsonPlaceHolderApi.getServices("0ee01dabbb854b4d9155ef1ba9a4f652")
-        val string = editString(response.body()?.string())
-        val type = object : TypeToken<List<ServiceInfoResponse>>() {}.type
-        val listOfTasks: List<ServiceInfoResponse> = Gson().fromJson(string, type)
-        return listOfTasks.map { serviceInfoResponse ->
-            Service(
-                serviceName = serviceInfoResponse.serviceID,
-                price = serviceInfoResponse.price,
-                imageUrl = ""
-            )
+        val response = vakSmsApi.getServices("0ee01dabbb854b4d9155ef1ba9a4f652")
+        Log.d("resp", response.body()?.entries.toString())
+        val listOfTasks = response.body()
+        val response2 = infraApi.getServicesCode()
+        var map = response2.body()?.associateBy({ it.serviceID }, { it.serviceName })
+        if (map == null) {
+            map = HashMap()
+        }
+        if (listOfTasks != null) {
+            return listOfTasks.map { serviceInfoResponse ->
+                Service(
+                    serviceName = map.get(serviceInfoResponse.value.serviceID) ?: "undef",
+                    serviceID = serviceInfoResponse.value.serviceID,
+                    price = serviceInfoResponse.value.price,
+                    imageUrl = "https://vak-sms.com/static/service/${serviceInfoResponse.value.serviceID}.png"
+                )
+            }.filter { it.serviceName != "undef" }
+        } else {
+            return emptyList()
         }
     }
 

@@ -12,7 +12,7 @@ class SmsInfoHolderAdapter(
     private val chatListClickListener: ChatListClickListener
 ) : ListAdapter<Service, ServiceViewHolder>(servicesItemsDiffCalc) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServiceViewHolder {
-        val binding = ServiceCellBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = ServiceCellBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ServiceViewHolder(binding, viewModel, chatListClickListener)
     }
 
