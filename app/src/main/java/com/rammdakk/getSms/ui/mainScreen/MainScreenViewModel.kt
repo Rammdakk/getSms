@@ -9,10 +9,11 @@ import com.rammdakk.getSms.domain.usecases.ServiceUseCase
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.io.InputStream
 
 class MainScreenViewModel(
     private val serviceUseCase: ServiceUseCase,
-    connectivityObserver: ConnectivityObserver
+    connectivityObserver: ConnectivityObserver,
 ) : ViewModel() {
     val services = serviceUseCase.services
 

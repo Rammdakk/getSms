@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.rammdakk.getSms.domain.usecases.ServiceUseCase
 import com.rammdakk.getSms.ui.mainScreen.MainScreenViewModel
 import com.rammdakk.getSms.connectvity.ConnectivityObserver
+import java.io.InputStream
 import javax.inject.Inject
 
 class ViewModelFactory @Inject constructor(
-//    private val serviceRepository: ServiceRepository,
     private val serviceUseCase: ServiceUseCase,
     private val connectivityObserver: ConnectivityObserver
 ) : ViewModelProvider.Factory {

@@ -1,4 +1,4 @@
-package com.rammdakk.getSms.Infra
+package com.rammdakk.getSms.infra
 
 object UrlLinks {
     const val URL_LK = "https://vak-sms.com/lk/"

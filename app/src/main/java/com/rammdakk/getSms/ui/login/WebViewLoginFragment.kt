@@ -11,7 +11,7 @@ import android.webkit.WebViewClient
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.rammdakk.getSms.AppNavigator
-import com.rammdakk.getSms.Infra.UrlLinks
+import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.MainScreen
 import com.rammdakk.getSms.R
 import com.rammdakk.getSms.databinding.FragmentWebViewLoginBinding

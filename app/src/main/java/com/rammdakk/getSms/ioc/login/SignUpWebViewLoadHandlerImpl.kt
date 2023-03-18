@@ -3,7 +3,7 @@ package com.rammdakk.getSms.ioc.login
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import com.rammdakk.getSms.ui.login.ResultHandler
-import com.rammdakk.getSms.Infra.UrlLinks
+import com.rammdakk.getSms.infra.UrlLinks
 
 class SignUpWebViewLoadHandlerImpl(private val resultHandler: ResultHandler) : WebViewLoadHandler {
 

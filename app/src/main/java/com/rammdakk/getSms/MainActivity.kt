@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.rammdakk.getSms.ui.login.WebViewLoginFragment
 import com.rammdakk.getSms.ui.mainScreen.MainScreenFragment
+import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         val prefs = getSharedPreferences(
             "com.rammdakk.getSms", Context.MODE_PRIVATE
         )
+        Log.d("Tag12", File("").absolutePath)
         supportFragmentManager.beginTransaction().apply {
             if ((prefs.getString("accessKey", "")?.length ?: 0) > 1) {
                 replace(

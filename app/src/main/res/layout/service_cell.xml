@@ -9,7 +9,7 @@
 
     <ImageView
         android:id="@+id/serviceIW"
-        android:layout_width="2dp"
+        android:layout_width="40dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         tools:srcCompat="@tools:sample/avatars" />
