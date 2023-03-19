@@ -5,6 +5,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import com.rammdakk.getSms.ui.login.ResultHandler
 import com.rammdakk.getSms.infra.UrlLinks
+import com.rammdakk.getSms.ioc.WebViewLoadHandler
 
 class SignInWebViewLoadHandlerImpl(
     private val resultHandler: ResultHandler,

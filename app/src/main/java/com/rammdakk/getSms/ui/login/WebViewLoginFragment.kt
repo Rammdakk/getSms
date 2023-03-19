@@ -15,10 +15,11 @@ import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.MainScreen
 import com.rammdakk.getSms.R
 import com.rammdakk.getSms.databinding.FragmentWebViewLoginBinding
+import com.rammdakk.getSms.ioc.CustomWebViewClient
 import com.rammdakk.getSms.ioc.login.ResetPSWRDWebViewLoadHandlerImpl
 import com.rammdakk.getSms.ioc.login.SignInWebViewLoadHandlerImpl
 import com.rammdakk.getSms.ioc.login.SignUpWebViewLoadHandlerImpl
-import com.rammdakk.getSms.ioc.login.WebViewLoadHandler
+import com.rammdakk.getSms.ioc.WebViewLoadHandler
 
 interface ResultHandler {
     fun onSuccess(string: String)
@@ -86,7 +87,7 @@ class WebViewLoginFragment : Fragment(), ResultHandler {
     private fun configureWebView(loadHandler: WebViewLoadHandler, url: String) {
         webView = binding.webview
         webView.settings.javaScriptEnabled = true
-        webView.webViewClient = LoginWebViewClient(
+        webView.webViewClient = CustomWebViewClient(
             loadHandler
         )
         webView.loadUrl(url).apply {

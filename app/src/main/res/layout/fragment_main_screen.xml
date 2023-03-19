@@ -6,26 +6,98 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#252950"
+    android:paddingHorizontal="10dp"
+    android:paddingTop="5dp"
     tools:context=".ui.mainScreen.MainScreenFragment">
+
+    <ImageView
+        android:id="@+id/signoutIW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/signout_icon"
+        app:layout_constraintBottom_toBottomOf="@id/balanceSumTW"
+        app:layout_constraintEnd_toEndOf="@id/topUpBalanceTW"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.142" />
+
+    <ImageView
+        android:id="@+id/balanceIW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_background"
+        android:src="@drawable/balance_icon"
+        app:layout_constraintBottom_toBottomOf="@id/balanceSumTW"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signoutIW"
+        tools:layout_editor_absoluteX="10dp" />
+
+    <TextView
+        android:id="@+id/balanceTW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="Баланс:"
+        android:textColor="#858ac0"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/balanceIW"
+        app:layout_constraintTop_toTopOf="@+id/balanceIW" />
+
+    <TextView
+        android:id="@+id/balanceSumTW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:text="4.00 р."
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/balanceTW"
+        app:layout_constraintTop_toBottomOf="@+id/balanceTW" />
+
+    <TextView
+        android:id="@+id/topUpBalanceTW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_up_balance"
+        android:paddingHorizontal="5dp"
+        android:text="ПОПОЛНИТЬ"
+        android:textColor="#56c43a"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/balanceIW"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/balanceIW" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="409dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/white"
+        android:backgroundTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/balanceSumTW" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/searchView">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="0dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,22 +108,13 @@
         android:id="@+id/searchView"
         android:layout_width="0dp"
         android:layout_height="55dp"
-        android:background="@drawable/get_button"
-        app:layout_constraintBottom_toTopOf="@+id/swipeRefreshLayout"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_corner_field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinner"
         app:layout_constraintVertical_bias="0.933" />
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/searchView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

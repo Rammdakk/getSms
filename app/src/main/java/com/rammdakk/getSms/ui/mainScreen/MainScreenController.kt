@@ -1,30 +1,43 @@
 package com.rammdakk.getSms.ui.mainScreen
 
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
+import android.content.Context
 import android.util.Log
-import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
+import com.rammdakk.getSms.AppNavigator
+import com.rammdakk.getSms.LogInScreen
+import com.rammdakk.getSms.WebViewScreen
 import com.rammdakk.getSms.databinding.FragmentMainScreenBinding
 
 class MainScreenController(
     private var binding: FragmentMainScreenBinding,
     private var lifecycleOwner: LifecycleOwner,
     private var viewModel: MainScreenViewModel,
-    private var adapter: SmsInfoHolderAdapter
+    private var adapter: SmsInfoHolderAdapter,
+    private var navigator: AppNavigator
 ) {
     fun setUpViews() {
-//        setUpErrorsHandling()
+        setUpErrorsHandling()
+        setUpButtons()
         setUpTasksList()
         setUpSwipeToRefresh()
     }
 
-//    private fun setUpErrorsHandling() {
+    private fun setUpErrorsHandling() {
 //        TODO("Not implemented")
-//    }
+    }
+
+    private fun setUpButtons() {
+        binding.topUpBalanceTW.setOnClickListener {
+            navigator.navigateTo(WebViewScreen("https://vak-sms.com/pay/"))
+        }
+        binding.signoutIW.setOnClickListener {
+            it.context.getSharedPreferences(
+                "com.rammdakk.getSms", Context.MODE_PRIVATE
+            ).edit().remove("accessKey").apply()
+            navigator.navigateTo(LogInScreen)
+        }
+    }
 
     private fun setUpTasksList() {
         binding.recyclerView.layoutManager = LinearLayoutManager(binding.root.context)

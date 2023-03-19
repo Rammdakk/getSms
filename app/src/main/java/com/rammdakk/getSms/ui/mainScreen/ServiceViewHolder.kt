@@ -15,7 +15,6 @@ class ServiceViewHolder(
     private val onClickListener: ChatListClickListener
 ) : RecyclerView.ViewHolder(serviceCellBinding.root) {
     fun bind(service: Service) {
-        Log.d("srer", service.serviceName)
         serviceCellBinding.serviceNameTW.text = service.serviceName
         serviceCellBinding.servicePriceTW.text = "${service.price}₽"
         serviceCellBinding.serviceIW.load(service.imageUrl) {

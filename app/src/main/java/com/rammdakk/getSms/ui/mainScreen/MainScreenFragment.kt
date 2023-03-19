@@ -32,11 +32,11 @@ class MainScreenFragment : Fragment(), ChatListClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        navigator = AppNavigator(parentFragmentManager, R.id.content_container)
         fragmentComponent = MainScreenFragmentComponent(
             fragment = this,
-            viewModel = viewModel,
+            viewModel = viewModel
         )
-        navigator = AppNavigator(parentFragmentManager, R.id.content_container)
     }
 
     override fun onCreateView(
@@ -45,7 +45,12 @@ class MainScreenFragment : Fragment(), ChatListClickListener {
     ): View {
         binding = FragmentMainScreenBinding.inflate(layoutInflater)
         fragmentViewComponent =
-            MainScreenFragmentViewComponent(fragmentComponent, binding, viewLifecycleOwner).apply {
+            MainScreenFragmentViewComponent(
+                fragmentComponent = fragmentComponent,
+                binding = binding,
+                lifecycleOwner = viewLifecycleOwner,
+                navigator = navigator
+            ).apply {
                 tasksViewController.setUpViews()
             }
         return binding.root
