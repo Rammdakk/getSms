@@ -7,7 +7,7 @@ object HttpClient {
 
     private fun getLogs(): HttpLoggingInterceptor {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.HEADERS
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
         return interceptor
     }
 

@@ -1,8 +1,8 @@
 package com.rammdakk.getSms.ui.view
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IntRange
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.rammdakk.getSms.R
@@ -12,9 +12,8 @@ import com.rammdakk.getSms.databinding.WarningLayoutBinding
 class CustomSnackbar(private val view: View) {
 
     fun showSnackBar(
-        title: String,
-        cancelFun: () -> Unit = {},
-        @androidx.annotation.IntRange(from = -2) length: Int
+        message: String,
+        @IntRange(from = -2) length: Int
     ): Snackbar {
         val snackView = View.inflate(view.context, R.layout.warning_layout, null)
         val binding = WarningLayoutBinding.bind(snackView)
@@ -29,11 +28,7 @@ class CustomSnackbar(private val view: View) {
                 android.R.color.transparent
             )
         )
-        binding.toastText.text = title
-        binding.toastText.setOnClickListener {
-            cancelFun()
-            snackbar.dismiss()
-        }
+        binding.errorMessage.text = message
         snackbar.show()
         return snackbar
     }

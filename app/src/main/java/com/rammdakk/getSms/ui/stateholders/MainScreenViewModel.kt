@@ -25,7 +25,10 @@ class MainScreenViewModel(
         updateBalance()
         updateCountries()
         connectivityObserver.observe().onEach {
-            serviceUseCase.loadServices(apiKey)
+            if ((countries.value?.size ?: 0) < 1) {
+                updateCountries()
+            }
+            updateServices()
             if (it == ConnectivityObserver.Status.Available) {
                 serviceUseCase.updateBalance(apiKey)
             }
@@ -39,7 +42,7 @@ class MainScreenViewModel(
 
     fun updateServices() {
         viewModelScope.launch {
-            serviceUseCase.loadServices(apiKey, country)
+            serviceUseCase.loadServices(country)
         }
     }
 

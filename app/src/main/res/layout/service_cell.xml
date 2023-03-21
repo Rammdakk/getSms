@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="1.5dp"
-    android:background="@drawable/gradient"
+    android:background="@drawable/gradient_green"
     android:orientation="horizontal"
     android:paddingHorizontal="14dp"
     android:paddingVertical="3dp">
@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/serviceNameTW"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:layout_marginTop="6dp"
@@ -30,7 +30,6 @@
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/servicePriceTW"
-        app:layout_constraintEnd_toStartOf="@+id/getNumberTW"
         app:layout_constraintStart_toEndOf="@+id/serviceIW"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,10 +39,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/get_button_balance"
         android:paddingHorizontal="5dp"
-        android:textSize="12sp"
-        android:textStyle="bold"
         android:text="ПОЛУЧИТЬ"
         android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -53,11 +52,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
-        android:text="TextView"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/serviceNameTW"
         app:layout_constraintTop_toBottomOf="@+id/serviceNameTW" />
+
+    <TextView
+        android:id="@+id/serviceQuantityTW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/servicePriceTW"
+        app:layout_constraintStart_toEndOf="@+id/servicePriceTW"
+        app:layout_constraintTop_toTopOf="@+id/servicePriceTW" />
 </androidx.constraintlayout.widget.ConstraintLayout>

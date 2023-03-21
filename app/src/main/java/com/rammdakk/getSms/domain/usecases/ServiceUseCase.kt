@@ -1,13 +1,11 @@
 package com.rammdakk.getSms.domain.usecases
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.rammdakk.getSms.SingleLiveEvent
+import com.rammdakk.getSms.data.api.Result
+import com.rammdakk.getSms.data.model.CountryInfo
 import com.rammdakk.getSms.data.model.Service
 import com.rammdakk.getSms.data.repository.ServiceRepository
-import com.rammdakk.getSms.data.api.Result
-import com.rammdakk.getSms.data.model.CountryResponse
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -22,8 +20,8 @@ class ServiceUseCase @Inject constructor(private val servicesRepository: Service
     private val _error = MediatorLiveData<Result.Error<String>?>()
     val error: LiveData<Result.Error<String>?> = _error
 
-    private val _countries = MediatorLiveData<List<CountryResponse>>()
-    val countries: LiveData<List<CountryResponse>> = _countries
+    private val _countries = MediatorLiveData<List<CountryInfo>>()
+    val countries: LiveData<List<CountryInfo>> = _countries
 
     private val combineCoroutineScope = CoroutineScope(Job() + Dispatchers.Default)
 
@@ -67,9 +65,9 @@ class ServiceUseCase @Inject constructor(private val servicesRepository: Service
         }
     }
 
-    suspend fun loadServices(apiKey: String, country: String = "ru") {
+    suspend fun loadServices(country: String = "ru") {
         withContext(Dispatchers.IO) {
-            servicesRepository.loadServices(apiKey, country)
+            servicesRepository.loadServices(country)
         }
     }
 

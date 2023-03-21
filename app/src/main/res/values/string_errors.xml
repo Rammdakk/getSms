@@ -9,7 +9,8 @@
     <string name="error_network_service_unavailable">Сервер недоступен</string>
     <string name="error_unknown">Неизвестная ошибка:\n%1$s</string>
     <string name="error_50x">Ошибка сервера</string>
-    <string name="error_too_many_requests">Ошибка сервера</string>
+    <string name="error_too_many_requests">Превышено доспустиое число запросов</string>
     <string name="error_protocol_exception">Операция не поддерживается на вашем устройстве, воспользуйтесь веб версией</string>
-    <string name="no_data">К сожалению, номеров нет. Попробуйте сменить страну</string>
+    <string name="no_data">К сожалению, не удалось получить данные</string>
+    <string name="warning_layout_title">Произошла ошибка:</string>
 </resources>

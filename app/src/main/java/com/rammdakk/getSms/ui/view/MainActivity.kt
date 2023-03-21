@@ -2,8 +2,6 @@ package com.rammdakk.getSms.ui.view
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,12 +9,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.rammdakk.getSms.App
 import com.rammdakk.getSms.R
 import com.rammdakk.getSms.SingleLiveEvent
+import com.rammdakk.getSms.data.api.Result
 import com.rammdakk.getSms.data.api.error.ErrorMessageConverterImpl
+import com.rammdakk.getSms.data.api.error.ErrorType
+import com.rammdakk.getSms.ui.stateholders.ActivityViewModel
 import com.rammdakk.getSms.ui.view.login.WebViewLoginFragment
 import com.rammdakk.getSms.ui.view.mainScreen.MainScreenFragment
-import com.rammdakk.getSms.ui.stateholders.ActivityViewModel
-import com.rammdakk.getSms.data.api.Result
-import com.rammdakk.getSms.data.api.error.ErrorType
 
 
 class MainActivity : AppCompatActivity() {
@@ -53,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         snackbar = CustomSnackbar(findViewById(R.id.content_container)).showSnackBar(
             ErrorMessageConverterImpl(
                 resources
-            ).getError(error.type, error.details ?: ""), { },
+            ).getError(error.type, error.details ?: ""),
             if (error.type == ErrorType.Network) Snackbar.LENGTH_INDEFINITE else Snackbar.LENGTH_LONG
         )
     }

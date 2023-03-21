@@ -55,9 +55,7 @@ class MainScreenController(
                 countryCode?.let { viewModel.updateCountry(it) }
             }
 
-            override fun onNothingSelected(parentView: AdapterView<*>?) {
-                // your code here
-            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
     }
 
@@ -95,7 +93,8 @@ class MainScreenController(
             binding.swipeRefreshLayout.isRefreshing = false
         }
         viewModel.balance.observe(lifecycleOwner) {
-            binding.balanceSumTW.text = "${it} р."
+            binding.balanceSumTW.text =
+                binding.root.context.resources.getString(R.string.balance, it)
         }
         binding.searchViewEditText.doOnTextChanged { text, _, _, _ ->
             (binding.recyclerView.adapter as SmsInfoHolderAdapter).updateList { it ->

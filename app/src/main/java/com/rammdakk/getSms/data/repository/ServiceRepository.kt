@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.rammdakk.getSms.data.api.Result
 import com.rammdakk.getSms.data.api.error.ErrorType
 import com.rammdakk.getSms.data.datasource.DataSource
-import com.rammdakk.getSms.data.model.CountryResponse
+import com.rammdakk.getSms.data.model.CountryInfo
 import com.rammdakk.getSms.data.model.Service
 import com.rammdakk.getSms.ioc.ApplicationComponentScope
 import kotlinx.coroutines.Dispatchers
@@ -27,14 +27,14 @@ class ServiceRepository @Inject constructor(
     private val _error = MutableLiveData<Result.Error<String>?>()
     val error = _error
 
-    private val _countries = MutableLiveData<List<CountryResponse>>()
+    private val _countries = MutableLiveData<List<CountryInfo>>()
     val countries = _countries
 
 
-    suspend fun loadServices(apiKey: String, country: String) {
+    suspend fun loadServices(country: String) {
         try {
             val loadedList = withContext(Dispatchers.IO) {
-                dataSource.loadServices(apiKey, country)
+                dataSource.loadServices(country)
             }
             when (loadedList) {
                 is Result.Success -> {
@@ -73,16 +73,16 @@ class ServiceRepository @Inject constructor(
     }
 
     suspend fun loadCountries() {
-        val balance = withContext(Dispatchers.IO) {
+        val countries = withContext(Dispatchers.IO) {
             dataSource.loadCountries()
         }
-        when (balance) {
+        when (countries) {
             is Result.Success -> {
-                _countries.postValue(balance.data ?: emptyList())
+                _countries.postValue(countries.data ?: emptyList())
             }
             else -> {
                 _countries.postValue(emptyList())
-                Log.d("Loaded", balance.toString())
+                Log.d("Loaded", countries.toString())
             }
         }
 

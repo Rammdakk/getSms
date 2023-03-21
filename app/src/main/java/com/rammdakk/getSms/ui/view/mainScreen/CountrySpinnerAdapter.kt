@@ -8,20 +8,18 @@ import android.widget.ArrayAdapter
 import androidx.annotation.LayoutRes
 import coil.api.load
 import coil.network.HttpException
-import com.rammdakk.getSms.data.model.CountryResponse
-import com.rammdakk.getSms.databinding.FragmentMainScreenBinding
+import com.rammdakk.getSms.data.model.CountryInfo
 import com.rammdakk.getSms.databinding.SpinnerSubitemBinding
 
 
 class CountrySpinnerAdapter(
     context: Context,
     @LayoutRes res: Int,
-    private var data: List<CountryResponse>
+    private var data: List<CountryInfo>
 ) :
-    ArrayAdapter<CountryResponse>(context, res, data) {
+    ArrayAdapter<CountryInfo>(context, res, data) {
 
-    fun updateData(newData: List<CountryResponse>) {
-//        data = newData
+    fun updateData(newData: List<CountryInfo>) {
         clear()
         addAll(newData)
         notifyDataSetChanged()
@@ -39,7 +37,7 @@ class CountrySpinnerAdapter(
         val binding =
             SpinnerSubitemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         binding.serviceNameTW.text = data[position].country
-        binding.serviceIW.load("https://vak-sms.com/static//country/${data[position].countryCode}.png") {
+        binding.serviceIW.load(data[position].imageUrl) {
             this.listener(onError = { _, ex ->
                 if ((ex as HttpException).response.code == 404) {
                     binding.serviceIW.load("https://vak-sms.com/static/default.png")

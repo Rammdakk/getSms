@@ -7,8 +7,10 @@ import com.rammdakk.getSms.data.api.error.ErrorType
 import com.rammdakk.getSms.data.api.exception.HttpException
 import com.rammdakk.getSms.data.api.infra.InfraApi
 import com.rammdakk.getSms.data.api.vakSms.VakSmsApi
+import com.rammdakk.getSms.data.model.CountryInfo
 import com.rammdakk.getSms.data.model.CountryResponse
 import com.rammdakk.getSms.data.model.Service
+import com.rammdakk.getSms.data.model.ServiceInfoResponse
 import com.rammdakk.getSms.ioc.ApplicationComponentScope
 import javax.inject.Inject
 
@@ -27,33 +29,31 @@ class DataSource @Inject constructor(
         return "[${str.substring(str.indexOf("{"), str.length - 1)}]"
     }
 
-    suspend fun loadServices(apiKey: String, country: String): Result<List<Service>, String> {
+    suspend fun loadServices(country: String): Result<List<Service>, String> {
         try {
-            val servicesResponse = vakSmsApi.getServices(apiKey, country)
-            val serviceCodeResponse = infraApi.getServicesCode()
+            val servicesResponse = vakSmsApi.getServices(country)
             if (!servicesResponse.isSuccessful) {
                 throw HttpException(servicesResponse.code(), "getServicesError")
-            }
-            if (!serviceCodeResponse.isSuccessful) {
-                throw HttpException(serviceCodeResponse.code(), "getServicesCodeError")
             }
             if (servicesResponse.body() == null || servicesResponse.body() == null) {
                 return Result.Error(ErrorType.Unknown, "Не удалось получить значения")
             }
             val listOfTasks = servicesResponse.body()!!
-            val map =
-                serviceCodeResponse.body()!!.associateBy({ it.serviceID }, { it.serviceName })
-            return Result.Success(listOfTasks.map { serviceInfoResponse ->
-                Service(
-                    serviceName = map.get(serviceInfoResponse.value.serviceID) ?: "undef",
-                    serviceID = serviceInfoResponse.value.serviceID,
-                    price = serviceInfoResponse.value.price,
-                    imageUrl = "https://vak-sms.com/static/service/${serviceInfoResponse.value.serviceID}.png"
-                )
-            }.filter { it.serviceName != "undef" })
+            return Result.Success(listOfTasks.map { convertToService(it) })
         } catch (ex: Exception) {
             return Result.Error(ErrorHandlerImpl.getErrorType(ex), ex.message)
         }
+    }
+
+    private fun convertToService(serviceInfoResponse: Map.Entry<String, List<ServiceInfoResponse>>): Service {
+        val service = serviceInfoResponse.value[0]
+        return Service(
+            serviceName = service.serviceName,
+            serviceID = serviceInfoResponse.key,
+            price = service.price,
+            imageUrl = "https://vak-sms.com${service.imageUrl}",
+            quantity = service.count
+        )
     }
 
     suspend fun loadBalance(apiKey: String): Result<Double, String> {
@@ -72,20 +72,29 @@ class DataSource @Inject constructor(
         }
     }
 
-    suspend fun loadCountries(): Result<List<CountryResponse>, String> {
+    suspend fun loadCountries(): Result<List<CountryInfo>, String> {
         return try {
-            val countriesResponse = infraApi.getCountriesInfo()
+            val countriesResponse = vakSmsApi.getCountries()
             if (!countriesResponse.isSuccessful) {
                 throw HttpException(countriesResponse.code(), "getCountriesInfo")
             }
             if (countriesResponse.body() == null) {
                 return Result.Error(ErrorType.Unknown, "Не удалось получить значения")
             }
-            Result.Success(countriesResponse.body()!!)
+
+            Result.Success(countriesResponse.body()!!.map { convertToCountries(it) })
         } catch (ex: Exception) {
             Log.d("EXX", ex.toString())
             Result.Error(ErrorHandlerImpl.getErrorType(ex), ex.message)
         }
     }
 
+    private fun convertToCountries(countryResponse: Map.Entry<String, List<CountryResponse>>): CountryInfo {
+        val country = countryResponse.value[0]
+        return CountryInfo(
+            countryCode = countryResponse.key.lowercase(),
+            country = country.country,
+            imageUrl = "https://vak-sms.com${country.imageUrl}"
+        )
+    }
 }
