@@ -3,7 +3,7 @@ package com.rammdakk.getSms.ioc.mainScreen
 import android.util.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
-import com.rammdakk.getSms.ui.login.ResultHandler
+import com.rammdakk.getSms.ui.view.login.ResultHandler
 import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
 

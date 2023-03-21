@@ -1,13 +1,12 @@
 package com.rammdakk.getSms
 
-import android.view.View
-import android.webkit.WebView
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.rammdakk.getSms.ui.login.WebViewLoginFragment
-import com.rammdakk.getSms.ui.mainScreen.MainScreenFragment
-import com.rammdakk.getSms.ui.mainScreen.WebViewFragment
+import com.rammdakk.getSms.ioc.WebViewLoadHandler
+import com.rammdakk.getSms.ui.view.login.WebViewLoginFragment
+import com.rammdakk.getSms.ui.view.mainScreen.MainScreenFragment
+import com.rammdakk.getSms.ui.view.webView.WebViewFragment
 
 interface Screen {
     val addToBackStack: Boolean
@@ -28,8 +27,8 @@ object LogInScreen : Screen {
         get() = false
 }
 
-class WebViewScreen(private val url: String) : Screen {
-    override fun createFragment(): Fragment = WebViewFragment(url)
+class WebViewScreen(private val url: String, private val loadHandler: WebViewLoadHandler) : Screen {
+    override fun createFragment(): Fragment = WebViewFragment.newInstance(url, loadHandler)
     override val addToBackStack: Boolean
         get() = true
 }

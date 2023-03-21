@@ -1,5 +1,6 @@
-package com.rammdakk.getSms.ui.mainScreen
+package com.rammdakk.getSms.ui.view.mainScreen
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.rammdakk.getSms.data.model.Service
 import com.rammdakk.getSms.databinding.FragmentMainScreenBinding
 import com.rammdakk.getSms.ioc.mainScreen.MainScreenFragmentComponent
 import com.rammdakk.getSms.ioc.mainScreen.MainScreenFragmentViewComponent
+import com.rammdakk.getSms.ui.stateholders.MainScreenViewModel
 
 class MainScreenFragment : Fragment(), ChatListClickListener {
 
@@ -33,6 +35,10 @@ class MainScreenFragment : Fragment(), ChatListClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         navigator = AppNavigator(parentFragmentManager, R.id.content_container)
+        val apiKey = context?.getSharedPreferences(
+            "com.rammdakk.getSms", Context.MODE_PRIVATE
+        )?.getString("accessKey", "")
+        apiKey?.let { viewModel.configure(apiKey) }
         fragmentComponent = MainScreenFragmentComponent(
             fragment = this,
             viewModel = viewModel

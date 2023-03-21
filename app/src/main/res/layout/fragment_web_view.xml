@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#252950"
-    tools:context=".ui.mainScreen.WebViewFragment">
+    tools:context=".ui.view.webView.WebViewFragment">
 
     <ImageView
         android:id="@+id/backIV_webView"

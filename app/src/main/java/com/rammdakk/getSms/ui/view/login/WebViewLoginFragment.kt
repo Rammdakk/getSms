@@ -1,4 +1,4 @@
-package com.rammdakk.getSms.ui.login
+package com.rammdakk.getSms.ui.view.login
 
 import android.annotation.SuppressLint
 import android.content.Context

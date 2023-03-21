@@ -8,7 +8,7 @@
     android:background="#252950"
     android:paddingHorizontal="10dp"
     android:paddingTop="5dp"
-    tools:context=".ui.mainScreen.MainScreenFragment">
+    tools:context=".ui.view.mainScreen.MainScreenFragment">
 
     <ImageView
         android:id="@+id/signoutIW"
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/round_background"
         android:src="@drawable/balance_icon"
         app:layout_constraintBottom_toBottomOf="@id/balanceSumTW"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,13 +70,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/balanceIW" />
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="409dp"
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/countrySpinner"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
-        android:background="@color/white"
-        android:backgroundTint="@color/white"
+        android:spinnerMode="dropdown"
+        android:dropDownVerticalOffset="50dp"
+        android:dropDownWidth="match_parent"
+        android:overlapAnchor="false"
+        android:background="@drawable/search_background"
+        android:paddingHorizontal="1dp"
+        android:popupBackground="#283261"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/balanceSumTW" />
@@ -104,17 +109,42 @@
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <androidx.appcompat.widget.SearchView
+
+    <LinearLayout
         android:id="@+id/searchView"
         android:layout_width="0dp"
-        android:layout_height="55dp"
+        android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_corner_field"
+        android:background="@drawable/search_background"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinner"
-        app:layout_constraintVertical_bias="0.933" />
+        app:layout_constraintTop_toBottomOf="@id/countrySpinner"
+        app:layout_constraintVertical_bias="0.933">
+
+        <ImageView
+            android:id="@+id/searchViewImageView"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/search_icon" />
+
+        <EditText
+            android:id="@+id/searchViewEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:ems="10"
+            android:hint="@string/search_hint"
+            android:inputType="textPersonName"
+            android:textColor="@color/white"
+            android:textColorHint="#969FA8"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.rammdakk.getSms.ui.mainScreen
+package com.rammdakk.getSms.ui.view.webView
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,13 +10,14 @@ import com.rammdakk.getSms.AppNavigator
 import com.rammdakk.getSms.R
 import com.rammdakk.getSms.databinding.FragmentWebViewBinding
 import com.rammdakk.getSms.ioc.CustomWebViewClient
-import com.rammdakk.getSms.ioc.mainScreen.TopUpBalanceWebViewLoadHandlerImpl
+import com.rammdakk.getSms.ioc.WebViewLoadHandler
 
-class WebViewFragment(private val url: String) : Fragment() {
+class WebViewFragment(private val url: String, private val loadHandler: WebViewLoadHandler) :
+    Fragment() {
 
     companion object {
         const val TAG = "WebViewFragment"
-        fun newInstance(url: String) = WebViewFragment(url)
+        fun newInstance(url: String, loadHandler: WebViewLoadHandler) = WebViewFragment(url, loadHandler)
     }
 
     private lateinit var navigator: AppNavigator
@@ -34,7 +35,7 @@ class WebViewFragment(private val url: String) : Fragment() {
     ): View {
         binding = FragmentWebViewBinding.inflate(layoutInflater, container, false)
         binding.webView.webViewClient =
-            CustomWebViewClient(loadHandler = TopUpBalanceWebViewLoadHandlerImpl())
+            CustomWebViewClient(loadHandler = loadHandler)
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.loadUrl(url)
         binding.doneTVWebView.setOnClickListener {
