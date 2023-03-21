@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".services_screen">
+    android:background="#252950"
+    tools:context=".ui.view.serviceScreen.ServiceScreenFragment">
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/countrySpinner"

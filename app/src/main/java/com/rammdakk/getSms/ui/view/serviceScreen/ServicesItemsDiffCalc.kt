@@ -1,4 +1,4 @@
-package com.rammdakk.getSms.ui.view.mainScreen
+package com.rammdakk.getSms.ui.view.serviceScreen
 
 import androidx.recyclerview.widget.DiffUtil
 import com.rammdakk.getSms.data.model.Service

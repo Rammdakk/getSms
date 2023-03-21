@@ -1,4 +1,4 @@
-package com.rammdakk.getSms.ui.view.mainScreen
+package com.rammdakk.getSms.ui.view.serviceScreen
 
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
@@ -6,12 +6,12 @@ import coil.network.HttpException
 import com.rammdakk.getSms.R
 import com.rammdakk.getSms.data.model.Service
 import com.rammdakk.getSms.databinding.ServiceCellBinding
-import com.rammdakk.getSms.ui.stateholders.MainScreenViewModel
+import com.rammdakk.getSms.ui.stateholders.ServiceScreenViewModel
 
 
 class ServiceViewHolder(
     private val serviceCellBinding: ServiceCellBinding,
-    viewModel: MainScreenViewModel,
+    viewModel: ServiceScreenViewModel,
     private val onClickListener: ChatListClickListener
 ) : RecyclerView.ViewHolder(serviceCellBinding.root) {
 

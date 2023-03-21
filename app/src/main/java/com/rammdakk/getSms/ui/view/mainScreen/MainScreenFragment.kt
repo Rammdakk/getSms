@@ -7,16 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.tabs.TabLayoutMediator
 import com.rammdakk.getSms.App
 import com.rammdakk.getSms.AppNavigator
+import com.rammdakk.getSms.LogInScreen
 import com.rammdakk.getSms.R
-import com.rammdakk.getSms.data.model.Service
 import com.rammdakk.getSms.databinding.FragmentMainScreenBinding
 import com.rammdakk.getSms.ioc.mainScreen.MainScreenFragmentComponent
 import com.rammdakk.getSms.ioc.mainScreen.MainScreenFragmentViewComponent
 import com.rammdakk.getSms.ui.stateholders.MainScreenViewModel
+import com.rammdakk.getSms.ui.view.rentedNumbers.RentedNumbersFragment
+import com.rammdakk.getSms.ui.view.serviceScreen.ServiceScreenFragment
 
-class MainScreenFragment : Fragment(), ChatListClickListener {
+class MainScreenFragment : Fragment() {
 
     private val applicationComponent
         get() = App.get(requireContext()).applicationComponent
@@ -35,20 +38,24 @@ class MainScreenFragment : Fragment(), ChatListClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         navigator = AppNavigator(parentFragmentManager, R.id.content_container)
-        val apiKey = context?.getSharedPreferences(
-            "com.rammdakk.getSms", Context.MODE_PRIVATE
-        )?.getString("accessKey", "")
-        apiKey?.let { viewModel.configure(apiKey) }
         fragmentComponent = MainScreenFragmentComponent(
             fragment = this,
             viewModel = viewModel
         )
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val apiKey = context?.getSharedPreferences(
+            "com.rammdakk.getSms", Context.MODE_PRIVATE
+        )?.getString("accessKey", "")
+        if (apiKey == null) {
+            navigator.navigateTo(LogInScreen)
+        }
+        viewModel.configure(apiKey!!)
         binding = FragmentMainScreenBinding.inflate(layoutInflater)
         fragmentViewComponent =
             MainScreenFragmentViewComponent(
@@ -59,10 +66,15 @@ class MainScreenFragment : Fragment(), ChatListClickListener {
             ).apply {
                 tasksViewController.setUpViews()
             }
-        return binding.root
-    }
+        val adapter = AdapterTabPager(activity)
+        adapter.addFragment(ServiceScreenFragment.newInstance(apiKey), "Сервисы")
+        adapter.addFragment(RentedNumbersFragment.newInstance(), "Активации")
 
-    override fun onChatListItemClick(task: Service?) {
-        TODO("Not yet implemented")
+        binding.pager.adapter = adapter
+        binding.pager.currentItem = 0
+        TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
+            tab.text = adapter.getTabTitle(position)
+        }.attach()
+        return binding.root
     }
 }

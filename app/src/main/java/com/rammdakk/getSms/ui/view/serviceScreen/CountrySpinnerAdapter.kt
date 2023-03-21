@@ -1,4 +1,4 @@
-package com.rammdakk.getSms.ui.view.mainScreen
+package com.rammdakk.getSms.ui.view.serviceScreen
 
 import android.content.Context
 import android.view.LayoutInflater

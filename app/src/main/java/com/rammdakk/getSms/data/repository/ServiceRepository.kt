@@ -3,6 +3,7 @@ package com.rammdakk.getSms.data.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.rammdakk.getSms.SingleLiveEvent
 import com.rammdakk.getSms.data.api.Result
 import com.rammdakk.getSms.data.api.error.ErrorType
 import com.rammdakk.getSms.data.datasource.DataSource
@@ -24,7 +25,7 @@ class ServiceRepository @Inject constructor(
     private val _balance = MutableLiveData<Double>()
     val balance = _balance
 
-    private val _error = MutableLiveData<Result.Error<String>?>()
+    private val _error = SingleLiveEvent<Result.Error<String>?>()
     val error = _error
 
     private val _countries = MutableLiveData<List<CountryInfo>>()

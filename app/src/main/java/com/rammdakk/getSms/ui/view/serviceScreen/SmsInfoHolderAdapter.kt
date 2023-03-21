@@ -1,14 +1,14 @@
-package com.rammdakk.getSms.ui.view.mainScreen
+package com.rammdakk.getSms.ui.view.serviceScreen
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.rammdakk.getSms.data.model.Service
 import com.rammdakk.getSms.databinding.ServiceCellBinding
-import com.rammdakk.getSms.ui.stateholders.MainScreenViewModel
+import com.rammdakk.getSms.ui.stateholders.ServiceScreenViewModel
 
 class SmsInfoHolderAdapter(
-    private val viewModel: MainScreenViewModel,
+    private val viewModel: ServiceScreenViewModel,
     servicesItemsDiffCalc: ServicesItemsDiffCalc,
     private val chatListClickListener: ChatListClickListener
 ) : ListAdapter<Service, ServiceViewHolder>(servicesItemsDiffCalc) {
