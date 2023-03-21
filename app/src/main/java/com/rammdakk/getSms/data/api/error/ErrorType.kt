@@ -43,15 +43,22 @@ sealed class ErrorType : Parcelable {
     @Parcelize
     @Keep
     object Unknown : ErrorType()
+
     @Parcelize
     @Keep
     object ServerError : ErrorType()
+
     @Parcelize
     @Keep
     object TooManyRequests : ErrorType()
+
     @Parcelize
     @Keep
     object ProtocolException : ErrorType()
+
+    @Parcelize
+    @Keep
+    object NoData : ErrorType()
 
     override fun toString(): String {
         return this.javaClass.simpleName

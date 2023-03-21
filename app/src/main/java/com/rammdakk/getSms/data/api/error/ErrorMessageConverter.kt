@@ -1,9 +1,7 @@
 package com.rammdakk.getSms.data.api.error
 
 import android.content.res.Resources
-import androidx.annotation.Keep
 import com.rammdakk.getSms.R
-import kotlinx.parcelize.Parcelize
 
 internal interface ErrorMessageConverter {
     fun getError(errorType: ErrorType, message: Any): String
@@ -22,11 +20,17 @@ internal class ErrorMessageConverterImpl(
         is ErrorType.AccessDenied -> resources.getString(R.string.error_network_access_denied)
         is ErrorType.Unauthorized -> resources.getString(R.string.error_network_unauthorized)
         is ErrorType.ServiceUnavailable -> resources.getString(R.string.error_network_service_unavailable)
-        is ErrorType.Unknown -> resources.getString(R.string.error_unknown, message.toString().replace("\n", " "))
+        is ErrorType.Unknown -> resources.getString(
+            R.string.error_unknown,
+            message.toString().replace("\n", " ")
+        )
         is ErrorType.ServerError -> resources.getString(R.string.error_50x)
         is ErrorType.TooManyRequests -> resources.getString(R.string.error_too_many_requests)
         is ErrorType.ProtocolException -> resources.getString(
             R.string.error_protocol_exception
+        )
+        is ErrorType.NoData -> resources.getString(
+            R.string.no_data
         )
     }
 

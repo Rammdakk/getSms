@@ -1,5 +1,6 @@
 package com.rammdakk.getSms.data.api.error
 
+import com.google.gson.JsonSyntaxException
 import com.rammdakk.getSms.data.api.exception.HttpException
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -28,6 +29,7 @@ internal object ErrorHandlerImpl : ErrorHandler {
                     else -> ErrorType.Unknown
                 }
             }
+            is JsonSyntaxException -> ErrorType.NoData
             else -> ErrorType.Unknown
         }
     }

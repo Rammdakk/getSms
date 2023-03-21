@@ -52,7 +52,6 @@ class DataSource @Inject constructor(
                 )
             }.filter { it.serviceName != "undef" })
         } catch (ex: Exception) {
-            Log.d("exx", ex.toString())
             return Result.Error(ErrorHandlerImpl.getErrorType(ex), ex.message)
         }
     }

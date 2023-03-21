@@ -11,4 +11,5 @@
     <string name="error_50x">Ошибка сервера</string>
     <string name="error_too_many_requests">Ошибка сервера</string>
     <string name="error_protocol_exception">Операция не поддерживается на вашем устройстве, воспользуйтесь веб версией</string>
+    <string name="no_data">К сожалению, номеров нет. Попробуйте сменить страну</string>
 </resources>
