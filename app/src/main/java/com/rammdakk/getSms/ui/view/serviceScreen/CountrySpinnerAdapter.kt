@@ -10,6 +10,7 @@ import coil.api.load
 import coil.network.HttpException
 import com.rammdakk.getSms.data.model.CountryInfo
 import com.rammdakk.getSms.databinding.SpinnerSubitemBinding
+import com.rammdakk.getSms.infra.UrlLinks
 
 
 class CountrySpinnerAdapter(
@@ -40,7 +41,7 @@ class CountrySpinnerAdapter(
         binding.serviceIW.load(data[position].imageUrl) {
             this.listener(onError = { _, ex ->
                 if ((ex as HttpException).response.code == 404) {
-                    binding.serviceIW.load("https://vak-sms.com/static/default.png")
+                    binding.serviceIW.load(UrlLinks.URL_DEFAULT_IMAGE)
                 }
             })
         }

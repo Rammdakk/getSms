@@ -1,6 +1,7 @@
 package com.rammdakk.getSms.data.api.vakSms
 
 import com.rammdakk.getSms.data.api.HttpClient
+import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.ApplicationComponentScope
 import dagger.Module
 import dagger.Provides
@@ -12,21 +13,9 @@ object VakSmsRetrofitModule {
     @ApplicationComponentScope
     @Provides
     fun vakSmsApi(): VakSmsApi {
-        return Retrofit.Builder().baseUrl("https://vak-sms.com/api/").addConverterFactory(
+        return Retrofit.Builder().baseUrl(UrlLinks.URL_API).addConverterFactory(
             GsonConverterFactory.create()
         ).client(HttpClient.client)
             .build().create(VakSmsApi::class.java)
     }
 }
-
-//@Module
-//object VakSmsRetrofitModule2 {
-//    @ApplicationComponentScope
-//    @Provides
-//    fun jsonPlaceHolderApi(): vakSmsApi {
-//        return Retrofit.Builder().baseUrl("http://localhost:8080/").addConverterFactory(
-//            GsonConverterFactory.create()
-//        ).client(HttpClient.client)
-//            .build().create(vakSmsApi::class.java)
-//    }
-//}

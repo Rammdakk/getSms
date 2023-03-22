@@ -14,6 +14,7 @@ import com.rammdakk.getSms.data.api.Result
 import com.rammdakk.getSms.data.api.error.ErrorMessageConverterImpl
 import com.rammdakk.getSms.data.api.error.ErrorType
 import com.rammdakk.getSms.databinding.FragmentMainScreenBinding
+import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.CustomWebViewClient
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
 import com.rammdakk.getSms.ioc.mainScreen.TopUpBalanceWebViewLoadHandlerImpl
@@ -61,7 +62,7 @@ class MainScreenController(
         binding.topUpBalanceTW.setOnClickListener {
             navigator.navigateTo(
                 WebViewScreen(
-                    "https://vak-sms.com/pay/",
+                    UrlLinks.URL_BALANCE,
                     TopUpBalanceWebViewLoadHandlerImpl()
                 ), true
             )
@@ -78,7 +79,7 @@ class MainScreenController(
                 })
                 isVisible = false
             }
-                .loadUrl("https://vak-sms.com/accounts/logout/?next=/lk/").apply {
+                .loadUrl(UrlLinks.URL_LOGOUT).apply {
                     navigator.navigateTo(LogInScreen)
                 }
         }

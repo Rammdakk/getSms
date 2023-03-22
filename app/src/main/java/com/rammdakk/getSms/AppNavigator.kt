@@ -27,8 +27,14 @@ object LogInScreen : Screen {
         get() = false
 }
 
-class WebViewScreen(private val url: String, private val loadHandler: WebViewLoadHandler) : Screen {
-    override fun createFragment(): Fragment = WebViewFragment.newInstance(url, loadHandler)
+class WebViewScreen(
+    private val url: String,
+    private val loadHandler: WebViewLoadHandler,
+    private val isVisible: Boolean = true
+) : Screen {
+    override fun createFragment(): Fragment =
+        WebViewFragment.newInstance(url, loadHandler, isVisible)
+
     override val addToBackStack: Boolean
         get() = true
 }

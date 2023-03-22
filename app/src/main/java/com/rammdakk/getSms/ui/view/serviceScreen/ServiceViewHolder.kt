@@ -7,6 +7,7 @@ import coil.network.HttpException
 import com.rammdakk.getSms.R
 import com.rammdakk.getSms.data.model.Service
 import com.rammdakk.getSms.databinding.ServiceCellBinding
+import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ui.stateholders.ServiceScreenViewModel
 
 
@@ -35,7 +36,7 @@ class ServiceViewHolder(
         serviceCellBinding.serviceIW.load(service.imageUrl) {
             this.listener(onError = { _, ex ->
                 if ((ex as HttpException).response.code == 404) {
-                    serviceCellBinding.serviceIW.load("https://vak-sms.com/static/default.png")
+                    serviceCellBinding.serviceIW.load(UrlLinks.URL_DEFAULT_IMAGE)
                 }
             })
         }

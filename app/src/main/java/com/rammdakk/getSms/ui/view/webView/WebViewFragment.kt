@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.rammdakk.getSms.AppNavigator
 import com.rammdakk.getSms.R
@@ -12,12 +13,17 @@ import com.rammdakk.getSms.databinding.FragmentWebViewBinding
 import com.rammdakk.getSms.ioc.CustomWebViewClient
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
 
-class WebViewFragment(private val url: String, private val loadHandler: WebViewLoadHandler) :
+class WebViewFragment(
+    private val url: String,
+    private val loadHandler: WebViewLoadHandler,
+    private val isVisible: Boolean
+) :
     Fragment() {
 
     companion object {
         const val TAG = "WebViewFragment"
-        fun newInstance(url: String, loadHandler: WebViewLoadHandler) = WebViewFragment(url, loadHandler)
+        fun newInstance(url: String, loadHandler: WebViewLoadHandler, isVisible: Boolean) =
+            WebViewFragment(url, loadHandler, isVisible)
     }
 
     private lateinit var navigator: AppNavigator
@@ -36,6 +42,7 @@ class WebViewFragment(private val url: String, private val loadHandler: WebViewL
         binding = FragmentWebViewBinding.inflate(layoutInflater, container, false)
         binding.webView.webViewClient =
             CustomWebViewClient(loadHandler = loadHandler)
+        binding.webView.rootView.isVisible = this.isVisible
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.loadUrl(url)
         binding.doneTVWebView.setOnClickListener {

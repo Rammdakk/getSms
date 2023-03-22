@@ -3,9 +3,9 @@ package com.rammdakk.getSms.ioc.login
 import android.util.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
-import com.rammdakk.getSms.ui.view.login.ResultHandler
 import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
+import com.rammdakk.getSms.ui.view.login.ResultHandler
 
 class SignInWebViewLoadHandlerImpl(
     private val resultHandler: ResultHandler,
@@ -19,6 +19,7 @@ class SignInWebViewLoadHandlerImpl(
     }
 
     override fun handleLoading(webView: WebView, url: String) {
+        Log.d("Loading", url)
         if (webView.url == UrlLinks.URL_LK) {
             webView.evaluateJavascript(
                 "(function() { return (document.getElementsByClassName('sidebar')[0].getAttribute('data-api')); })();"
@@ -47,9 +48,21 @@ class SignInWebViewLoadHandlerImpl(
                         resultHandler.onError(
                             html.replace("\\n", "").replace("\"", "")
                         )
-
+                    } else {
+                        webView.evaluateJavascript(
+                            "(function() { return (document.getElementsByClassName(' text-gray-600 leading-1.3 text-3xl lg:text-2xl font-light')[0].innerHTML); })();"
+                        ) { html ->
+                            if (!html.isNullOrBlank() && html != "null") {
+                                resultHandler.onError(
+                                    html
+                                )
+                            }
+                        }
                     }
                 } catch (ignore: Exception) {
+                    resultHandler.onError(
+                        "Произошла неизвестная ошибка"
+                    )
                     Log.d("html-ex", ignore.message!!)
                 }
             }

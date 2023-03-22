@@ -11,6 +11,7 @@ import com.rammdakk.getSms.data.model.CountryInfo
 import com.rammdakk.getSms.data.model.CountryResponse
 import com.rammdakk.getSms.data.model.Service
 import com.rammdakk.getSms.data.model.ServiceInfoResponse
+import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.ApplicationComponentScope
 import javax.inject.Inject
 
@@ -51,7 +52,7 @@ class DataSource @Inject constructor(
             serviceName = service.serviceName,
             serviceID = serviceInfoResponse.key,
             price = service.price,
-            imageUrl = "https://vak-sms.com${service.imageUrl}",
+            imageUrl = UrlLinks.URL_BASE + service.imageUrl,
             quantity = service.count
         )
     }
@@ -94,7 +95,7 @@ class DataSource @Inject constructor(
         return CountryInfo(
             countryCode = countryResponse.key.lowercase(),
             country = country.country,
-            imageUrl = "https://vak-sms.com${country.imageUrl}"
+            imageUrl = UrlLinks.URL_BASE + country.imageUrl
         )
     }
 }
