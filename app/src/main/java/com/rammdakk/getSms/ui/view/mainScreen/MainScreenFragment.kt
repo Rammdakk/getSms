@@ -2,12 +2,12 @@ package com.rammdakk.getSms.ui.view.mainScreen
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.tabs.TabLayoutMediator
 import com.rammdakk.getSms.App
 import com.rammdakk.getSms.AppNavigator
 import com.rammdakk.getSms.LogInScreen
@@ -37,6 +37,7 @@ class MainScreenFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("onCreate", "MainScreenFragment")
         navigator = AppNavigator(parentFragmentManager, R.id.content_container)
         fragmentComponent = MainScreenFragmentComponent(
             fragment = this,
@@ -49,6 +50,7 @@ class MainScreenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("onCreateView", "MainScreenFragment")
         val apiKey = context?.getSharedPreferences(
             "com.rammdakk.getSms", Context.MODE_PRIVATE
         )?.getString("accessKey", "")
@@ -56,6 +58,7 @@ class MainScreenFragment : Fragment() {
             navigator.navigateTo(LogInScreen)
         }
         viewModel.configure(apiKey!!)
+        Log.d("onCreateView", apiKey)
         binding = FragmentMainScreenBinding.inflate(layoutInflater)
         fragmentViewComponent =
             MainScreenFragmentViewComponent(
@@ -66,15 +69,23 @@ class MainScreenFragment : Fragment() {
             ).apply {
                 tasksViewController.setUpViews()
             }
-        val adapter = AdapterTabPager(activity)
-        adapter.addFragment(ServiceScreenFragment.newInstance(apiKey), "Сервисы")
-        adapter.addFragment(RentedNumbersFragment.newInstance(), "Активации")
 
+        val adapter = AdapterTabPager(childFragmentManager)
+        adapter?.addFragment(
+            listOf(
+                ServiceScreenFragment.newInstance(apiKey),
+                RentedNumbersFragment.newInstance()
+            ), listOf("Сервисы", "Активации")
+        )
         binding.pager.adapter = adapter
         binding.pager.currentItem = 0
-        TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
-            tab.text = adapter.getTabTitle(position)
-        }.attach()
+        Log.d("onCreateView", "tabLayout")
+        binding.tabLayout.setupWithViewPager(binding.pager)
         return binding.root
+    }
+
+    override fun onResume() {
+        Log.d("onResume", "MainScreenFragment")
+        super.onResume()
     }
 }

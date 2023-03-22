@@ -38,7 +38,7 @@ class ServiceScreenFragment(private val apiKey: String) : Fragment(),
     private val viewModel: ServiceScreenViewModel by viewModels { applicationComponent.getViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("onCreate", "MainFragment")
+        Log.d("onCreate", "ServiceScreenFragment")
         super.onCreate(savedInstanceState)
         viewModel.configure(apiKey)
         fragmentComponent = ServiceScreenFragmentComponent(
@@ -51,7 +51,7 @@ class ServiceScreenFragment(private val apiKey: String) : Fragment(),
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("onCreateView", "MainFragment")
+        Log.d("onCreateView", "ServiceScreenFragment")
         binding = FragmentServicesScreenBinding.inflate(layoutInflater)
         fragmentViewComponent =
             ServiceScreenFragmentViewComponent(
@@ -65,14 +65,16 @@ class ServiceScreenFragment(private val apiKey: String) : Fragment(),
     }
 
     override fun onResume() {
-        Log.d("onResume", "MainFragment")
+        Log.d("onResume", "ServiceScreenFragment")
         super.onResume()
     }
 
 
     companion object {
-        @JvmStatic
-        fun newInstance(apiKey: String) = ServiceScreenFragment(apiKey)
+        fun newInstance(apiKey: String): ServiceScreenFragment {
+            Log.d("Create", "ServiceScreenFragment")
+            return ServiceScreenFragment(apiKey)
+        }
     }
 
     override fun onChatListItemClick(service: Service?) {
