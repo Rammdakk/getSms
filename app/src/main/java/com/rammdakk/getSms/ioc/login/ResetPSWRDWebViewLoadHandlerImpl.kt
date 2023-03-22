@@ -3,9 +3,9 @@ package com.rammdakk.getSms.ioc.login
 import android.util.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
-import com.rammdakk.getSms.ui.view.login.ResultHandler
 import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
+import com.rammdakk.getSms.ui.view.login.ResultHandler
 
 class ResetPSWRDWebViewLoadHandlerImpl(private val resultHandler: ResultHandler) :
     WebViewLoadHandler {
@@ -16,7 +16,7 @@ class ResetPSWRDWebViewLoadHandlerImpl(private val resultHandler: ResultHandler)
             ) { html ->
                 Log.d("ResetPSWRD", html)
                 if (html == "\"\\nНовый пароль отправлен на почту\\n\"") {
-                    resultHandler.onError("")
+                    resultHandler.onError("Новый пароль отправлен на почту")
                 }
             }
         }

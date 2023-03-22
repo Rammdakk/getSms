@@ -11,15 +11,16 @@ import android.webkit.WebViewClient
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.rammdakk.getSms.AppNavigator
-import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.MainScreen
 import com.rammdakk.getSms.R
+import com.rammdakk.getSms.WebViewScreen
 import com.rammdakk.getSms.databinding.FragmentWebViewLoginBinding
+import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.CustomWebViewClient
+import com.rammdakk.getSms.ioc.WebViewLoadHandler
 import com.rammdakk.getSms.ioc.login.ResetPSWRDWebViewLoadHandlerImpl
 import com.rammdakk.getSms.ioc.login.SignInWebViewLoadHandlerImpl
 import com.rammdakk.getSms.ioc.login.SignUpWebViewLoadHandlerImpl
-import com.rammdakk.getSms.ioc.WebViewLoadHandler
 
 interface ResultHandler {
     fun onSuccess(string: String)
@@ -51,7 +52,7 @@ class WebViewLoginFragment : Fragment(), ResultHandler {
                         binding.loginEditText.text.toString(),
                         binding.pswrdEditText.text.toString()
                     ),
-                    UrlLinks.URL_LK
+                    UrlLinks.URL_LOGOUT
                 )
             } else {
                 binding.warningTextView.apply {
@@ -61,23 +62,19 @@ class WebViewLoginFragment : Fragment(), ResultHandler {
             }
         }
         binding.signUpBtn.setOnClickListener {
-            binding.loginConstraint.isVisible = false
-            binding.webViewContainer.isVisible = true
-            configureWebView(
-                SignUpWebViewLoadHandlerImpl(
-                    this
-                ),
-                UrlLinks.URL_SIGN_UP
+            navigator.navigateTo(
+                WebViewScreen(
+                    UrlLinks.URL_SIGN_UP,
+                    SignUpWebViewLoadHandlerImpl(this)
+                ), true
             )
         }
         binding.resetPswrdBtn.setOnClickListener {
-            binding.loginConstraint.isVisible = false
-            binding.webViewContainer.isVisible = true
-            configureWebView(
-                ResetPSWRDWebViewLoadHandlerImpl(
-                    this
-                ),
-                UrlLinks.URl_RESET_PASSWORD
+            navigator.navigateTo(
+                WebViewScreen(
+                    UrlLinks.URl_RESET_PASSWORD,
+                    ResetPSWRDWebViewLoadHandlerImpl(this)
+                ), true
             )
         }
         return view
@@ -114,8 +111,7 @@ class WebViewLoginFragment : Fragment(), ResultHandler {
     }
 
     override fun onError(string: String) {
-        binding.loginConstraint.isVisible = true
-        binding.webViewContainer.isVisible = false
+        navigator.back()
         if (string.isNotEmpty()) {
             binding.warningTextView.apply {
                 text = string
