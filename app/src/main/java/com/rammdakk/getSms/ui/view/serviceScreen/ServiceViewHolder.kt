@@ -1,5 +1,6 @@
 package com.rammdakk.getSms.ui.view.serviceScreen
 
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import coil.network.HttpException
@@ -20,7 +21,10 @@ class ServiceViewHolder(
     fun bind(service: Service) {
         if (service.quantity < THRESHOLD_VALUE) {
             serviceCellBinding.root.background =
-                serviceCellBinding.root.context.getDrawable(R.drawable.gradient_red)
+                getDrawable(serviceCellBinding.root.context, R.drawable.gradient_red)
+        } else {
+            serviceCellBinding.root.background =
+                getDrawable(serviceCellBinding.root.context, R.drawable.gradient_green)
         }
         val res = serviceCellBinding.root.context.resources
         serviceCellBinding.serviceNameTW.text = service.serviceName
@@ -34,6 +38,11 @@ class ServiceViewHolder(
                     serviceCellBinding.serviceIW.load("https://vak-sms.com/static/default.png")
                 }
             })
+        }
+        serviceCellBinding.getNumberTW.setOnClickListener {
+            onClickListener.onChatListItemClick(
+                service
+            )
         }
     }
 }

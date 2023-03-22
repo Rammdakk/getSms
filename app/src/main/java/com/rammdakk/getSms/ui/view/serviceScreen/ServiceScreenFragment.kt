@@ -1,13 +1,18 @@
 package com.rammdakk.getSms.ui.view.serviceScreen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import com.rammdakk.getSms.App
 import com.rammdakk.getSms.AppNavigator
+import com.rammdakk.getSms.R
 import com.rammdakk.getSms.data.model.Service
 import com.rammdakk.getSms.databinding.FragmentServicesScreenBinding
 import com.rammdakk.getSms.ioc.serviceScreen.ServiceScreenFragmentComponent
@@ -33,6 +38,7 @@ class ServiceScreenFragment(private val apiKey: String) : Fragment(),
     private val viewModel: ServiceScreenViewModel by viewModels { applicationComponent.getViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("onCreate", "MainFragment")
         super.onCreate(savedInstanceState)
         viewModel.configure(apiKey)
         fragmentComponent = ServiceScreenFragmentComponent(
@@ -45,6 +51,7 @@ class ServiceScreenFragment(private val apiKey: String) : Fragment(),
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("onCreateView", "MainFragment")
         binding = FragmentServicesScreenBinding.inflate(layoutInflater)
         fragmentViewComponent =
             ServiceScreenFragmentViewComponent(
@@ -57,12 +64,21 @@ class ServiceScreenFragment(private val apiKey: String) : Fragment(),
         return binding.root
     }
 
+    override fun onResume() {
+        Log.d("onResume", "MainFragment")
+        super.onResume()
+    }
+
+
     companion object {
         @JvmStatic
         fun newInstance(apiKey: String) = ServiceScreenFragment(apiKey)
     }
 
-    override fun onChatListItemClick(task: Service?) {
-//        TODO("Not yet implemented")
+    override fun onChatListItemClick(service: Service?) {
+        binding.root.rootView.findViewById<TabLayout>(R.id.tab_layout)
+            .setScrollPosition(1, 1f, true)
+        binding.root.rootView.findViewById<ViewPager>(R.id.pager).currentItem = 1
+        binding.root.rootView.findViewById<TextView>(R.id.test).text = service?.serviceName
     }
 }

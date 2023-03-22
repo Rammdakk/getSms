@@ -1,27 +1,28 @@
 package com.rammdakk.getSms.ui.view.mainScreen
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 
-class AdapterTabPager(activity: FragmentActivity?) : FragmentStateAdapter(activity!!) {
+class AdapterTabPager(fragmentManager: FragmentManager) :
+    FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private val mFragmentList: MutableList<Fragment> = ArrayList()
     private val mFragmentTitleList: MutableList<String> = ArrayList()
 
-    public fun getTabTitle(position: Int): String {
-        return mFragmentTitleList[position]
+    fun addFragment(fragment: List<Fragment>, title: List<String>) {
+        mFragmentList.addAll(fragment)
+        mFragmentTitleList.addAll(title)
     }
 
-    fun addFragment(fragment: Fragment, title: String) {
-        mFragmentList.add(fragment)
-        mFragmentTitleList.add(title)
-    }
-
-    override fun getItemCount(): Int {
+    override fun getCount(): Int {
         return mFragmentList.size
     }
 
-    override fun createFragment(position: Int): Fragment {
+    override fun getItem(position: Int): Fragment {
         return mFragmentList[position]
+    }
+
+    override fun getPageTitle(position: Int): CharSequence? {
+        return mFragmentTitleList[position]
     }
 }

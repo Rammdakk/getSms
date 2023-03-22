@@ -63,7 +63,7 @@ class MainScreenController(
                 WebViewScreen(
                     "https://vak-sms.com/pay/",
                     TopUpBalanceWebViewLoadHandlerImpl()
-                )
+                ), true
             )
         }
         binding.signoutIW.setOnClickListener {
@@ -78,8 +78,9 @@ class MainScreenController(
                 })
                 isVisible = false
             }
-                .loadUrl("https://vak-sms.com/accounts/logout/?next=/lk/")
-            navigator.navigateTo(LogInScreen)
+                .loadUrl("https://vak-sms.com/accounts/logout/?next=/lk/").apply {
+                    navigator.navigateTo(LogInScreen)
+                }
         }
     }
 }

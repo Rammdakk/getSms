@@ -1,10 +1,14 @@
 package com.rammdakk.getSms.ui.view.serviceScreen
 
+import android.content.Context
+import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.internal.ContextUtils.getActivity
 import com.rammdakk.getSms.R
 import com.rammdakk.getSms.databinding.FragmentServicesScreenBinding
 import com.rammdakk.getSms.ui.stateholders.ServiceScreenViewModel
@@ -17,9 +21,23 @@ class ServiceScreenController(
 ) {
 
     fun setUpViews() {
-        setUpTasksList()
+        setUpList()
         setUpSwipeToRefresh()
         setUpCountrySpinner()
+        setUpSearch()
+    }
+
+    private fun setUpSearch() {
+        binding.searchViewEditText.setOnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                Log.d("has", " focus")
+            } else {
+                val imm: InputMethodManager =
+                    getActivity(binding.root.context)?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+                Log.d("lost", " focus")
+            }
+        }
     }
 
     private fun setUpCountrySpinner() {
@@ -47,7 +65,7 @@ class ServiceScreenController(
         }
     }
 
-    private fun setUpTasksList() {
+    private fun setUpList() {
         binding.recyclerView.layoutManager = LinearLayoutManager(binding.root.context)
         binding.recyclerView.adapter = adapter
         viewModel.services.observe(lifecycleOwner) { newService ->
@@ -62,7 +80,6 @@ class ServiceScreenController(
             }
         }
     }
-
 
     private fun setUpSwipeToRefresh() {
         binding.swipeRefreshLayout.setOnRefreshListener {

@@ -1,6 +1,7 @@
 package com.rammdakk.getSms.ui.view.rentedNumbers
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ private const val ARG_PARAM2 = "param2"
 class RentedNumbersFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("onCreate", "RentedNumbersFragment")
         super.onCreate(savedInstanceState)
     }
 
@@ -27,8 +29,14 @@ class RentedNumbersFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("onCreateView", "RentedNumbersFragment")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_rented_numbers, container, false)
+    }
+
+    override fun onResume() {
+        Log.d("onResume", "RentedNumbersFragment")
+        super.onResume()
     }
 
     companion object {

@@ -37,14 +37,21 @@ class AppNavigator(
     var fragmentManager: FragmentManager?,
     @IdRes private val containerId: Int
 ) {
-    fun navigateTo(screen: Screen) {
+    fun navigateTo(
+        screen: Screen,
+        add: Boolean = false
+    ) {
         fragmentManager?.apply {
             beginTransaction().apply {
                 setCustomAnimations(
                     R.anim.slide_in_right,
                     R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right,
                 )
-                replace(containerId, screen.createFragment())
+                if (add) {
+                    add(containerId, screen.createFragment())
+                } else {
+                    replace(containerId, screen.createFragment())
+                }
                 setReorderingAllowed(true)
                 if (screen.addToBackStack) {
                     addToBackStack(null)
