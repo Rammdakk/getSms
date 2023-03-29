@@ -2,7 +2,7 @@
 
 За основу взят был сервис [Vak-Sms](https://vak-sms.com) и использовалось его API.<br>
 Часть API была не публична и взята из источников сайта, но большую часть можно
-найти [тут](https://vak-sms.com/api/vak/)<br>
+найти [тут](https://vak-sms.com/api/vak/).<br>
 
 ## Что сделано:
 
@@ -18,20 +18,20 @@
 Содержит в себе два окна - все сервисы и номера в аренде, а также отображает баланс и кнопку для
 пополнения.
 
-#### -Все сервисы
+#### - Все сервисы
 
 Реализован выбор страны, и отображение подходящих номеров, осталось реализовать покупку номера по
 клику.
 
-#### -Номера в аренде
+#### - Номера в аренде
 
-Экран в процессе реализации
+Экран в процессе реализации.
 
 ## Информация о дизайн составляющей
 
 ### Цвета<br>
 
-Background_main - ![#171a3b](https://placehold.co/15x15/171a3b/171a3b.png) `#171a3b`<br>
+background - ![#171a3b](https://placehold.co/15x15/171a3b/171a3b.png) `#171a3b`<br>
 text - ![#f69495](https://placehold.co/15x15/f69495/f69495.png) `#f69495`<br>
 background2 - ![#252950](https://placehold.co/15x15/f03c15/252950.png) `#252950`<br>
 button - ![#283261](https://placehold.co/15x15/283261/283261.png) `#283261`<br>
@@ -42,11 +42,11 @@ orange cell -  ![#ffbd5f](https://placehold.co/15x15/ffbd5f/ffbd5f.png) `#ffbd5f
 
 ### Полезные сссылки:
 
-#### -Иконки
+#### - Иконки
 
 [IconPack](https://www.svgrepo.com/collection/yandex-ui-filled-icons/2)
 
-#### -Картинки
+#### - Картинки
 
 Сервисы (пример) - https://vak-sms.com/static/service/ab.png<br>
 Страны (пример) - https://vak-sms.com/static//country/dk.png
