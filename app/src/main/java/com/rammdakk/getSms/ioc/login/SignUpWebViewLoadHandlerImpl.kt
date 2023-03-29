@@ -2,11 +2,12 @@ package com.rammdakk.getSms.ioc.login
 
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
-import com.rammdakk.getSms.ui.view.login.ResultHandler
 import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
+import com.rammdakk.getSms.ui.view.login.ResultHandler
 
-class SignUpWebViewLoadHandlerImpl(private val resultHandler: ResultHandler) : WebViewLoadHandler {
+class SignUpWebViewLoadHandlerImpl(private val resultHandler: ResultHandler<String>) :
+    WebViewLoadHandler {
 
 
     override fun handleLoading(webView: WebView, url: String) {

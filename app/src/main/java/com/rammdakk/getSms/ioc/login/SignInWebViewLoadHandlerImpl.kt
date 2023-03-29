@@ -8,7 +8,7 @@ import com.rammdakk.getSms.ioc.WebViewLoadHandler
 import com.rammdakk.getSms.ui.view.login.ResultHandler
 
 class SignInWebViewLoadHandlerImpl(
-    private val resultHandler: ResultHandler,
+    private val resultHandler: ResultHandler<String>,
     private val login: String,
     private val password: String
 ) : WebViewLoadHandler {

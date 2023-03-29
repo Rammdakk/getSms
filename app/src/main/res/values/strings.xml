@@ -11,4 +11,6 @@
     <string name="price">%1$.2f₽</string>
     <string name="quantity">%1$d шт.</string>
     <string name="balance">%1$.2f₽</string>
+    <string name="get_another_sms">ПОЛУЧИТЬ\nЕЩЕ</string>
+    <string name="cancel_number">ОТМЕНИТЬ</string>
 </resources>

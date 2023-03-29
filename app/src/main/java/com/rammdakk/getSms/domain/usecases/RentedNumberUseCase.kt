@@ -3,19 +3,22 @@ package com.rammdakk.getSms.domain.usecases
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.rammdakk.getSms.core.model.Service
-import com.rammdakk.getSms.data.api.error.InternetError
+import com.rammdakk.getSms.data.api.Result
 import com.rammdakk.getSms.data.model.CountryInfo
 import com.rammdakk.getSms.data.repository.ServiceRepository
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class ServiceUseCase @Inject constructor(private val servicesRepository: ServiceRepository) {
+class RentedNumberUseCase @Inject constructor(private val servicesRepository: ServiceRepository) {
 
     private val _services = MediatorLiveData<List<Service>>()
     val services: LiveData<List<Service>> = _services
 
     private val _balance = MediatorLiveData<Double>()
     val balance: LiveData<Double> = _balance
+
+    private val _error = MediatorLiveData<Result.Error<String>?>()
+    val error: LiveData<Result.Error<String>?> = _error
 
     private val _countries = MediatorLiveData<List<CountryInfo>>()
     val countries: LiveData<List<CountryInfo>> = _countries
@@ -29,6 +32,9 @@ class ServiceUseCase @Inject constructor(private val servicesRepository: Service
         }
         _balance.addSource(servicesRepository.balance) {
             updateBalanceLiveData()
+        }
+        _error.addSource(servicesRepository.error) {
+            updateErrorLiveData()
         }
         _countries.addSource(servicesRepository.countries) {
             updateCountriesLiveData()
@@ -44,6 +50,12 @@ class ServiceUseCase @Inject constructor(private val servicesRepository: Service
     private fun updateBalanceLiveData() {
         combineCoroutineScope.launch {
             _balance.postValue(servicesRepository.balance.value)
+        }
+    }
+
+    private fun updateErrorLiveData() {
+        combineCoroutineScope.launch {
+            _error.postValue(servicesRepository.error.value)
         }
     }
 
@@ -68,12 +80,6 @@ class ServiceUseCase @Inject constructor(private val servicesRepository: Service
     suspend fun loadCountries() {
         withContext(Dispatchers.IO) {
             servicesRepository.loadCountries()
-        }
-    }
-
-    suspend fun postError(error: InternetError) {
-        withContext(Dispatchers.Default) {
-            servicesRepository.postError(error)
         }
     }
 }

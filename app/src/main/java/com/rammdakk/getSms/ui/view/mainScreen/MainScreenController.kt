@@ -12,7 +12,7 @@ import com.rammdakk.getSms.R
 import com.rammdakk.getSms.WebViewScreen
 import com.rammdakk.getSms.data.api.Result
 import com.rammdakk.getSms.data.api.error.ErrorMessageConverterImpl
-import com.rammdakk.getSms.data.api.error.ErrorType
+import com.rammdakk.getSms.data.api.error.InternetError
 import com.rammdakk.getSms.databinding.FragmentMainScreenBinding
 import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.CustomWebViewClient
@@ -54,8 +54,8 @@ class MainScreenController(
             ErrorMessageConverterImpl(
                 binding.root.context.resources
             ).getError(error.type, error.details ?: ""),
-            if (error.type == ErrorType.Network) Snackbar.LENGTH_INDEFINITE else Snackbar.LENGTH_LONG
-        )
+            if (error.type == InternetError.Network) Snackbar.LENGTH_INDEFINITE else Snackbar.LENGTH_LONG
+        ) { viewModel.refreshAll() }
     }
 
     private fun setUpButtons() {

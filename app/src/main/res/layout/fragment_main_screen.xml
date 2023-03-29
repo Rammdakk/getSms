@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#252950"
+    android:background="?attr/colorBackgroundSecondary"
     android:paddingHorizontal="10dp"
     android:paddingTop="5dp"
     tools:context=".ui.view.mainScreen.MainScreenFragment">

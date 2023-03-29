@@ -4,11 +4,11 @@ package com.rammdakk.getSms.data.repository
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.rammdakk.getSms.SingleLiveEvent
+import com.rammdakk.getSms.core.model.Service
 import com.rammdakk.getSms.data.api.Result
-import com.rammdakk.getSms.data.api.error.ErrorType
+import com.rammdakk.getSms.data.api.error.InternetError
 import com.rammdakk.getSms.data.datasource.DataSource
 import com.rammdakk.getSms.data.model.CountryInfo
-import com.rammdakk.getSms.data.model.Service
 import com.rammdakk.getSms.ioc.ApplicationComponentScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -52,7 +52,7 @@ class ServiceRepository @Inject constructor(
         } catch (e: Exception) {
             _services.postValue(emptyList())
             Log.d("exxRepo", e.toString())
-            _error.postValue(Result.Error(ErrorType.Unknown, e.message))
+            _error.postValue(Result.Error(InternetError.Unknown, e.message))
         }
     }
 
@@ -87,6 +87,10 @@ class ServiceRepository @Inject constructor(
             }
         }
 
+    }
+
+    fun postError(error: InternetError) {
+        _error.postValue(Result.Error(error, ""))
     }
 
 }

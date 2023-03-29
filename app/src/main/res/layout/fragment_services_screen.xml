@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#252950"
+    android:background="?attr/colorBackgroundSecondary"
     tools:context=".ui.view.serviceScreen.ServiceScreenFragment">
 
     <androidx.appcompat.widget.AppCompatSpinner

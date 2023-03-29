@@ -5,20 +5,25 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.rammdakk.getSms.R
+import androidx.fragment.app.viewModels
+import com.rammdakk.getSms.App
+import com.rammdakk.getSms.databinding.FragmentRentedNumbersBinding
+import com.rammdakk.getSms.ioc.activeNumbersScreen.RentedNumbersFragmentComponent
+import com.rammdakk.getSms.ioc.activeNumbersScreen.RentedNumbersFragmentViewComponent
+import com.rammdakk.getSms.ui.stateholders.RentedNumbersViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [RentedNumbersFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RentedNumbersFragment : Fragment() {
+
+    private val applicationComponent
+        get() = App.get(requireContext()).applicationComponent
+    private lateinit var binding: FragmentRentedNumbersBinding
+    private lateinit var fragmentComponent: RentedNumbersFragmentComponent
+    private var fragmentViewComponent: RentedNumbersFragmentViewComponent? = null
+
+    private val viewModel: RentedNumbersViewModel by viewModels { applicationComponent.getViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("onCreate", "RentedNumbersFragment")
@@ -30,11 +35,16 @@ class RentedNumbersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         Log.d("onCreateView", "RentedNumbersFragment")
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rented_numbers, container, false)
+        binding = FragmentRentedNumbersBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onResume() {
+        val webView = WebView(binding.root.context)
+//        webView.webViewClient = CustomWebViewClient(loadHandler = GetActiveNumberHandlerImpl())
+        webView.isVisible = false
+        webView.settings.javaScriptEnabled = true
+        webView.loadUrl("https://vak-sms.com/getNumber/")
         Log.d("onResume", "RentedNumbersFragment")
         super.onResume()
     }

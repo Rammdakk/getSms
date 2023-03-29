@@ -1,51 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tableLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="1.5dp"
     android:background="@drawable/gradient_cell_background"
+    android:backgroundTint="@color/black"
     android:orientation="horizontal"
     android:paddingHorizontal="14dp"
     android:paddingVertical="3dp">
 
-    <ImageView
-        android:id="@+id/serviceIW"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintBottom_toBottomOf="@id/servicePriceTW"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/serviceNameTW"
-        tools:srcCompat="@tools:sample/avatars" />
-
     <TextView
-        android:id="@+id/serviceNameTW"
+        android:id="@+id/numberServiceNameTW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:layout_marginTop="6dp"
+        android:text="Avito"
         android:textColor="@color/white"
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/servicePriceTW"
-        app:layout_constraintStart_toEndOf="@+id/serviceIW"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/getNumberTW"
+        android:id="@+id/getAnotherSmsTW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
         android:background="@drawable/get_button_balance"
+        android:gravity="center"
         android:paddingHorizontal="5dp"
-        android:text="ПОЛУЧИТЬ"
-        android:textColor="@color/white"
-        android:textSize="12sp"
+        android:text="@string/get_another_sms"
+        android:textAlignment="center"
+        android:textColor="@color/mantis"
+        android:textSize="10sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/cancelNumberTW"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cancelNumberTW"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@drawable/get_button_balance"
+        android:backgroundTint="@color/bittersweet"
+        android:gravity="center"
+        android:paddingHorizontal="5dp"
+        android:text="@string/cancel_number"
+        android:textAlignment="center"
+        android:textColor="@color/bittersweet"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/getAnotherSmsTW"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/getAnotherSmsTW" />
 
     <TextView
         android:id="@+id/servicePriceTW"
@@ -56,18 +68,29 @@
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/serviceNameTW"
-        app:layout_constraintTop_toBottomOf="@+id/serviceNameTW" />
+        app:layout_constraintStart_toStartOf="@+id/numberServiceNameTW"
+        app:layout_constraintTop_toBottomOf="@+id/numberServiceNameTW" />
 
     <TextView
         android:id="@+id/serviceQuantityTW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:text="+79216398828"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/servicePriceTW"
         app:layout_constraintStart_toEndOf="@+id/servicePriceTW"
         app:layout_constraintTop_toTopOf="@+id/servicePriceTW" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="33dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/getAnotherSmsTW"
+        app:layout_constraintStart_toEndOf="@+id/serviceQuantityTW"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

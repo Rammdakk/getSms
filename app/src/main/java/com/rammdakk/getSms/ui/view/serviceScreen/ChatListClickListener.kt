@@ -1,7 +1,7 @@
 package com.rammdakk.getSms.ui.view.serviceScreen
 
-import com.rammdakk.getSms.data.model.Service
+import com.rammdakk.getSms.core.model.Service
 
 interface ChatListClickListener {
-    fun onChatListItemClick(task: Service?)
+    fun onChatListItemClick(service: Service?)
 }

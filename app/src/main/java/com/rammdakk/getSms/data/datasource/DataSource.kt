@@ -1,15 +1,15 @@
 package com.rammdakk.getSms.data.datasource
 
 import android.util.Log
+import com.rammdakk.getSms.core.model.Service
 import com.rammdakk.getSms.data.api.Result
 import com.rammdakk.getSms.data.api.error.ErrorHandlerImpl
-import com.rammdakk.getSms.data.api.error.ErrorType
+import com.rammdakk.getSms.data.api.error.InternetError
 import com.rammdakk.getSms.data.api.exception.HttpException
 import com.rammdakk.getSms.data.api.infra.InfraApi
 import com.rammdakk.getSms.data.api.vakSms.VakSmsApi
 import com.rammdakk.getSms.data.model.CountryInfo
 import com.rammdakk.getSms.data.model.CountryResponse
-import com.rammdakk.getSms.data.model.Service
 import com.rammdakk.getSms.data.model.ServiceInfoResponse
 import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.ApplicationComponentScope
@@ -37,7 +37,7 @@ class DataSource @Inject constructor(
                 throw HttpException(servicesResponse.code(), "getServicesError")
             }
             if (servicesResponse.body() == null || servicesResponse.body() == null) {
-                return Result.Error(ErrorType.Unknown, "Не удалось получить значения")
+                return Result.Error(InternetError.Unknown, "Не удалось получить значения")
             }
             val listOfTasks = servicesResponse.body()!!
             return Result.Success(listOfTasks.map { convertToService(it) })
@@ -64,7 +64,7 @@ class DataSource @Inject constructor(
                 throw HttpException(balanceResponse.code(), "getServicesError")
             }
             if (balanceResponse.body() == null) {
-                return Result.Error(ErrorType.Unknown, "Не удалось получить значения")
+                return Result.Error(InternetError.Unknown, "Не удалось получить значения")
             }
             Result.Success(balanceResponse.body()!!.balance)
         } catch (ex: Exception) {
@@ -80,7 +80,7 @@ class DataSource @Inject constructor(
                 throw HttpException(countriesResponse.code(), "getCountriesInfo")
             }
             if (countriesResponse.body() == null) {
-                return Result.Error(ErrorType.Unknown, "Не удалось получить значения")
+                return Result.Error(InternetError.Unknown, "Не удалось получить значения")
             }
 
             Result.Success(countriesResponse.body()!!.map { convertToCountries(it) })

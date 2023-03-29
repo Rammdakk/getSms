@@ -1,6 +1,6 @@
 package com.rammdakk.getSms.data.api
 
-import com.rammdakk.getSms.data.api.error.ErrorType
+import com.rammdakk.getSms.data.api.error.InternetError
 
 sealed class Result<out T, out E> {
     class Success<T>(
@@ -12,7 +12,7 @@ sealed class Result<out T, out E> {
     }
 
     class Error<E>(
-        val type: ErrorType,
+        val type: InternetError,
         val details: E? = null
     ) : Result<Nothing, E>() {
         override fun toString(): String {

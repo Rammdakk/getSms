@@ -3,11 +3,11 @@ package com.rammdakk.getSms.ui.view.serviceScreen
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.rammdakk.getSms.data.model.Service
+import com.rammdakk.getSms.core.model.Service
 import com.rammdakk.getSms.databinding.ServiceCellBinding
 import com.rammdakk.getSms.ui.stateholders.ServiceScreenViewModel
 
-class SmsInfoHolderAdapter(
+class ServiceViewHolderAdapter(
     private val viewModel: ServiceScreenViewModel,
     servicesItemsDiffCalc: ServicesItemsDiffCalc,
     private val chatListClickListener: ChatListClickListener

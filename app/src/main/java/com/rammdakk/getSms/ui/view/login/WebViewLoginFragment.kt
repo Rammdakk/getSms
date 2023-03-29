@@ -22,12 +22,12 @@ import com.rammdakk.getSms.ioc.login.ResetPSWRDWebViewLoadHandlerImpl
 import com.rammdakk.getSms.ioc.login.SignInWebViewLoadHandlerImpl
 import com.rammdakk.getSms.ioc.login.SignUpWebViewLoadHandlerImpl
 
-interface ResultHandler {
-    fun onSuccess(string: String)
-    fun onError(string: String)
+interface ResultHandler<T> {
+    fun onSuccess(data: T)
+    fun onError(message: String)
 }
 
-class WebViewLoginFragment : Fragment(), ResultHandler {
+class WebViewLoginFragment : Fragment(), ResultHandler<String> {
     private lateinit var navigator: AppNavigator
     private lateinit var webView: WebView
     private lateinit var binding: FragmentWebViewLoginBinding
@@ -102,19 +102,19 @@ class WebViewLoginFragment : Fragment(), ResultHandler {
     }
 
 
-    override fun onSuccess(string: String) {
+    override fun onSuccess(data: String) {
         val prefs = context?.getSharedPreferences(
             "com.rammdakk.getSms", Context.MODE_PRIVATE
         )
-        prefs?.edit()?.putString("accessKey", string)?.apply()
+        prefs?.edit()?.putString("accessKey", data)?.apply()
         navigator.navigateTo(MainScreen)
     }
 
-    override fun onError(string: String) {
+    override fun onError(message: String) {
         navigator.back()
-        if (string.isNotEmpty()) {
+        if (message.isNotEmpty()) {
             binding.warningTextView.apply {
-                text = string
+                text = message
                 isVisible = true
             }
         }
