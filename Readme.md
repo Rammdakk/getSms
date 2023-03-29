@@ -18,16 +18,18 @@
 Содержит в себе два окна - все сервисы и номера в аренде, а также отображает баланс и кнопку для
 пополнения.
 
-#### Все сервисы
+#### -Все сервисы
 
 Реализован выбор страны, и отображение подходящих номеров, осталось реализовать покупку номера по
 клику.
 
-#### Номера в аренде
+#### -Номера в аренде
 
 Экран в процессе реализации
 
-## Цвета<br>
+## Информация о дизайн составляющей
+
+### Цвета<br>
 
 Background_main - ![#171a3b](https://placehold.co/15x15/171a3b/171a3b.png) `#171a3b`<br>
 text - ![#f69495](https://placehold.co/15x15/f69495/f69495.png) `#f69495`<br>
@@ -38,13 +40,13 @@ red cell - ![#ff685c](https://placehold.co/15x15/ff685c/ff685c.png) `#ff685c`<br
 orange cell -  ![#ffbd5f](https://placehold.co/15x15/ffbd5f/ffbd5f.png) `#ffbd5f`<br>
 <br>
 
-## Полезные сссылка:
+### Полезные сссылки:
 
-### Иконки
+#### -Иконки
 
 [IconPack](https://www.svgrepo.com/collection/yandex-ui-filled-icons/2)
 
-### Картинки
+#### -Картинки
 
 Сервисы (пример) - https://vak-sms.com/static/service/ab.png<br>
 Страны (пример) - https://vak-sms.com/static//country/dk.png
