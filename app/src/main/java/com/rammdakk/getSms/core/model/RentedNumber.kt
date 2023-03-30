@@ -11,4 +11,6 @@ data class RentedNumber(
     val timeLeft: Int = 0,
     @SerializedName("number")
     val number: String,
+    @SerializedName("code")
+    val codes: List<String> = mutableListOf()
 )

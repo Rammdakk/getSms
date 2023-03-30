@@ -1,12 +1,10 @@
 package com.rammdakk.getSms.ui.view.rentedNumbers
 
+import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import coil.api.load
-import coil.network.HttpException
-import com.rammdakk.getSms.R
 import com.rammdakk.getSms.core.model.RentedNumber
 import com.rammdakk.getSms.databinding.NumberCellBinding
-import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ui.stateholders.RentedNumbersViewModel
 
 class NumberViewHolder(
@@ -16,29 +14,24 @@ class NumberViewHolder(
 
     fun bind(rentedNumber: RentedNumber) {
         val context = numberCellBinding.root.context
-        if (service.quantity < THRESHOLD_VALUE) {
-            numberCellBinding.root.backgroundTintList =
-                context.getColorStateList(R.color.bittersweet)
-        } else {
-            numberCellBinding.root.backgroundTintList = context.getColorStateList(R.color.mantis)
-        }
         val res = context.resources
-        numberCellBinding.serviceNameTW.text = service.serviceName
-        numberCellBinding.servicePriceTW.text =
-            res.getString(R.string.price, service.price)
-        numberCellBinding.serviceQuantityTW.text =
-            res.getString(R.string.quantity, service.quantity)
-        numberCellBinding.serviceIW.load(service.imageUrl) {
-            this.listener(onError = { _, ex ->
-                if ((ex as HttpException).response.code == 404) {
-                    numberCellBinding.serviceIW.load(UrlLinks.URL_DEFAULT_IMAGE)
-                }
-            })
+        numberCellBinding.numberServiceNameTW.text = rentedNumber.serviceName
+        numberCellBinding.numberTW.text = rentedNumber.number
+
+        numberCellBinding.smsCodeSpinner.adapter = ArrayAdapter<String>(
+            context,
+            android.R.layout.simple_spinner_item, listOf("26357", "234223")
+        )
+        if (rentedNumber.codes.isNotEmpty()) {
+            numberCellBinding.getAnotherSmsTW.isVisible = true
+            numberCellBinding.getAnotherSmsTW.setOnClickListener {
+                TODO("update data")
+            }
+        } else {
+            numberCellBinding.getAnotherSmsTW.isVisible = false
         }
-        numberCellBinding.getNumberTW.setOnClickListener {
-            onClickListener.onChatListItemClick(
-                service
-            )
+        numberCellBinding.cancelNumberTW.setOnClickListener {
+            TODO("Cancel number")
         }
     }
 }
