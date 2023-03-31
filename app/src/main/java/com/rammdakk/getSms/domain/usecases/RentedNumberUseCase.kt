@@ -2,84 +2,60 @@ package com.rammdakk.getSms.domain.usecases
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.rammdakk.getSms.core.model.Service
-import com.rammdakk.getSms.data.api.Result
-import com.rammdakk.getSms.data.model.CountryInfo
+import com.rammdakk.getSms.data.api.error.InternetError
+import com.rammdakk.getSms.data.model.NumberResponse
+import com.rammdakk.getSms.data.model.StatusResponse
 import com.rammdakk.getSms.data.repository.ServiceRepository
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class RentedNumberUseCase @Inject constructor(private val servicesRepository: ServiceRepository) {
 
-    private val _services = MediatorLiveData<List<Service>>()
-    val services: LiveData<List<Service>> = _services
+    private val _number = MediatorLiveData<NumberResponse>()
+    val number: LiveData<NumberResponse> = _number
 
-    private val _balance = MediatorLiveData<Double>()
-    val balance: LiveData<Double> = _balance
-
-    private val _error = MediatorLiveData<Result.Error<String>?>()
-    val error: LiveData<Result.Error<String>?> = _error
-
-    private val _countries = MediatorLiveData<List<CountryInfo>>()
-    val countries: LiveData<List<CountryInfo>> = _countries
+    private val _status = MediatorLiveData<StatusResponse>()
+    val status: LiveData<StatusResponse> = _status
 
     private val combineCoroutineScope = CoroutineScope(Job() + Dispatchers.Default)
 
 
     init {
-        _services.addSource(servicesRepository.services) {
-            updateServicesLiveData()
+        _number.addSource(servicesRepository.number) {
+            updateNumberResponseLiveData()
         }
-        _balance.addSource(servicesRepository.balance) {
-            updateBalanceLiveData()
-        }
-        _error.addSource(servicesRepository.error) {
-            updateErrorLiveData()
-        }
-        _countries.addSource(servicesRepository.countries) {
-            updateCountriesLiveData()
+        _status.addSource(servicesRepository.status) {
+            updateStatusResponseLiveData()
         }
     }
 
-    private fun updateServicesLiveData() {
+    private fun updateNumberResponseLiveData() {
         combineCoroutineScope.launch {
-            _services.postValue(servicesRepository.services.value.orEmpty())
+            _number.postValue(servicesRepository.number.value)
         }
     }
 
-    private fun updateBalanceLiveData() {
+    private fun updateStatusResponseLiveData() {
         combineCoroutineScope.launch {
-            _balance.postValue(servicesRepository.balance.value)
+            _number.postValue(servicesRepository.number.value)
         }
     }
 
-    private fun updateErrorLiveData() {
-        combineCoroutineScope.launch {
-            _error.postValue(servicesRepository.error.value)
-        }
-    }
-
-    private fun updateCountriesLiveData() {
-        combineCoroutineScope.launch {
-            _countries.postValue(servicesRepository.countries.value)
-        }
-    }
-
-    suspend fun loadServices(country: String = "ru") {
+    suspend fun getNumber(apiKey: String, country: String, serviceID: String) {
         withContext(Dispatchers.IO) {
-            servicesRepository.loadServices(country)
+            servicesRepository.getNumber(apiKey, country, serviceID)
         }
     }
 
-    suspend fun updateBalance(apiKey: String) {
-        withContext(Dispatchers.IO) {
-            servicesRepository.updateBalance(apiKey)
+    suspend fun postError(error: InternetError, string: String = "") {
+        withContext(Dispatchers.Default) {
+            servicesRepository.postError(error, string)
         }
     }
 
-    suspend fun loadCountries() {
+    suspend fun updateStatus(status: String, numberID: String, apiKey: String) {
         withContext(Dispatchers.IO) {
-            servicesRepository.loadCountries()
+            servicesRepository.setStatus(status, numberID, apiKey)
         }
     }
 }

@@ -54,8 +54,9 @@ class MainScreenController(
             ErrorMessageConverterImpl(
                 binding.root.context.resources
             ).getError(error.type, error.details ?: ""),
-            if (error.type == InternetError.Network) Snackbar.LENGTH_INDEFINITE else Snackbar.LENGTH_LONG
-        ) { viewModel.refreshAll() }
+            if (error.type == InternetError.Network) Snackbar.LENGTH_INDEFINITE else Snackbar.LENGTH_LONG,
+            viewModel::refreshAll
+        )
     }
 
     private fun setUpButtons() {

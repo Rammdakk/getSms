@@ -9,6 +9,8 @@ import com.rammdakk.getSms.data.api.Result
 import com.rammdakk.getSms.data.api.error.InternetError
 import com.rammdakk.getSms.data.datasource.DataSource
 import com.rammdakk.getSms.data.model.CountryInfo
+import com.rammdakk.getSms.data.model.NumberResponse
+import com.rammdakk.getSms.data.model.StatusResponse
 import com.rammdakk.getSms.ioc.ApplicationComponentScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -30,6 +32,12 @@ class ServiceRepository @Inject constructor(
 
     private val _countries = MutableLiveData<List<CountryInfo>>()
     val countries = _countries
+
+    private val _number = SingleLiveEvent<NumberResponse>()
+    val number = _number
+
+    private val _status = MutableLiveData<StatusResponse>()
+    val status = _status
 
 
     suspend fun loadServices(country: String) {
@@ -65,8 +73,9 @@ class ServiceRepository @Inject constructor(
                 _balance.postValue(balance.data ?: 0.00)
                 _error.postValue(null)
             }
-            else -> {
+            is Result.Error -> {
                 _balance.postValue(0.00)
+                _error.postValue(balance)
                 Log.d("Loaded", balance.toString())
             }
         }
@@ -81,16 +90,56 @@ class ServiceRepository @Inject constructor(
             is Result.Success -> {
                 _countries.postValue(countries.data ?: emptyList())
             }
-            else -> {
+            is Result.Error -> {
                 _countries.postValue(emptyList())
+                _error.postValue(countries)
                 Log.d("Loaded", countries.toString())
             }
         }
 
     }
 
-    fun postError(error: InternetError) {
-        _error.postValue(Result.Error(error, ""))
+    suspend fun getNumber(apiKey: String, country: String, serviceID: String) {
+        val number = withContext(Dispatchers.IO) {
+            dataSource.getNumber(apiKey, country, serviceID)
+        }
+        when (number) {
+            is Result.Success -> {
+                _number.postValue(number.data!!)
+            }
+            is Result.Error -> {
+                _error.postValue(number)
+                Log.d("Loaded", countries.toString())
+            }
+        }
+    }
+
+    fun postError(error: InternetError, string: String) {
+        _error.postValue(Result.Error(error, string))
+    }
+
+    suspend fun setStatus(status: String, numberID: String, apiKey: String) {
+        val statusResponse = withContext(Dispatchers.IO) {
+            dataSource.setStatus(status, numberID, apiKey)
+        }
+        when (statusResponse) {
+            is Result.Success -> {
+                _status.postValue(statusResponse.data!!)
+                if (statusResponse.data.status != "ready" || statusResponse.data.status != "smsReceived") {
+                    Log.d("ERR", statusResponse.data.status)
+                    _error.postValue(
+                        Result.Error(
+                            InternetError.BadStatus,
+                            statusResponse.data.status
+                        )
+                    )
+                }
+            }
+            is Result.Error -> {
+                _error.postValue(statusResponse)
+                Log.d("Loaded", countries.toString())
+            }
+        }
     }
 
 }

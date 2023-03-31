@@ -1,15 +1,15 @@
 package com.rammdakk.getSms.ui.view.rentedNumbers
 
-import android.widget.ArrayAdapter
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.rammdakk.getSms.R
+import com.rammdakk.getSms.core.model.NumberStatus
 import com.rammdakk.getSms.core.model.RentedNumber
 import com.rammdakk.getSms.databinding.NumberCellBinding
 import com.rammdakk.getSms.ui.stateholders.RentedNumbersViewModel
 
 class NumberViewHolder(
     private val numberCellBinding: NumberCellBinding,
-    viewModel: RentedNumbersViewModel,
+    private val viewModel: RentedNumbersViewModel,
 ) : RecyclerView.ViewHolder(numberCellBinding.root) {
 
     fun bind(rentedNumber: RentedNumber) {
@@ -18,20 +18,21 @@ class NumberViewHolder(
         numberCellBinding.numberServiceNameTW.text = rentedNumber.serviceName
         numberCellBinding.numberTW.text = rentedNumber.number
 
-        numberCellBinding.smsCodeSpinner.adapter = ArrayAdapter<String>(
-            context,
-            android.R.layout.simple_spinner_item, listOf("26357", "234223")
-        )
-        if (rentedNumber.codes.isNotEmpty()) {
-            numberCellBinding.getAnotherSmsTW.isVisible = true
-            numberCellBinding.getAnotherSmsTW.setOnClickListener {
-                TODO("update data")
+        numberCellBinding.smsCodeSpinner.text = rentedNumber.codes
+        if (rentedNumber.codes == "Ожидает SMS") {
+            numberCellBinding.cancelNumberTW.text = res.getString(R.string.cancel_number)
+//            numberCellBinding.getAnotherSmsTW.isVisible = true
+//            numberCellBinding.cancelNumberTW.isVisible = false
+            numberCellBinding.cancelNumberTW.setOnClickListener {
+                viewModel.setStatus(NumberStatus.CANCEL, rentedNumber.numberId)
             }
         } else {
-            numberCellBinding.getAnotherSmsTW.isVisible = false
-        }
-        numberCellBinding.cancelNumberTW.setOnClickListener {
-            TODO("Cancel number")
+//            numberCellBinding.getAnotherSmsTW.isVisible = false
+//            numberCellBinding.cancelNumberTW.isVisible = true
+            numberCellBinding.cancelNumberTW.text = res.getString(R.string.get_another_sms)
+            numberCellBinding.cancelNumberTW.setOnClickListener {
+                viewModel.setStatus(NumberStatus.ONE_MORE, rentedNumber.numberId)
+            }
         }
     }
 }

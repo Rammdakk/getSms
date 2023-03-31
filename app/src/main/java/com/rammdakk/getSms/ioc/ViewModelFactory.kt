@@ -23,10 +23,10 @@ class ViewModelFactory @Inject constructor(
             serviceUseCase, errorsUseCase
         )
         ServiceScreenViewModel::class.java -> ServiceScreenViewModel(
-            serviceUseCase, connectivityObserver
+            serviceUseCase, rentedNumberUseCase, connectivityObserver
         )
         RentedNumbersViewModel::class.java -> RentedNumbersViewModel(
-            rentedNumberUseCase, connectivityObserver
+            rentedNumberUseCase
         )
         else -> throw IllegalArgumentException("${modelClass.simpleName} cannot be provided.")
     } as T

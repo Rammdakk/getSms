@@ -4,8 +4,8 @@ import android.util.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import com.rammdakk.getSms.infra.UrlLinks
+import com.rammdakk.getSms.ioc.ResultHandler
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
-import com.rammdakk.getSms.ui.view.login.ResultHandler
 
 class SignInWebViewLoadHandlerImpl(
     private val resultHandler: ResultHandler<String>,
@@ -51,11 +51,9 @@ class SignInWebViewLoadHandlerImpl(
                     } else {
                         webView.evaluateJavascript(
                             "(function() { return (document.getElementsByClassName(' text-gray-600 leading-1.3 text-3xl lg:text-2xl font-light')[0].innerHTML); })();"
-                        ) { html ->
-                            if (!html.isNullOrBlank() && html != "null") {
-                                resultHandler.onError(
-                                    html
-                                )
+                        ) { s ->
+                            if (!s.isNullOrBlank() && s != "null") {
+                                resultHandler.onError(s)
                             }
                         }
                     }

@@ -1,5 +1,6 @@
 package com.rammdakk.getSms.ui.view.rentedNumbers
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -16,7 +17,15 @@ class RentedNumberViewHolderAdapter(
         return NumberViewHolder(binding, viewModel)
     }
 
+//    override fun getItem(position: Int): RentedNumber {
+//        val ll = listOf<RentedNumber>(RentedNumber("test", "23234",23,"792837243","367"))
+//        Log.d("getItem", ll.toString())
+//        return currentList[position]
+//        return super.getItem(position)
+//    }
+
     override fun onBindViewHolder(holder: NumberViewHolder, position: Int) {
+        Log.d("RentedNumberViewHolderAdapter", position.toString())
         holder.bind(getItem(position))
     }
 }

@@ -6,8 +6,9 @@
     android:layout_height="wrap_content"
     android:layout_marginVertical="1.5dp"
     android:background="@drawable/gradient_cell_background"
-    android:backgroundTint="@color/black"
+    android:backgroundTint="@color/koromiko"
     android:orientation="horizontal"
+    android:layout_marginBottom="3dp"
     android:paddingHorizontal="14dp"
     android:paddingVertical="4dp">
 
@@ -23,26 +24,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/getAnotherSmsTW"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:background="@drawable/get_button_balance"
-        android:gravity="center"
-        android:paddingHorizontal="5dp"
-        android:text="@string/get_another_sms"
-        android:textAlignment="center"
-        android:textColor="@color/mantis"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/cancelNumberTW"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/cancelNumberTW"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/get_button_balance"
         android:backgroundTint="@color/bittersweet"
         android:gravity="center"
@@ -50,11 +34,11 @@
         android:text="@string/cancel_number"
         android:textAlignment="center"
         android:textColor="@color/bittersweet"
-        android:textSize="10sp"
+        android:textSize="11sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/getAnotherSmsTW"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/getAnotherSmsTW" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
@@ -69,14 +53,13 @@
         app:layout_constraintStart_toStartOf="@+id/numberServiceNameTW"
         app:layout_constraintTop_toBottomOf="@+id/numberServiceNameTW" />
 
-    <Spinner
+    <TextView
         android:id="@+id/smsCodeSpinner"
-        android:layout_width="33dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/getAnotherSmsTW"
         app:layout_constraintStart_toEndOf="@+id/numberTW"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

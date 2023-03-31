@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rammdakk.getSms.connectvity.ConnectivityObserver
 import com.rammdakk.getSms.data.api.error.InternetError
+import com.rammdakk.getSms.domain.usecases.RentedNumberUseCase
 import com.rammdakk.getSms.domain.usecases.ServiceUseCase
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -11,10 +12,12 @@ import kotlinx.coroutines.launch
 
 class ServiceScreenViewModel(
     private val serviceUseCase: ServiceUseCase,
+    private val rentedNumberUseCase: RentedNumberUseCase,
     private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
     val services = serviceUseCase.services
     val countries = serviceUseCase.countries
+    val numberReference = rentedNumberUseCase.number
 
     private var apiKey = ""
     private var country = "ru"
@@ -60,5 +63,9 @@ class ServiceScreenViewModel(
         }
     }
 
-
+    fun getNumber(serviceID: String) {
+        viewModelScope.launch {
+            rentedNumberUseCase.getNumber(apiKey, country, serviceID)
+        }
+    }
 }

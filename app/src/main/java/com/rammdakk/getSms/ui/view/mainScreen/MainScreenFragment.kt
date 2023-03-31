@@ -73,7 +73,7 @@ class MainScreenFragment : Fragment() {
         adapter.addFragment(
             listOf(
                 ServiceScreenFragment.newInstance(apiKey),
-                RentedNumbersFragment.newInstance()
+                RentedNumbersFragment.newInstance(apiKey)
             ), listOf("Сервисы", "Активации")
         )
         binding.pager.adapter = adapter

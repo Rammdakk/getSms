@@ -32,5 +32,6 @@ internal class ErrorMessageConverterImpl(
             is InternetError.NoData -> resources.getString(
                 R.string.no_data
             )
+            is InternetError.BadStatus -> resources.getString(R.string.bad_status)
         }
 }

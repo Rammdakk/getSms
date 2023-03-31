@@ -71,9 +71,9 @@ class ServiceUseCase @Inject constructor(private val servicesRepository: Service
         }
     }
 
-    suspend fun postError(error: InternetError) {
+    suspend fun postError(error: InternetError, string: String = "") {
         withContext(Dispatchers.Default) {
-            servicesRepository.postError(error)
+            servicesRepository.postError(error, string)
         }
     }
 }

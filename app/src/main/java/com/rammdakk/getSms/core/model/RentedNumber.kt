@@ -12,5 +12,5 @@ data class RentedNumber(
     @SerializedName("number")
     val number: String,
     @SerializedName("code")
-    val codes: List<String> = mutableListOf()
+    val codes: String
 )

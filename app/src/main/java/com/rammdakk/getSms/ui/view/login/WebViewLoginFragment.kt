@@ -17,15 +17,11 @@ import com.rammdakk.getSms.WebViewScreen
 import com.rammdakk.getSms.databinding.FragmentWebViewLoginBinding
 import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.CustomWebViewClient
+import com.rammdakk.getSms.ioc.ResultHandler
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
 import com.rammdakk.getSms.ioc.login.ResetPSWRDWebViewLoadHandlerImpl
 import com.rammdakk.getSms.ioc.login.SignInWebViewLoadHandlerImpl
 import com.rammdakk.getSms.ioc.login.SignUpWebViewLoadHandlerImpl
-
-interface ResultHandler<T> {
-    fun onSuccess(data: T)
-    fun onError(message: String)
-}
 
 class WebViewLoginFragment : Fragment(), ResultHandler<String> {
     private lateinit var navigator: AppNavigator

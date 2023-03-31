@@ -8,9 +8,7 @@ import com.rammdakk.getSms.data.api.error.InternetError
 import com.rammdakk.getSms.data.api.exception.HttpException
 import com.rammdakk.getSms.data.api.infra.InfraApi
 import com.rammdakk.getSms.data.api.vakSms.VakSmsApi
-import com.rammdakk.getSms.data.model.CountryInfo
-import com.rammdakk.getSms.data.model.CountryResponse
-import com.rammdakk.getSms.data.model.ServiceInfoResponse
+import com.rammdakk.getSms.data.model.*
 import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.ApplicationComponentScope
 import javax.inject.Inject
@@ -97,5 +95,47 @@ class DataSource @Inject constructor(
             country = country.country,
             imageUrl = UrlLinks.URL_BASE + country.imageUrl
         )
+    }
+
+    suspend fun getNumber(
+        apiKey: String,
+        country: String,
+        serviceID: String
+    ): Result<NumberResponse, String> {
+        return try {
+            val numberResponse = vakSmsApi.getNumber(apiKey, serviceID, country)
+            if (!numberResponse.isSuccessful) {
+                Log.d("err", numberResponse.message())
+                throw HttpException(numberResponse.code(), "getNumber")
+            }
+            if (numberResponse.body() == null) {
+                return Result.Error(InternetError.Unknown, "Не удалось получить значения")
+            }
+            Result.Success(numberResponse.body()!!)
+        } catch (ex: Exception) {
+            Log.d("EXX", ex.toString())
+            Result.Error(ErrorHandlerImpl.getErrorType(ex), ex.message)
+        }
+    }
+
+    suspend fun setStatus(
+        status: String,
+        numberID: String,
+        apiKey: String
+    ): Result<StatusResponse, String> {
+        return try {
+            val statusResponse = vakSmsApi.setStatus(apiKey, status, numberID)
+            if (!statusResponse.isSuccessful) {
+                Log.d("err", statusResponse.message())
+                throw HttpException(statusResponse.code(), "setStatus")
+            }
+            if (statusResponse.body() == null) {
+                return Result.Error(InternetError.Unknown, "Не удалось обновить значения")
+            }
+            Result.Success(statusResponse.body()!!)
+        } catch (ex: Exception) {
+            Log.d("EXX", ex.toString())
+            Result.Error(ErrorHandlerImpl.getErrorType(ex), ex.message)
+        }
     }
 }

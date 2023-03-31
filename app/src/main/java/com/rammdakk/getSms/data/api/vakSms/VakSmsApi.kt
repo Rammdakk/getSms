@@ -1,8 +1,6 @@
 package com.rammdakk.getSms.data.api.vakSms
 
-import com.rammdakk.getSms.data.model.BalanceResponse
-import com.rammdakk.getSms.data.model.CountryResponse
-import com.rammdakk.getSms.data.model.ServiceInfoResponse
+import com.rammdakk.getSms.data.model.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -18,4 +16,18 @@ interface VakSmsApi {
 
     @GET("getCountryOperatorList/")
     suspend fun getCountries(): Response<Map<String, List<CountryResponse>>>
+
+    @GET("getNumber/")
+    suspend fun getNumber(
+        @Query("apiKey") apiKey: String,
+        @Query("service") service: String,
+        @Query("country") country: String = "ru",
+    ): Response<NumberResponse>
+
+    @GET("setStatus/")
+    suspend fun setStatus(
+        @Query("apiKey") apiKey: String,
+        @Query("status") status: String,
+        @Query("idNum") numberID: String = "ru",
+    ): Response<StatusResponse>
 }

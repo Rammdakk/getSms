@@ -12,8 +12,7 @@ import com.rammdakk.getSms.ui.stateholders.ServiceScreenViewModel
 
 class ServiceViewHolder(
     private val serviceCellBinding: ServiceCellBinding,
-    private val viewModel: ServiceScreenViewModel,
-    private val onClickListener: ChatListClickListener
+    private val viewModel: ServiceScreenViewModel
 ) : RecyclerView.ViewHolder(serviceCellBinding.root) {
 
     private val THRESHOLD_VALUE = 10
@@ -40,10 +39,7 @@ class ServiceViewHolder(
             })
         }
         serviceCellBinding.getNumberTW.setOnClickListener {
-            viewModel.buyNumber(service)
-            onClickListener.onChatListItemClick(
-                service
-            )
+            viewModel.getNumber(service.serviceID)
         }
     }
 }
