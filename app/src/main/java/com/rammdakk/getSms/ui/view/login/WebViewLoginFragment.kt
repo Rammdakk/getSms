@@ -19,9 +19,9 @@ import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.CustomWebViewClient
 import com.rammdakk.getSms.ioc.ResultHandler
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
-import com.rammdakk.getSms.ioc.login.ResetPSWRDWebViewLoadHandlerImpl
-import com.rammdakk.getSms.ioc.login.SignInWebViewLoadHandlerImpl
-import com.rammdakk.getSms.ioc.login.SignUpWebViewLoadHandlerImpl
+import com.rammdakk.getSms.ioc.loginScreen.ResetPSWRDWebViewLoadHandlerImpl
+import com.rammdakk.getSms.ioc.loginScreen.SignInWebViewLoadHandlerImpl
+import com.rammdakk.getSms.ioc.loginScreen.SignUpWebViewLoadHandlerImpl
 
 class WebViewLoginFragment : Fragment(), ResultHandler<String> {
     private lateinit var navigator: AppNavigator

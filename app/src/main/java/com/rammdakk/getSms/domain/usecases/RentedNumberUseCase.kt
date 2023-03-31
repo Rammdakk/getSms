@@ -19,7 +19,6 @@ class RentedNumberUseCase @Inject constructor(private val servicesRepository: Se
 
     private val combineCoroutineScope = CoroutineScope(Job() + Dispatchers.Default)
 
-
     init {
         _number.addSource(servicesRepository.number) {
             updateNumberResponseLiveData()
@@ -37,7 +36,7 @@ class RentedNumberUseCase @Inject constructor(private val servicesRepository: Se
 
     private fun updateStatusResponseLiveData() {
         combineCoroutineScope.launch {
-            _number.postValue(servicesRepository.number.value)
+            _status.postValue(servicesRepository.status.value)
         }
     }
 

@@ -1,4 +1,4 @@
-package com.rammdakk.getSms.ioc.login
+package com.rammdakk.getSms.ioc.loginScreen
 
 import android.webkit.WebResourceRequest
 import android.webkit.WebView

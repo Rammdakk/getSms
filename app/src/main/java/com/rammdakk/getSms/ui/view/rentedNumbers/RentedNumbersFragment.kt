@@ -40,6 +40,10 @@ class RentedNumbersFragment(private val apiKey: String) : Fragment() {
         Log.d("onCreateView", "RentedNumbersFragment")
         viewModel.configure(apiKey)
         binding = FragmentRentedNumbersBinding.inflate(layoutInflater, container, false)
+        val webView = binding.ww
+        webView.webViewClient =
+            CustomWebViewClient(loadHandler = GetActiveNumberHandlerImpl(viewModel))
+        webView.settings.javaScriptEnabled = true
         fragmentViewComponent =
             RentedNumbersFragmentViewComponent(
                 fragmentComponent = fragmentComponent,
@@ -48,17 +52,17 @@ class RentedNumbersFragment(private val apiKey: String) : Fragment() {
             ).apply {
                 rentedNumbersScreenController.setUpViews()
             }
-        val webView = binding.ww
-        webView.webViewClient =
-            CustomWebViewClient(loadHandler = GetActiveNumberHandlerImpl(viewModel))
-        webView.settings.javaScriptEnabled = true
         return binding.root
     }
 
     override fun onResume() {
         binding.ww.loadUrl("https://vak-sms.com/getNumber/")
-        Log.d("onResume", "RentedNumbersFragment")
         super.onResume()
+    }
+
+    override fun onDestroyView() {
+        fragmentViewComponent?.rentedNumbersScreenController?.removeCallbacks()
+        super.onDestroyView()
     }
 
     companion object {

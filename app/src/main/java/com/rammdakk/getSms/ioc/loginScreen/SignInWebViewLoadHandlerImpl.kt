@@ -1,6 +1,7 @@
-package com.rammdakk.getSms.ioc.login
+package com.rammdakk.getSms.ioc.loginScreen
 
 import android.util.Log
+import android.webkit.CookieManager
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import com.rammdakk.getSms.infra.UrlLinks
@@ -21,10 +22,11 @@ class SignInWebViewLoadHandlerImpl(
     override fun handleLoading(webView: WebView, url: String) {
         Log.d("Loading", url)
         if (webView.url == UrlLinks.URL_LK) {
+            val cookies: String = CookieManager.getInstance().getCookie(url)
+            Log.d("Ramil Cookie", "All the cookies in a string:$cookies")
             webView.evaluateJavascript(
                 "(function() { return (document.getElementsByClassName('sidebar')[0].getAttribute('data-api')); })();"
             ) { html ->
-                if (webView.url != UrlLinks.URL_LK) return@evaluateJavascript
                 try {
                     if (html.isNotBlank()) {
                         resultHandler.onSuccess(html.replace("\"", ""))

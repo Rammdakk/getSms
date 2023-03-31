@@ -125,8 +125,7 @@ class ServiceRepository @Inject constructor(
         when (statusResponse) {
             is Result.Success -> {
                 _status.postValue(statusResponse.data!!)
-                if (statusResponse.data.status != "ready" || statusResponse.data.status != "smsReceived") {
-                    Log.d("ERR", statusResponse.data.status)
+                if (statusResponse.data.status != "ready" && statusResponse.data.status != "update") {
                     _error.postValue(
                         Result.Error(
                             InternetError.BadStatus,
