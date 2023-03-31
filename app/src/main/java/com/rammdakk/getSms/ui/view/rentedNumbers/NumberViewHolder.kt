@@ -1,5 +1,6 @@
 package com.rammdakk.getSms.ui.view.rentedNumbers
 
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.rammdakk.getSms.R
 import com.rammdakk.getSms.core.model.NumberStatus
@@ -15,24 +16,31 @@ class NumberViewHolder(
     fun bind(rentedNumber: RentedNumber) {
         val context = numberCellBinding.root.context
         val res = context.resources
+        numberCellBinding.timerTW.setTimer(rentedNumber.timeLeft - 3, ::hideItem)
+        numberCellBinding.smsCodeSpinner.text = rentedNumber.codes
         numberCellBinding.numberServiceNameTW.text = rentedNumber.serviceName
         numberCellBinding.numberTW.text = rentedNumber.number
-
-        numberCellBinding.smsCodeSpinner.text = rentedNumber.codes
         if (rentedNumber.codes == "Ожидает SMS") {
-            numberCellBinding.cancelNumberTW.text = res.getString(R.string.cancel_number)
-//            numberCellBinding.getAnotherSmsTW.isVisible = true
-//            numberCellBinding.cancelNumberTW.isVisible = false
-            numberCellBinding.cancelNumberTW.setOnClickListener {
+            numberCellBinding.buttonNumberTW.text = res.getString(R.string.cancel_number)
+            numberCellBinding.buttonNumberTW.backgroundTintList =
+                context.getColorStateList(R.color.bittersweet)
+            numberCellBinding.buttonNumberTW.setTextColor(context.getColor(R.color.bittersweet))
+            numberCellBinding.buttonNumberTW.setOnClickListener {
                 viewModel.setStatus(NumberStatus.CANCEL, rentedNumber.numberId)
             }
         } else {
-//            numberCellBinding.getAnotherSmsTW.isVisible = false
-//            numberCellBinding.cancelNumberTW.isVisible = true
-            numberCellBinding.cancelNumberTW.text = res.getString(R.string.get_another_sms)
-            numberCellBinding.cancelNumberTW.setOnClickListener {
+            numberCellBinding.buttonNumberTW.text = res.getString(R.string.get_another_sms)
+            numberCellBinding.buttonNumberTW.backgroundTintList =
+                context.getColorStateList(R.color.mantis)
+            numberCellBinding.buttonNumberTW.setTextColor(context.getColor(R.color.mantis))
+            numberCellBinding.buttonNumberTW.setOnClickListener {
                 viewModel.setStatus(NumberStatus.ONE_MORE, rentedNumber.numberId)
             }
         }
+    }
+
+    private fun hideItem() {
+        this.itemView.visibility = View.GONE
+        this.itemView.layoutParams.height = 0
     }
 }

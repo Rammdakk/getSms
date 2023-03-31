@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="1.5dp"
+    android:layout_marginBottom="3dp"
     android:background="@drawable/gradient_cell_background"
     android:backgroundTint="@color/koromiko"
     android:orientation="horizontal"
-    android:layout_marginBottom="3dp"
     android:paddingHorizontal="14dp"
     android:paddingVertical="4dp">
 
@@ -16,7 +16,6 @@
         android:id="@+id/numberServiceNameTW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Avito"
         android:textColor="@color/white"
         android:textSize="17sp"
         android:textStyle="bold"
@@ -24,10 +23,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/cancelNumberTW"
+        android:id="@+id/buttonNumberTW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/get_button_balance"
+        android:background="@drawable/rounded_frame"
         android:backgroundTint="@color/bittersweet"
         android:gravity="center"
         android:paddingHorizontal="5dp"
@@ -40,12 +39,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.rammdakk.getSms.ui.view.rentedNumbers.cutomView.TimerTextView
+        android:id="@+id/timerTW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/buttonNumberTW"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/numberTW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="+79216398828"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold"
@@ -57,9 +63,11 @@
         android:id="@+id/smsCodeSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/timerTW"
         app:layout_constraintStart_toEndOf="@+id/numberTW"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
