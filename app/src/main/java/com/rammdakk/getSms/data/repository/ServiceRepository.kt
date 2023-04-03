@@ -70,8 +70,17 @@ class ServiceRepository @Inject constructor(
         }
         when (balance) {
             is Result.Success -> {
-                _balance.postValue(balance.data ?: 0.00)
-                _error.postValue(null)
+                if (balance.data.error != null) {
+                    _error.postValue(
+                        Result.Error(
+                            InternetError.Default,
+                            balance.data.error.toString()
+                        )
+                    )
+                } else {
+                    _balance.postValue(balance.data.balance)
+                    _error.postValue(null)
+                }
             }
             is Result.Error -> {
                 _balance.postValue(0.00)
@@ -105,7 +114,16 @@ class ServiceRepository @Inject constructor(
         }
         when (number) {
             is Result.Success -> {
-                _number.postValue(number.data!!)
+                if (number.data.error != null) {
+                    _error.postValue(
+                        Result.Error(
+                            InternetError.Default,
+                            number.data.error.toString()
+                        )
+                    )
+                } else {
+                    _number.postValue(number.data!!)
+                }
             }
             is Result.Error -> {
                 _error.postValue(number)

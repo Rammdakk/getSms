@@ -48,7 +48,7 @@ class WebViewLoginFragment : Fragment(), ResultHandler<String> {
                         binding.loginEditText.text.toString(),
                         binding.pswrdEditText.text.toString()
                     ),
-                    UrlLinks.URL_LOGOUT
+                    UrlLinks.URL_LOGOUT_TO_LK
                 )
             } else {
                 binding.warningTextView.apply {
@@ -60,7 +60,7 @@ class WebViewLoginFragment : Fragment(), ResultHandler<String> {
         binding.signUpBtn.setOnClickListener {
             navigator.navigateTo(
                 WebViewScreen(
-                    UrlLinks.URL_SIGN_UP,
+                    UrlLinks.URL_LOGOUT_TO_SIGN_UP,
                     SignUpWebViewLoadHandlerImpl(this)
                 ), true
             )
@@ -68,7 +68,7 @@ class WebViewLoginFragment : Fragment(), ResultHandler<String> {
         binding.resetPswrdBtn.setOnClickListener {
             navigator.navigateTo(
                 WebViewScreen(
-                    UrlLinks.URl_RESET_PASSWORD,
+                    UrlLinks.URL_LOGOUT_TO_RESET_PSWRD,
                     ResetPSWRDWebViewLoadHandlerImpl(this)
                 ), true
             )

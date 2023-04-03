@@ -42,6 +42,7 @@ class WebViewFragment(
         binding = FragmentWebViewBinding.inflate(layoutInflater, container, false)
         binding.webView.webViewClient =
             CustomWebViewClient(loadHandler = loadHandler)
+        binding.webView.isVisible = false
         binding.webView.rootView.isVisible = this.isVisible
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.loadUrl(url)

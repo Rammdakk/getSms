@@ -14,4 +14,5 @@
     <string name="no_data">Ошибка, не удалось получить данные</string>
     <string name="warning_layout_title">Произошла ошибка:</string>
     <string name="bad_status">Не удалось изменить статус номера, номер уже активен</string>
+    <string name="default_error">%1$s</string>
 </resources>

@@ -37,7 +37,6 @@ class RentedNumbersFragment(private val apiKey: String) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("onCreateView", "RentedNumbersFragment")
         viewModel.configure(apiKey)
         binding = FragmentRentedNumbersBinding.inflate(layoutInflater, container, false)
         val webView = binding.ww
@@ -57,6 +56,7 @@ class RentedNumbersFragment(private val apiKey: String) : Fragment() {
 
     override fun onResume() {
         binding.ww.loadUrl("https://vak-sms.com/getNumber/")
+        viewModel.updateBalance()
         super.onResume()
     }
 

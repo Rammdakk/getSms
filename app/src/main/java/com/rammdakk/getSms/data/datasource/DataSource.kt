@@ -55,7 +55,7 @@ class DataSource @Inject constructor(
         )
     }
 
-    suspend fun loadBalance(apiKey: String): Result<Double, String> {
+    suspend fun loadBalance(apiKey: String): Result<BalanceResponse, String> {
         return try {
             val balanceResponse = vakSmsApi.getBalance(apiKey)
             if (!balanceResponse.isSuccessful) {
@@ -64,7 +64,7 @@ class DataSource @Inject constructor(
             if (balanceResponse.body() == null) {
                 return Result.Error(InternetError.Unknown, "Не удалось получить значения")
             }
-            Result.Success(balanceResponse.body()!!.balance)
+            Result.Success(balanceResponse.body()!!)
         } catch (ex: Exception) {
             Log.d("EXX", ex.toString())
             Result.Error(ErrorHandlerImpl.getErrorType(ex), ex.message)

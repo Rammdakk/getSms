@@ -58,6 +58,10 @@ sealed class InternetError : Parcelable {
     @Keep
     object BadStatus : InternetError()
 
+    @Parcelize
+    @Keep
+    object Default : InternetError()
+
     override fun toString(): String {
         return this.javaClass.simpleName
     }

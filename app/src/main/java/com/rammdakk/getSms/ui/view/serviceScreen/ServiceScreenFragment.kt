@@ -53,6 +53,7 @@ class ServiceScreenFragment(private val apiKey: String) : Fragment() {
 
     override fun onResume() {
         viewModel.updateServices()
+        viewModel.updateBalance()
         super.onResume()
     }
 
