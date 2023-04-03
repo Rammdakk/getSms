@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorBackgroundPrimary" format="reference|color" />
+    <attr name="colorBackgroundSecondary" format="reference|color" />
+    <attr name="colorPinkItems" format="reference|color" />
+    <attr name="colorButton" format="reference|color" />
+</resources>

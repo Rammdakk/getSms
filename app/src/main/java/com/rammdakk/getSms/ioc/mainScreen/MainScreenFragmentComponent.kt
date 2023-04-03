@@ -6,6 +6,4 @@ import com.rammdakk.getSms.ui.view.mainScreen.MainScreenFragment
 class MainScreenFragmentComponent(
     val fragment: MainScreenFragment,
     val viewModel: MainScreenViewModel
-) {
-
-}
+)

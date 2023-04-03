@@ -4,11 +4,13 @@ package com.rammdakk.getSms.data.repository
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.rammdakk.getSms.SingleLiveEvent
+import com.rammdakk.getSms.core.model.Service
 import com.rammdakk.getSms.data.api.Result
-import com.rammdakk.getSms.data.api.error.ErrorType
+import com.rammdakk.getSms.data.api.error.InternetError
 import com.rammdakk.getSms.data.datasource.DataSource
 import com.rammdakk.getSms.data.model.CountryInfo
-import com.rammdakk.getSms.data.model.Service
+import com.rammdakk.getSms.data.model.NumberResponse
+import com.rammdakk.getSms.data.model.StatusResponse
 import com.rammdakk.getSms.ioc.ApplicationComponentScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -31,6 +33,12 @@ class ServiceRepository @Inject constructor(
     private val _countries = MutableLiveData<List<CountryInfo>>()
     val countries = _countries
 
+    private val _number = SingleLiveEvent<NumberResponse>()
+    val number = _number
+
+    private val _status = MutableLiveData<StatusResponse>()
+    val status = _status
+
 
     suspend fun loadServices(country: String) {
         try {
@@ -52,7 +60,7 @@ class ServiceRepository @Inject constructor(
         } catch (e: Exception) {
             _services.postValue(emptyList())
             Log.d("exxRepo", e.toString())
-            _error.postValue(Result.Error(ErrorType.Unknown, e.message))
+            _error.postValue(Result.Error(InternetError.Unknown, e.message))
         }
     }
 
@@ -62,11 +70,21 @@ class ServiceRepository @Inject constructor(
         }
         when (balance) {
             is Result.Success -> {
-                _balance.postValue(balance.data ?: 0.00)
-                _error.postValue(null)
+                if (balance.data.error != null) {
+                    _error.postValue(
+                        Result.Error(
+                            InternetError.Default,
+                            balance.data.error.toString()
+                        )
+                    )
+                } else {
+                    _balance.postValue(balance.data.balance)
+                    _error.postValue(null)
+                }
             }
-            else -> {
+            is Result.Error -> {
                 _balance.postValue(0.00)
+                _error.postValue(balance)
                 Log.d("Loaded", balance.toString())
             }
         }
@@ -81,12 +99,64 @@ class ServiceRepository @Inject constructor(
             is Result.Success -> {
                 _countries.postValue(countries.data ?: emptyList())
             }
-            else -> {
+            is Result.Error -> {
                 _countries.postValue(emptyList())
+                _error.postValue(countries)
                 Log.d("Loaded", countries.toString())
             }
         }
 
+    }
+
+    suspend fun getNumber(apiKey: String, country: String, serviceID: String) {
+        val number = withContext(Dispatchers.IO) {
+            dataSource.getNumber(apiKey, country, serviceID)
+        }
+        when (number) {
+            is Result.Success -> {
+                if (number.data.error != null) {
+                    _error.postValue(
+                        Result.Error(
+                            InternetError.Default,
+                            number.data.error.toString()
+                        )
+                    )
+                } else {
+                    _number.postValue(number.data!!)
+                }
+            }
+            is Result.Error -> {
+                _error.postValue(number)
+                Log.d("Loaded", countries.toString())
+            }
+        }
+    }
+
+    fun postError(error: InternetError, string: String) {
+        _error.postValue(Result.Error(error, string))
+    }
+
+    suspend fun setStatus(status: String, numberID: String, apiKey: String) {
+        val statusResponse = withContext(Dispatchers.IO) {
+            dataSource.setStatus(status, numberID, apiKey)
+        }
+        when (statusResponse) {
+            is Result.Success -> {
+                _status.postValue(statusResponse.data!!)
+                if (statusResponse.data.status != "ready" && statusResponse.data.status != "update") {
+                    _error.postValue(
+                        Result.Error(
+                            InternetError.BadStatus,
+                            statusResponse.data.status
+                        )
+                    )
+                }
+            }
+            is Result.Error -> {
+                _error.postValue(statusResponse)
+                Log.d("Loaded", countries.toString())
+            }
+        }
     }
 
 }

@@ -58,7 +58,6 @@ class MainScreenFragment : Fragment() {
             navigator.navigateTo(LogInScreen)
         }
         viewModel.configure(apiKey!!)
-        Log.d("onCreateView", apiKey)
         binding = FragmentMainScreenBinding.inflate(layoutInflater)
         fragmentViewComponent =
             MainScreenFragmentViewComponent(
@@ -71,21 +70,15 @@ class MainScreenFragment : Fragment() {
             }
 
         val adapter = AdapterTabPager(childFragmentManager)
-        adapter?.addFragment(
+        adapter.addFragment(
             listOf(
                 ServiceScreenFragment.newInstance(apiKey),
-                RentedNumbersFragment.newInstance()
+                RentedNumbersFragment.newInstance(apiKey)
             ), listOf("Сервисы", "Активации")
         )
         binding.pager.adapter = adapter
         binding.pager.currentItem = 0
-        Log.d("onCreateView", "tabLayout")
         binding.tabLayout.setupWithViewPager(binding.pager)
         return binding.root
-    }
-
-    override fun onResume() {
-        Log.d("onResume", "MainScreenFragment")
-        super.onResume()
     }
 }

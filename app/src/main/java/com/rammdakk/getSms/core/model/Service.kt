@@ -1,4 +1,4 @@
-package com.rammdakk.getSms.data.model
+package com.rammdakk.getSms.core.model
 
 data class Service(
     val serviceName: String = "",

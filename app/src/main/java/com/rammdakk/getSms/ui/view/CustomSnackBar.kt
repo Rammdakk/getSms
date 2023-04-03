@@ -13,7 +13,8 @@ class CustomSnackbar(private val view: View) {
 
     fun showSnackBar(
         message: String,
-        @IntRange(from = -2) length: Int
+        @IntRange(from = -2) length: Int,
+        function: () -> Unit
     ): Snackbar {
         val snackView = View.inflate(view.context, R.layout.warning_layout, null)
         val binding = WarningLayoutBinding.bind(snackView)
@@ -28,6 +29,9 @@ class CustomSnackbar(private val view: View) {
                 android.R.color.transparent
             )
         )
+        binding.warningRefreshIV.setOnClickListener {
+            function()
+        }
         binding.errorMessage.text = message
         snackbar.show()
         return snackbar

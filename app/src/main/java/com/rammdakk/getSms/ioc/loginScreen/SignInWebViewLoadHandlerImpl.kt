@@ -1,14 +1,15 @@
-package com.rammdakk.getSms.ioc.login
+package com.rammdakk.getSms.ioc.loginScreen
 
 import android.util.Log
+import android.webkit.CookieManager
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import com.rammdakk.getSms.infra.UrlLinks
+import com.rammdakk.getSms.ioc.ResultHandler
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
-import com.rammdakk.getSms.ui.view.login.ResultHandler
 
 class SignInWebViewLoadHandlerImpl(
-    private val resultHandler: ResultHandler,
+    private val resultHandler: ResultHandler<String>,
     private val login: String,
     private val password: String
 ) : WebViewLoadHandler {
@@ -21,10 +22,11 @@ class SignInWebViewLoadHandlerImpl(
     override fun handleLoading(webView: WebView, url: String) {
         Log.d("Loading", url)
         if (webView.url == UrlLinks.URL_LK) {
+            val cookies: String = CookieManager.getInstance().getCookie(url)
+            Log.d("Ramil Cookie", "All the cookies in a string:$cookies")
             webView.evaluateJavascript(
                 "(function() { return (document.getElementsByClassName('sidebar')[0].getAttribute('data-api')); })();"
             ) { html ->
-                if (webView.url != UrlLinks.URL_LK) return@evaluateJavascript
                 try {
                     if (html.isNotBlank()) {
                         resultHandler.onSuccess(html.replace("\"", ""))
@@ -51,11 +53,9 @@ class SignInWebViewLoadHandlerImpl(
                     } else {
                         webView.evaluateJavascript(
                             "(function() { return (document.getElementsByClassName(' text-gray-600 leading-1.3 text-3xl lg:text-2xl font-light')[0].innerHTML); })();"
-                        ) { html ->
-                            if (!html.isNullOrBlank() && html != "null") {
-                                resultHandler.onError(
-                                    html
-                                )
+                        ) { s ->
+                            if (!s.isNullOrBlank() && s != "null") {
+                                resultHandler.onError(s)
                             }
                         }
                     }

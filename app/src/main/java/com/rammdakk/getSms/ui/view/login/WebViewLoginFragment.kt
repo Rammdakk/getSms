@@ -17,17 +17,13 @@ import com.rammdakk.getSms.WebViewScreen
 import com.rammdakk.getSms.databinding.FragmentWebViewLoginBinding
 import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.CustomWebViewClient
+import com.rammdakk.getSms.ioc.ResultHandler
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
-import com.rammdakk.getSms.ioc.login.ResetPSWRDWebViewLoadHandlerImpl
-import com.rammdakk.getSms.ioc.login.SignInWebViewLoadHandlerImpl
-import com.rammdakk.getSms.ioc.login.SignUpWebViewLoadHandlerImpl
+import com.rammdakk.getSms.ioc.loginScreen.ResetPSWRDWebViewLoadHandlerImpl
+import com.rammdakk.getSms.ioc.loginScreen.SignInWebViewLoadHandlerImpl
+import com.rammdakk.getSms.ioc.loginScreen.SignUpWebViewLoadHandlerImpl
 
-interface ResultHandler {
-    fun onSuccess(string: String)
-    fun onError(string: String)
-}
-
-class WebViewLoginFragment : Fragment(), ResultHandler {
+class WebViewLoginFragment : Fragment(), ResultHandler<String> {
     private lateinit var navigator: AppNavigator
     private lateinit var webView: WebView
     private lateinit var binding: FragmentWebViewLoginBinding
@@ -52,7 +48,7 @@ class WebViewLoginFragment : Fragment(), ResultHandler {
                         binding.loginEditText.text.toString(),
                         binding.pswrdEditText.text.toString()
                     ),
-                    UrlLinks.URL_LOGOUT
+                    UrlLinks.URL_LOGOUT_TO_LK
                 )
             } else {
                 binding.warningTextView.apply {
@@ -64,7 +60,7 @@ class WebViewLoginFragment : Fragment(), ResultHandler {
         binding.signUpBtn.setOnClickListener {
             navigator.navigateTo(
                 WebViewScreen(
-                    UrlLinks.URL_SIGN_UP,
+                    UrlLinks.URL_LOGOUT_TO_SIGN_UP,
                     SignUpWebViewLoadHandlerImpl(this)
                 ), true
             )
@@ -72,7 +68,7 @@ class WebViewLoginFragment : Fragment(), ResultHandler {
         binding.resetPswrdBtn.setOnClickListener {
             navigator.navigateTo(
                 WebViewScreen(
-                    UrlLinks.URl_RESET_PASSWORD,
+                    UrlLinks.URL_LOGOUT_TO_RESET_PSWRD,
                     ResetPSWRDWebViewLoadHandlerImpl(this)
                 ), true
             )
@@ -102,19 +98,19 @@ class WebViewLoginFragment : Fragment(), ResultHandler {
     }
 
 
-    override fun onSuccess(string: String) {
+    override fun onSuccess(data: String) {
         val prefs = context?.getSharedPreferences(
             "com.rammdakk.getSms", Context.MODE_PRIVATE
         )
-        prefs?.edit()?.putString("accessKey", string)?.apply()
+        prefs?.edit()?.putString("accessKey", data)?.apply()
         navigator.navigateTo(MainScreen)
     }
 
-    override fun onError(string: String) {
+    override fun onError(message: String) {
         navigator.back()
-        if (string.isNotEmpty()) {
+        if (message.isNotEmpty()) {
             binding.warningTextView.apply {
-                text = string
+                text = message
                 isVisible = true
             }
         }

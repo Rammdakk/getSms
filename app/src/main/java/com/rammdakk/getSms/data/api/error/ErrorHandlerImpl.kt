@@ -12,25 +12,25 @@ private const val SERVER_ERROR_CODE_START = 500
 private const val SERVER_ERROR_CODE_END = 599
 
 internal object ErrorHandlerImpl : ErrorHandler {
-    override fun getErrorType(throwable: Throwable): ErrorType {
+    override fun getErrorType(throwable: Throwable): InternetError {
         return when (throwable) {
-            is ProtocolException -> ErrorType.ProtocolException
-            is SocketTimeoutException -> ErrorType.Timeout
-            is IOException -> ErrorType.Network
+            is ProtocolException -> InternetError.ProtocolException
+            is SocketTimeoutException -> InternetError.Timeout
+            is IOException -> InternetError.Network
             is HttpException -> {
                 when (throwable.code) {
-                    HttpURLConnection.HTTP_BAD_REQUEST -> ErrorType.BadRequest
-                    HttpURLConnection.HTTP_NOT_FOUND -> ErrorType.NotFound
-                    HttpURLConnection.HTTP_UNAUTHORIZED -> ErrorType.Unauthorized
-                    HttpURLConnection.HTTP_FORBIDDEN -> ErrorType.AccessDenied
-                    HttpURLConnection.HTTP_UNAVAILABLE -> ErrorType.ServiceUnavailable
-                    HTTP_TOO_MANY_REQUESTS -> ErrorType.TooManyRequests
-                    in SERVER_ERROR_CODE_START..SERVER_ERROR_CODE_END -> ErrorType.ServerError
-                    else -> ErrorType.Unknown
+                    HttpURLConnection.HTTP_BAD_REQUEST -> InternetError.BadRequest
+                    HttpURLConnection.HTTP_NOT_FOUND -> InternetError.NotFound
+                    HttpURLConnection.HTTP_UNAUTHORIZED -> InternetError.Unauthorized
+                    HttpURLConnection.HTTP_FORBIDDEN -> InternetError.AccessDenied
+                    HttpURLConnection.HTTP_UNAVAILABLE -> InternetError.ServiceUnavailable
+                    HTTP_TOO_MANY_REQUESTS -> InternetError.TooManyRequests
+                    in SERVER_ERROR_CODE_START..SERVER_ERROR_CODE_END -> InternetError.ServerInternetError
+                    else -> InternetError.Unknown
                 }
             }
-            is JsonSyntaxException -> ErrorType.NoData
-            else -> ErrorType.Unknown
+            is JsonSyntaxException -> InternetError.NoData
+            else -> InternetError.Unknown
         }
     }
 }

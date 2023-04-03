@@ -1,16 +1,14 @@
 package com.rammdakk.getSms.data.datasource
 
 import android.util.Log
+import com.rammdakk.getSms.core.model.Service
 import com.rammdakk.getSms.data.api.Result
 import com.rammdakk.getSms.data.api.error.ErrorHandlerImpl
-import com.rammdakk.getSms.data.api.error.ErrorType
+import com.rammdakk.getSms.data.api.error.InternetError
 import com.rammdakk.getSms.data.api.exception.HttpException
 import com.rammdakk.getSms.data.api.infra.InfraApi
 import com.rammdakk.getSms.data.api.vakSms.VakSmsApi
-import com.rammdakk.getSms.data.model.CountryInfo
-import com.rammdakk.getSms.data.model.CountryResponse
-import com.rammdakk.getSms.data.model.Service
-import com.rammdakk.getSms.data.model.ServiceInfoResponse
+import com.rammdakk.getSms.data.model.*
 import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.ApplicationComponentScope
 import javax.inject.Inject
@@ -37,7 +35,7 @@ class DataSource @Inject constructor(
                 throw HttpException(servicesResponse.code(), "getServicesError")
             }
             if (servicesResponse.body() == null || servicesResponse.body() == null) {
-                return Result.Error(ErrorType.Unknown, "Не удалось получить значения")
+                return Result.Error(InternetError.Unknown, "Не удалось получить значения")
             }
             val listOfTasks = servicesResponse.body()!!
             return Result.Success(listOfTasks.map { convertToService(it) })
@@ -57,16 +55,16 @@ class DataSource @Inject constructor(
         )
     }
 
-    suspend fun loadBalance(apiKey: String): Result<Double, String> {
+    suspend fun loadBalance(apiKey: String): Result<BalanceResponse, String> {
         return try {
             val balanceResponse = vakSmsApi.getBalance(apiKey)
             if (!balanceResponse.isSuccessful) {
                 throw HttpException(balanceResponse.code(), "getServicesError")
             }
             if (balanceResponse.body() == null) {
-                return Result.Error(ErrorType.Unknown, "Не удалось получить значения")
+                return Result.Error(InternetError.Unknown, "Не удалось получить значения")
             }
-            Result.Success(balanceResponse.body()!!.balance)
+            Result.Success(balanceResponse.body()!!)
         } catch (ex: Exception) {
             Log.d("EXX", ex.toString())
             Result.Error(ErrorHandlerImpl.getErrorType(ex), ex.message)
@@ -80,7 +78,7 @@ class DataSource @Inject constructor(
                 throw HttpException(countriesResponse.code(), "getCountriesInfo")
             }
             if (countriesResponse.body() == null) {
-                return Result.Error(ErrorType.Unknown, "Не удалось получить значения")
+                return Result.Error(InternetError.Unknown, "Не удалось получить значения")
             }
 
             Result.Success(countriesResponse.body()!!.map { convertToCountries(it) })
@@ -97,5 +95,47 @@ class DataSource @Inject constructor(
             country = country.country,
             imageUrl = UrlLinks.URL_BASE + country.imageUrl
         )
+    }
+
+    suspend fun getNumber(
+        apiKey: String,
+        country: String,
+        serviceID: String
+    ): Result<NumberResponse, String> {
+        return try {
+            val numberResponse = vakSmsApi.getNumber(apiKey, serviceID, country)
+            if (!numberResponse.isSuccessful) {
+                Log.d("err", numberResponse.message())
+                throw HttpException(numberResponse.code(), "getNumber")
+            }
+            if (numberResponse.body() == null) {
+                return Result.Error(InternetError.Unknown, "Не удалось получить значения")
+            }
+            Result.Success(numberResponse.body()!!)
+        } catch (ex: Exception) {
+            Log.d("EXX", ex.toString())
+            Result.Error(ErrorHandlerImpl.getErrorType(ex), ex.message)
+        }
+    }
+
+    suspend fun setStatus(
+        status: String,
+        numberID: String,
+        apiKey: String
+    ): Result<StatusResponse, String> {
+        return try {
+            val statusResponse = vakSmsApi.setStatus(apiKey, status, numberID)
+            if (!statusResponse.isSuccessful) {
+                Log.d("err", statusResponse.message())
+                throw HttpException(statusResponse.code(), "setStatus")
+            }
+            if (statusResponse.body() == null) {
+                return Result.Error(InternetError.Unknown, "Не удалось обновить значения")
+            }
+            Result.Success(statusResponse.body()!!)
+        } catch (ex: Exception) {
+            Log.d("EXX", ex.toString())
+            Result.Error(ErrorHandlerImpl.getErrorType(ex), ex.message)
+        }
     }
 }

@@ -3,18 +3,17 @@ package com.rammdakk.getSms.ui.view.serviceScreen
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.rammdakk.getSms.data.model.Service
+import com.rammdakk.getSms.core.model.Service
 import com.rammdakk.getSms.databinding.ServiceCellBinding
 import com.rammdakk.getSms.ui.stateholders.ServiceScreenViewModel
 
-class SmsInfoHolderAdapter(
+class ServiceViewHolderAdapter(
     private val viewModel: ServiceScreenViewModel,
-    servicesItemsDiffCalc: ServicesItemsDiffCalc,
-    private val chatListClickListener: ChatListClickListener
+    servicesItemsDiffCalc: ServicesItemsDiffCalc
 ) : ListAdapter<Service, ServiceViewHolder>(servicesItemsDiffCalc) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServiceViewHolder {
         val binding = ServiceCellBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ServiceViewHolder(binding, viewModel, chatListClickListener)
+        return ServiceViewHolder(binding, viewModel)
     }
 
     override fun onBindViewHolder(holder: ServiceViewHolder, position: Int) {
