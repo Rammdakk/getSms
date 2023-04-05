@@ -53,9 +53,9 @@ class ServiceUseCase @Inject constructor(private val servicesRepository: Service
         }
     }
 
-    suspend fun loadServices(country: String = "ru") {
+    suspend fun loadServices(country: String = "ru", cookie: String) {
         withContext(Dispatchers.IO) {
-            servicesRepository.loadServices(country)
+            servicesRepository.loadServices(country, cookie)
         }
     }
 
@@ -65,9 +65,9 @@ class ServiceUseCase @Inject constructor(private val servicesRepository: Service
         }
     }
 
-    suspend fun loadCountries() {
+    suspend fun loadCountries(cookie: String) {
         withContext(Dispatchers.IO) {
-            servicesRepository.loadCountries()
+            servicesRepository.loadCountries(cookie)
         }
     }
 

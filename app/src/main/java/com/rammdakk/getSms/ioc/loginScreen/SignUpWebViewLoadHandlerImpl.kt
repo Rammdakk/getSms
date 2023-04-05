@@ -7,7 +7,7 @@ import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.ResultHandler
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
 
-class SignUpWebViewLoadHandlerImpl(private val resultHandler: ResultHandler<String>) :
+class SignUpWebViewLoadHandlerImpl(private val resultHandler: ResultHandler<List<String>>) :
     WebViewLoadHandler {
 
 

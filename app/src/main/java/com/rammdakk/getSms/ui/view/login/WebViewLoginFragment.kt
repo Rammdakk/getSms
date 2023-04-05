@@ -23,7 +23,7 @@ import com.rammdakk.getSms.ioc.loginScreen.ResetPSWRDWebViewLoadHandlerImpl
 import com.rammdakk.getSms.ioc.loginScreen.SignInWebViewLoadHandlerImpl
 import com.rammdakk.getSms.ioc.loginScreen.SignUpWebViewLoadHandlerImpl
 
-class WebViewLoginFragment : Fragment(), ResultHandler<String> {
+class WebViewLoginFragment : Fragment(), ResultHandler<List<String>> {
     private lateinit var navigator: AppNavigator
     private lateinit var webView: WebView
     private lateinit var binding: FragmentWebViewLoginBinding
@@ -98,11 +98,12 @@ class WebViewLoginFragment : Fragment(), ResultHandler<String> {
     }
 
 
-    override fun onSuccess(data: String) {
+    override fun onSuccess(data: List<String>) {
         val prefs = context?.getSharedPreferences(
             "com.rammdakk.getSms", Context.MODE_PRIVATE
         )
-        prefs?.edit()?.putString("accessKey", data)?.apply()
+        prefs?.edit()?.putString("accessKey", data[0])?.apply()
+        prefs?.edit()?.putString("cookies", data[1])?.apply()
         navigator.navigateTo(MainScreen)
     }
 

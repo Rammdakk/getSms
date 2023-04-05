@@ -14,17 +14,19 @@ class MainScreenViewModel(
     val errors = errorsUseCase.error
 
     private var apiKey = ""
+    private var cookie = ""
 
-    fun configure(key: String) {
+    fun configure(key: String, cookie: String) {
         apiKey = key
+        this.cookie = cookie
     }
 
 
     fun refreshAll() {
         viewModelScope.launch {
             serviceUseCase.updateBalance(apiKey)
-            serviceUseCase.loadCountries()
-            serviceUseCase.loadServices("ru")
+            serviceUseCase.loadCountries(cookie)
+            serviceUseCase.loadServices("ru", cookie)
         }
     }
 

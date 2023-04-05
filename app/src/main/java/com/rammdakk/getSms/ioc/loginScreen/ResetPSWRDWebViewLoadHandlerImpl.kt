@@ -8,7 +8,7 @@ import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.ResultHandler
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
 
-class ResetPSWRDWebViewLoadHandlerImpl(private val resultHandler: ResultHandler<String>) :
+class ResetPSWRDWebViewLoadHandlerImpl(private val resultHandler: ResultHandler<List<String>>) :
     WebViewLoadHandler {
     override fun handleLoading(webView: WebView, url: String) {
         if (url == UrlLinks.URl_RESET_PASSWORD) {

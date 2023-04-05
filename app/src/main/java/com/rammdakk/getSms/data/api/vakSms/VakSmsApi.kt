@@ -6,16 +6,28 @@ import retrofit2.http.*
 
 interface VakSmsApi {
 
+    companion object {
+        const val HOST = "vak-sms.com"
+        const val REFERER = "https://vak-sms.com/"
+    }
+
     @GET("getBalance/")
     suspend fun getBalance(@Query("apiKey") apiKey: String): Response<BalanceResponse>
 
     @GET("getCountNumbersList/")
     suspend fun getServices(
+        @Header("Host") host: String = HOST,
+        @Header("Cookie") cookie: String,
+        @Header("Referer") referer: String = REFERER,
         @Query("country") country: String = "ru"
     ): Response<Map<String, List<ServiceInfoResponse>>>
 
     @GET("getCountryOperatorList/")
-    suspend fun getCountries(): Response<Map<String, List<CountryResponse>>>
+    suspend fun getCountries(
+        @Header("Host") host: String = HOST,
+        @Header("Cookie") cookie: String,
+        @Header("Referer") referer: String = REFERER,
+    ): Response<Map<String, List<CountryResponse>>>
 
     @GET("getNumber/")
     suspend fun getNumber(

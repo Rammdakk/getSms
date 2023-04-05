@@ -9,7 +9,7 @@ import com.rammdakk.getSms.ioc.ResultHandler
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
 
 class SignInWebViewLoadHandlerImpl(
-    private val resultHandler: ResultHandler<String>,
+    private val resultHandler: ResultHandler<List<String>>,
     private val login: String,
     private val password: String
 ) : WebViewLoadHandler {
@@ -29,7 +29,7 @@ class SignInWebViewLoadHandlerImpl(
             ) { html ->
                 try {
                     if (html.isNotBlank()) {
-                        resultHandler.onSuccess(html.replace("\"", ""))
+                        resultHandler.onSuccess(listOf(html.replace("\"", ""), cookies))
                     }
                 } catch (ignore: Exception) {
                     Log.d("html-ex", ignore.message!!)

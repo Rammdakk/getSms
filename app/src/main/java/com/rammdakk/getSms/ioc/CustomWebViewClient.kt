@@ -1,5 +1,7 @@
 package com.rammdakk.getSms.ioc
 
+import android.util.Log
+import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -17,4 +19,12 @@ class CustomWebViewClient(
     override fun onPageFinished(view: WebView, url: String) =
         loadHandler?.handleLoading(view, url) ?: super.onPageFinished(view, url)
 
+    override fun onReceivedError(
+        view: WebView?,
+        request: WebResourceRequest?,
+        error: WebResourceError?
+    ) {
+        Log.d("RMAIl", "ERRROR")
+        super.onReceivedError(view, request, error)
+    }
 }

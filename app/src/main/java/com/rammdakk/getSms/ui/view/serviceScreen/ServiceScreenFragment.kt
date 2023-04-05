@@ -14,7 +14,7 @@ import com.rammdakk.getSms.ioc.serviceScreen.ServiceScreenFragmentComponent
 import com.rammdakk.getSms.ioc.serviceScreen.ServiceScreenFragmentViewComponent
 import com.rammdakk.getSms.ui.stateholders.ServiceScreenViewModel
 
-class ServiceScreenFragment(private val apiKey: String) : Fragment() {
+class ServiceScreenFragment(private val apiKey: String, private val cookie: String) : Fragment() {
 
 
     private val applicationComponent
@@ -39,7 +39,7 @@ class ServiceScreenFragment(private val apiKey: String) : Fragment() {
     ): View {
         binding = FragmentServicesScreenBinding.inflate(layoutInflater)
         binding.recyclerView.isVisible = false
-        viewModel.configure(apiKey)
+        viewModel.configure(apiKey, cookie)
         fragmentViewComponent =
             ServiceScreenFragmentViewComponent(
                 fragmentComponent = fragmentComponent,
@@ -59,8 +59,8 @@ class ServiceScreenFragment(private val apiKey: String) : Fragment() {
 
 
     companion object {
-        fun newInstance(apiKey: String): ServiceScreenFragment {
-            return ServiceScreenFragment(apiKey)
+        fun newInstance(apiKey: String, cookie: String): ServiceScreenFragment {
+            return ServiceScreenFragment(apiKey, cookie)
         }
     }
 

@@ -25,9 +25,11 @@ class RentedNumbersViewModel(
     val numbersForPush: LiveData<List<RentedNumber>> = _numbersForPush
 
     private var apiKey = ""
+    private var cookie = ""
 
-    fun configure(key: String) {
+    fun configure(key: String, cookie: String) {
         apiKey = key
+        this.cookie = cookie
     }
 
     override fun onSuccess(data: List<RentedNumber>) {

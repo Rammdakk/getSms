@@ -15,7 +15,7 @@ import com.rammdakk.getSms.ioc.activeNumbersScreen.RentedNumbersFragmentComponen
 import com.rammdakk.getSms.ioc.activeNumbersScreen.RentedNumbersFragmentViewComponent
 import com.rammdakk.getSms.ui.stateholders.RentedNumbersViewModel
 
-class RentedNumbersFragment(private val apiKey: String) : Fragment() {
+class RentedNumbersFragment(private val apiKey: String, private val cookie: String) : Fragment() {
 
     private val applicationComponent
         get() = App.get(requireContext()).applicationComponent
@@ -37,7 +37,7 @@ class RentedNumbersFragment(private val apiKey: String) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.configure(apiKey)
+        viewModel.configure(apiKey, cookie)
         binding = FragmentRentedNumbersBinding.inflate(layoutInflater, container, false)
         val webView = binding.ww
         webView.webViewClient =
@@ -66,6 +66,6 @@ class RentedNumbersFragment(private val apiKey: String) : Fragment() {
     }
 
     companion object {
-        fun newInstance(apiKey: String) = RentedNumbersFragment(apiKey)
+        fun newInstance(apiKey: String, cookie: String) = RentedNumbersFragment(apiKey, cookie)
     }
 }

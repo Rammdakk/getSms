@@ -40,10 +40,10 @@ class ServiceRepository @Inject constructor(
     val status = _status
 
 
-    suspend fun loadServices(country: String) {
+    suspend fun loadServices(country: String, cookie: String) {
         try {
             val loadedList = withContext(Dispatchers.IO) {
-                dataSource.loadServices(country)
+                dataSource.loadServices(country, cookie)
             }
             when (loadedList) {
                 is Result.Success -> {
@@ -91,9 +91,9 @@ class ServiceRepository @Inject constructor(
 
     }
 
-    suspend fun loadCountries() {
+    suspend fun loadCountries(cookie: String) {
         val countries = withContext(Dispatchers.IO) {
-            dataSource.loadCountries()
+            dataSource.loadCountries(cookie)
         }
         when (countries) {
             is Result.Success -> {

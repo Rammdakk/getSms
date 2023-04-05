@@ -21,9 +21,11 @@ class ServiceScreenViewModel(
 
     private var apiKey = ""
     private var country = "ru"
+    private var cookie = ""
 
-    fun configure(key: String) {
+    fun configure(key: String, cookie: String) {
         apiKey = key
+        this.cookie = cookie
         updateBalance()
         updateCountries()
         connectivityObserver.observe().onEach {
@@ -47,13 +49,13 @@ class ServiceScreenViewModel(
 
     fun updateServices() {
         viewModelScope.launch {
-            serviceUseCase.loadServices(country)
+            serviceUseCase.loadServices(country, cookie)
         }
     }
 
     private fun updateCountries() {
         viewModelScope.launch {
-            serviceUseCase.loadCountries()
+            serviceUseCase.loadCountries(cookie)
         }
     }
 

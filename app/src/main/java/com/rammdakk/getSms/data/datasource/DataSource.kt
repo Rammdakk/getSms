@@ -28,9 +28,9 @@ class DataSource @Inject constructor(
         return "[${str.substring(str.indexOf("{"), str.length - 1)}]"
     }
 
-    suspend fun loadServices(country: String): Result<List<Service>, String> {
+    suspend fun loadServices(country: String, cookie: String): Result<List<Service>, String> {
         try {
-            val servicesResponse = vakSmsApi.getServices(country)
+            val servicesResponse = vakSmsApi.getServices(country = country, cookie = cookie)
             if (!servicesResponse.isSuccessful) {
                 throw HttpException(servicesResponse.code(), "getServicesError")
             }
@@ -71,9 +71,9 @@ class DataSource @Inject constructor(
         }
     }
 
-    suspend fun loadCountries(): Result<List<CountryInfo>, String> {
+    suspend fun loadCountries(cookie: String): Result<List<CountryInfo>, String> {
         return try {
-            val countriesResponse = vakSmsApi.getCountries()
+            val countriesResponse = vakSmsApi.getCountries(cookie = cookie)
             if (!countriesResponse.isSuccessful) {
                 throw HttpException(countriesResponse.code(), "getCountriesInfo")
             }

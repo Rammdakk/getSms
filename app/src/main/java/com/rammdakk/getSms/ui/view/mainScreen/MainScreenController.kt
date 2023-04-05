@@ -46,6 +46,9 @@ class MainScreenController(
     }
 
     private fun handleError(error: Result.Error<String>?) {
+        if (error?.type == InternetError.AccessDenied) {
+            navigator.navigateTo(LogInScreen)
+        }
         if (error == null) {
             snackbar?.dismiss()
             return

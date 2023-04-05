@@ -54,10 +54,13 @@ class MainScreenFragment : Fragment() {
         val apiKey = context?.getSharedPreferences(
             "com.rammdakk.getSms", Context.MODE_PRIVATE
         )?.getString("accessKey", "")
-        if (apiKey == null) {
+        val cookie = context?.getSharedPreferences(
+            "com.rammdakk.getSms", Context.MODE_PRIVATE
+        )?.getString("cookies", "")
+        if (apiKey == null || cookie == null) {
             navigator.navigateTo(LogInScreen)
         }
-        viewModel.configure(apiKey!!)
+        viewModel.configure(apiKey!!, cookie!!)
         binding = FragmentMainScreenBinding.inflate(layoutInflater)
         fragmentViewComponent =
             MainScreenFragmentViewComponent(
@@ -72,8 +75,8 @@ class MainScreenFragment : Fragment() {
         val adapter = AdapterTabPager(childFragmentManager)
         adapter.addFragment(
             listOf(
-                ServiceScreenFragment.newInstance(apiKey),
-                RentedNumbersFragment.newInstance(apiKey)
+                ServiceScreenFragment.newInstance(apiKey, cookie),
+                RentedNumbersFragment.newInstance(apiKey, cookie)
             ), listOf("Сервисы", "Активации")
         )
         binding.pager.adapter = adapter
