@@ -14,35 +14,34 @@ class GetActiveNumberHandlerImpl(private val resultHandler: ResultHandler<List<R
     WebViewLoadHandler {
     override fun handleLoading(webView: WebView, url: String) {
         if (webView.url == "https://vak-sms.com/getNumber/") {
+//        if (webView.url == "http://192.168.1.109:8080/test/html_with_codes") {
             webView.evaluateJavascript(
                 "(function() {    " +
-                        "            const elements =  document.querySelectorAll('[id=copy]');" +
-                        "            const time = document.getElementsByClassName('countdown');" +
-                        "            const codes = document.getElementsByClassName('codes');" +
                         "            let result = '[';" +
-                        "            for (let i = 0; i < elements.length; i++) {" +
-                        "                if (i % 3 !== 2) {" +
-                        "                    result += `{ \"name\": \"$" + "{elements[i].textContent}\",`;" +
+                        "            const dropdownHovers = document.getElementsByClassName('dropdown-hover');" +
+                        "            for (let dropdownHover of dropdownHovers){" +
+                        "                   const elements =  dropdownHover.querySelectorAll('[id=copy]');" +
+                        "                   const time = dropdownHover.getElementsByClassName('countdown');" +
+                        "                   const codes = dropdownHover.getElementsByClassName('codes');" +
+                        "                    result += `{ \"name\": \"$" + "{elements[0].textContent}\",`;" +
                         "                    result += \" \";" +
-                        "                    result += `\"id\": \"$" + "{elements[i].getAttribute('rel')}\",`;" +
+                        "                    result += `\"id\": \"$" + "{elements[1].getAttribute('rel')}\",`;" +
                         "                    result += \" \";" +
-                        "                    result += `\"time\": $" + "{time[i/3].textContent.replace('\\n', \"\")},`;" +
+                        "                    result += `\"time\": $" + "{time[0].textContent.replace('\\n', \"\")},`;" +
                         "                    result += \" \";" +
-                        "                    result += `\"code\": \"$" + "{codes[i/3].textContent.replace('\\n', \"\")}\",`;" +
+                        "                    result += `\"code\": \"$" + "{codes[0].textContent.replace('\\n', \"\")}\",`;" +
                         "                    result += \" \";" +
-                        "                    i++;" +
-                        "                    result += `\"number\": \"$" + "{elements[i].getAttribute('rel')}\"`;" +
+                        "                    result += `\"number\": \"$" + "{elements[2].getAttribute('rel')}\"`;" +
                         "                    result += \"},\";" +
-                        "                }" +
                         "            }" +
                         "            return result+']';" +
                         "})();"
             ) { almostJSON ->
-                Log.d("loaded", "test")
-                if (almostJSON == null) {
+                Log.d("loaded", almostJSON)
+                if (almostJSON == null || almostJSON == "null") {
                     Log.d("smsNumbers", "null")
                     resultHandler.onSuccess(mutableListOf())
-//                    return@evaluateJavascript
+                    return@evaluateJavascript
                 }
                 try {
                     Log.d("html", almostJSON)

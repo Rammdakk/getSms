@@ -56,6 +56,7 @@ class RentedNumbersFragment(private val apiKey: String, private val cookie: Stri
 
     override fun onResume() {
         binding.ww.loadUrl("https://vak-sms.com/getNumber/")
+//        binding.ww.loadUrl("http://192.168.1.109:8080/test/html_with_codes")
         viewModel.updateBalance()
         super.onResume()
     }
