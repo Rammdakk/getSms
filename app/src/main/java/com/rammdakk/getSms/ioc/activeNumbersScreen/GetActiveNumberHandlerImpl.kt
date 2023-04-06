@@ -15,7 +15,7 @@ class GetActiveNumberHandlerImpl(private val resultHandler: ResultHandler<List<R
     WebViewLoadHandler {
     override fun handleLoading(webView: WebView, url: String) {
         if (webView.url == UrlLinks.URL_RENTED_LIST) {
-            //       if (webView.url == "http://192.168.1.109:8080/test/html_with_codes") {
+ //       if (webView.url == "http://192.168.1.109:8080/test/html_with_codes") {
             webView.evaluateJavascript(
                 "(function() {    " +
                         "            let result = '[';" +
