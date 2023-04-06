@@ -14,7 +14,6 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rammdakk.getSms.R
-import com.rammdakk.getSms.core.model.RentedNumber
 import com.rammdakk.getSms.databinding.FragmentRentedNumbersBinding
 import com.rammdakk.getSms.ui.stateholders.RentedNumbersViewModel
 import com.rammdakk.getSms.ui.view.MainActivity
@@ -27,6 +26,8 @@ class RentedNumbersScreenController(
 ) {
 
     private lateinit var timerHandler: Handler
+    private lateinit var mBuilder: NotificationCompat.Builder
+    private lateinit var mNotificationManager: NotificationManager
     private var timerRunnable: Runnable? = null
     private var updateInterval = 60000L
 
@@ -37,52 +38,18 @@ class RentedNumbersScreenController(
         setUpPush()
     }
 
-    private fun Push(it: RentedNumber) {
-        val mContext = binding.root.context
-
-        val mBuilder = NotificationCompat.Builder(mContext, "notify_001")
-        val ii = Intent(mContext, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(mContext, 0, ii, 0)
-
-        mBuilder.setContentIntent(pendingIntent)
-        mBuilder.setSmallIcon(R.drawable.search_icon)
-        mBuilder.priority = Notification.PRIORITY_MAX
-        val mNotificationManager: NotificationManager =
-            mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "Your_channel_id"
-            val channel = NotificationChannel(
-                channelId,
-                "Channel human readable title",
-                NotificationManager.IMPORTANCE_HIGH
-            )
-            mNotificationManager.createNotificationChannel(channel)
-            mBuilder.setChannelId(channelId)
-        }
-        mBuilder.setContentTitle(it.number)
-        mBuilder.setContentText(it.codes)
-        mNotificationManager.notify(0, mBuilder.build())
-
-        Log.d("PUSH22", "push")
-    }
-
-
     private fun setUpPush() {
         val mContext = binding.root.context
-
-        val mBuilder = NotificationCompat.Builder(mContext, "notify_001")
+        mBuilder = NotificationCompat.Builder(mContext, "GetSms")
         val ii = Intent(mContext, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(mContext, 0, ii, 0)
-
         mBuilder.setContentIntent(pendingIntent)
-        mBuilder.setSmallIcon(R.drawable.search_icon)
+        mBuilder.setSmallIcon(R.drawable.logo)
         mBuilder.priority = Notification.PRIORITY_MAX
-        val mNotificationManager: NotificationManager =
+        mNotificationManager =
             mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "Your_channel_id"
+            val channelId = "GetSms"
             val channel = NotificationChannel(
                 channelId,
                 "Channel human readable title",
@@ -90,14 +57,6 @@ class RentedNumbersScreenController(
             )
             mNotificationManager.createNotificationChannel(channel)
             mBuilder.setChannelId(channelId)
-        }
-        viewModel.numbersForPush.observe(lifecycleOwner) { list ->
-            list.forEach {
-                mBuilder.setContentTitle(it.number)
-                mBuilder.setContentText(it.codes)
-                mNotificationManager.notify(0, mBuilder.build())
-            }
-            Log.d("PUSH", "push")
         }
     }
 
@@ -108,11 +67,8 @@ class RentedNumbersScreenController(
         viewModel.numbers.observe(lifecycleOwner) { numbers ->
             updateInterval = if (numbers.isEmpty()) 60000L else 15000L
             adapter.submitList(numbers)
-            if (numbers.isNotEmpty()) {
-                Log.d("Ramil", "Push called")
-                Push(numbers[0])
-            }
             binding.swipeRefreshLayout.isRefreshing = false
+            setUpAutoRefresh()
         }
         viewModel.status.observe(lifecycleOwner) {
             Log.d("Ramil", "Status update $it")
@@ -131,8 +87,15 @@ class RentedNumbersScreenController(
         timerHandler = Handler(Looper.getMainLooper())
         timerRunnable = object : Runnable {
             override fun run() {
-                Log.d("setUpAutoRefresh", "Runnable ${binding.root.context}")
-                setUpPush()
+                viewModel.numbersForPush.forEach {
+                    mBuilder.setContentTitle("Номер: ${it.number}")
+                    mBuilder.setContentText("Код: ${it.codes}")
+                    mNotificationManager.notify(
+                        it.timeLeft + it.serviceName.length,
+                        mBuilder.build()
+                    )
+                }
+                if (viewModel.numbersForPush.isNotEmpty()) updateInterval = 15000L
                 binding.ww.reload()
                 timerHandler.postDelayed(this, updateInterval)
             }

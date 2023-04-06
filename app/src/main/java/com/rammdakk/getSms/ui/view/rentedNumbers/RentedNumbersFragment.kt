@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.rammdakk.getSms.App
 import com.rammdakk.getSms.databinding.FragmentRentedNumbersBinding
+import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.CustomWebViewClient
 import com.rammdakk.getSms.ioc.activeNumbersScreen.GetActiveNumberHandlerImpl
 import com.rammdakk.getSms.ioc.activeNumbersScreen.RentedNumbersFragmentComponent
@@ -43,6 +44,8 @@ class RentedNumbersFragment(private val apiKey: String, private val cookie: Stri
         webView.webViewClient =
             CustomWebViewClient(loadHandler = GetActiveNumberHandlerImpl(viewModel))
         webView.settings.javaScriptEnabled = true
+        webView.loadUrl(UrlLinks.URL_RENTED_LIST)
+        //webView.loadUrl("http://192.168.1.109:8080/test/html_with_codes")
         fragmentViewComponent =
             RentedNumbersFragmentViewComponent(
                 fragmentComponent = fragmentComponent,
@@ -55,8 +58,7 @@ class RentedNumbersFragment(private val apiKey: String, private val cookie: Stri
     }
 
     override fun onResume() {
-        binding.ww.loadUrl("https://vak-sms.com/getNumber/")
-//        binding.ww.loadUrl("http://192.168.1.109:8080/test/html_with_codes")
+        binding.ww.reload()
         viewModel.updateBalance()
         super.onResume()
     }

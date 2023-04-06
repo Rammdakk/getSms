@@ -15,4 +15,5 @@ object UrlLinks {
     const val URl_RESET_PASSWORD = "https://vak-sms.com/accounts/passwordReset/"
     const val URL_BALANCE = "https://vak-sms.com/pay/"
     const val URL_DEFAULT_IMAGE = "https://vak-sms.com/static/default.png"
+    const val URL_RENTED_LIST = "https://vak-sms.com/getNumber/"
 }

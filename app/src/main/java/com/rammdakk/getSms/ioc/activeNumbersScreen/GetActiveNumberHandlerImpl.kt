@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import com.rammdakk.getSms.core.model.RentedNumber
+import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.ResultHandler
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
 
@@ -13,8 +14,8 @@ import com.rammdakk.getSms.ioc.WebViewLoadHandler
 class GetActiveNumberHandlerImpl(private val resultHandler: ResultHandler<List<RentedNumber>>) :
     WebViewLoadHandler {
     override fun handleLoading(webView: WebView, url: String) {
-        if (webView.url == "https://vak-sms.com/getNumber/") {
-//        if (webView.url == "http://192.168.1.109:8080/test/html_with_codes") {
+        if (webView.url == UrlLinks.URL_RENTED_LIST) {
+            //       if (webView.url == "http://192.168.1.109:8080/test/html_with_codes") {
             webView.evaluateJavascript(
                 "(function() {    " +
                         "            let result = '[';" +
@@ -25,13 +26,13 @@ class GetActiveNumberHandlerImpl(private val resultHandler: ResultHandler<List<R
                         "                   const codes = dropdownHover.getElementsByClassName('codes');" +
                         "                    result += `{ \"name\": \"$" + "{elements[0].textContent}\",`;" +
                         "                    result += \" \";" +
-                        "                    result += `\"id\": \"$" + "{elements[1].getAttribute('rel')}\",`;" +
+                        "                    result += `\"id\": \"$" + "{elements[0].getAttribute('rel')}\",`;" +
                         "                    result += \" \";" +
                         "                    result += `\"time\": $" + "{time[0].textContent.replace('\\n', \"\")},`;" +
                         "                    result += \" \";" +
                         "                    result += `\"code\": \"$" + "{codes[0].textContent.replace('\\n', \"\")}\",`;" +
                         "                    result += \" \";" +
-                        "                    result += `\"number\": \"$" + "{elements[2].getAttribute('rel')}\"`;" +
+                        "                    result += `\"number\": \"$" + "{elements[1].getAttribute('rel')}\"`;" +
                         "                    result += \"},\";" +
                         "            }" +
                         "            return result+']';" +
@@ -57,7 +58,6 @@ class GetActiveNumberHandlerImpl(private val resultHandler: ResultHandler<List<R
                     val list: List<RentedNumber> = Gson().fromJson(json, listType)
                     Log.d("smsNumbers2", list.toString())
                     resultHandler.onSuccess(list)
-//                    return@evaluateJavascript
                 } catch (ex: JsonSyntaxException) {
                     resultHandler.onError(ex.message ?: "Неизвестная ошибка")
                 }
