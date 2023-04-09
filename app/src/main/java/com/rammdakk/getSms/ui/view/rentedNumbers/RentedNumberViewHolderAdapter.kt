@@ -4,7 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.rammdakk.getSms.core.model.RentedNumber
+import com.rammdakk.getSms.data.core.model.RentedNumber
 import com.rammdakk.getSms.databinding.NumberCellBinding
 import com.rammdakk.getSms.ui.stateholders.RentedNumbersViewModel
 

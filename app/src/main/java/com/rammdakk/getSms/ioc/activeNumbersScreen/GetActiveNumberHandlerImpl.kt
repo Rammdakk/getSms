@@ -5,7 +5,7 @@ import android.webkit.WebView
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
-import com.rammdakk.getSms.core.model.RentedNumber
+import com.rammdakk.getSms.data.core.model.RentedNumber
 import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.ResultHandler
 import com.rammdakk.getSms.ioc.WebViewLoadHandler

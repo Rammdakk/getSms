@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rammdakk.getSms.core.model.NumberStatus
-import com.rammdakk.getSms.core.model.RentedNumber
-import com.rammdakk.getSms.data.api.error.InternetError
+import com.rammdakk.getSms.data.core.model.NumberStatus
+import com.rammdakk.getSms.data.core.model.RentedNumber
+import com.rammdakk.getSms.data.net.api.error.InternetError
 import com.rammdakk.getSms.domain.usecases.RentedNumberUseCase
 import com.rammdakk.getSms.domain.usecases.ServiceUseCase
 import com.rammdakk.getSms.ioc.ResultHandler

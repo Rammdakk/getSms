@@ -10,9 +10,9 @@ import com.rammdakk.getSms.AppNavigator
 import com.rammdakk.getSms.LogInScreen
 import com.rammdakk.getSms.R
 import com.rammdakk.getSms.WebViewScreen
-import com.rammdakk.getSms.data.api.Result
-import com.rammdakk.getSms.data.api.error.ErrorMessageConverterImpl
-import com.rammdakk.getSms.data.api.error.InternetError
+import com.rammdakk.getSms.data.net.api.Result
+import com.rammdakk.getSms.data.net.api.error.ErrorMessageConverterImpl
+import com.rammdakk.getSms.data.net.api.error.InternetError
 import com.rammdakk.getSms.databinding.FragmentMainScreenBinding
 import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ioc.CustomWebViewClient

@@ -2,8 +2,8 @@ package com.rammdakk.getSms.domain.usecases
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.rammdakk.getSms.data.api.Result
-import com.rammdakk.getSms.data.repository.ServiceRepository
+import com.rammdakk.getSms.data.net.api.Result
+import com.rammdakk.getSms.data.net.repository.ServiceRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

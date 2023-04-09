@@ -2,8 +2,8 @@ package com.rammdakk.getSms.ioc
 
 import com.rammdakk.getSms.App
 import com.rammdakk.getSms.connectvity.ConnectivityModule
-import com.rammdakk.getSms.data.api.infra.InfraRetrofitModule
-import com.rammdakk.getSms.data.api.vakSms.VakSmsRetrofitModule
+import com.rammdakk.getSms.data.net.api.infra.InfraRetrofitModule
+import com.rammdakk.getSms.data.net.api.vakSms.VakSmsRetrofitModule
 
 
 @ApplicationComponentScope

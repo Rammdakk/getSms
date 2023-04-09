@@ -3,7 +3,7 @@ package com.rammdakk.getSms.ui.stateholders
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rammdakk.getSms.connectvity.ConnectivityObserver
-import com.rammdakk.getSms.data.api.error.InternetError
+import com.rammdakk.getSms.data.net.api.error.InternetError
 import com.rammdakk.getSms.domain.usecases.RentedNumberUseCase
 import com.rammdakk.getSms.domain.usecases.ServiceUseCase
 import kotlinx.coroutines.flow.launchIn

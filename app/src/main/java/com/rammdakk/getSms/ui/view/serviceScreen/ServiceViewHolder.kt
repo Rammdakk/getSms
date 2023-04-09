@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import coil.network.HttpException
 import com.rammdakk.getSms.R
-import com.rammdakk.getSms.core.model.Service
+import com.rammdakk.getSms.data.core.model.Service
 import com.rammdakk.getSms.databinding.ServiceCellBinding
 import com.rammdakk.getSms.infra.UrlLinks
 import com.rammdakk.getSms.ui.stateholders.ServiceScreenViewModel

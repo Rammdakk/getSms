@@ -3,8 +3,8 @@ package com.rammdakk.getSms.ui.view.rentedNumbers
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.rammdakk.getSms.R
-import com.rammdakk.getSms.core.model.NumberStatus
-import com.rammdakk.getSms.core.model.RentedNumber
+import com.rammdakk.getSms.data.core.model.NumberStatus
+import com.rammdakk.getSms.data.core.model.RentedNumber
 import com.rammdakk.getSms.databinding.NumberCellBinding
 import com.rammdakk.getSms.ui.stateholders.RentedNumbersViewModel
 
