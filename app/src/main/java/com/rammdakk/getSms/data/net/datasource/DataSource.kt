@@ -1,12 +1,12 @@
 package com.rammdakk.getSms.data.net.datasource
 
 import android.util.Log
+import com.rammdakk.getSms.data.core.model.CountryInfo
 import com.rammdakk.getSms.data.core.model.Service
 import com.rammdakk.getSms.data.net.api.Result
 import com.rammdakk.getSms.data.net.api.error.ErrorHandlerImpl
 import com.rammdakk.getSms.data.net.api.error.InternetError
 import com.rammdakk.getSms.data.net.api.exception.HttpException
-import com.rammdakk.getSms.data.net.api.infra.InfraApi
 import com.rammdakk.getSms.data.net.api.vakSms.VakSmsApi
 import com.rammdakk.getSms.data.net.model.*
 import com.rammdakk.getSms.infra.UrlLinks
@@ -17,17 +17,7 @@ import javax.inject.Inject
 @ApplicationComponentScope
 class DataSource @Inject constructor(
     private val vakSmsApi: VakSmsApi,
-    private val infraApi: InfraApi
 ) {
-
-    val regex = "\"\\w{1,10}\": \\{".toRegex()
-
-    private fun editString(string: String?): String {
-        if (string == null) return "[]"
-        val str = string.replace(regex, "{").substring(1)
-        return "[${str.substring(str.indexOf("{"), str.length - 1)}]"
-    }
-
     suspend fun loadServices(country: String, cookie: String): Result<List<Service>, String> {
         try {
             val servicesResponse = vakSmsApi.getServices(country = country, cookie = cookie)

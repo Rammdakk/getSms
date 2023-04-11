@@ -69,7 +69,7 @@ class MainScreenFragment : Fragment() {
                 lifecycleOwner = viewLifecycleOwner,
                 navigator = navigator
             ).apply {
-                tasksViewController.setUpViews()
+                mainScreenController.setUpViews()
             }
 
         val adapter = AdapterTabPager(childFragmentManager)

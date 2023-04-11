@@ -2,9 +2,9 @@ package com.rammdakk.getSms.domain.usecases
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import com.rammdakk.getSms.data.core.model.CountryInfo
 import com.rammdakk.getSms.data.core.model.Service
 import com.rammdakk.getSms.data.net.api.error.InternetError
-import com.rammdakk.getSms.data.net.model.CountryInfo
 import com.rammdakk.getSms.data.net.repository.ServiceRepository
 import kotlinx.coroutines.*
 import javax.inject.Inject

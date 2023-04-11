@@ -11,7 +11,7 @@ class MainScreenFragmentViewComponent(
     lifecycleOwner: LifecycleOwner,
     navigator: AppNavigator
 ) {
-    val tasksViewController = MainScreenController(
+    val mainScreenController = MainScreenController(
         binding,
         lifecycleOwner,
         fragmentComponent.viewModel,

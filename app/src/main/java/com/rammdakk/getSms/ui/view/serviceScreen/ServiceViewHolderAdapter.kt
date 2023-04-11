@@ -20,8 +20,8 @@ class ServiceViewHolderAdapter(
         holder.bind(getItem(position))
     }
 
-    fun updateList(func: (Service) -> Boolean) {
-        val filtered = viewModel.services.value?.filter { func(it) }
+    fun updateList(filter: (Service) -> Boolean) {
+        val filtered = viewModel.services.value?.filter { filter(it) }
         this.submitList(filtered)
     }
 }

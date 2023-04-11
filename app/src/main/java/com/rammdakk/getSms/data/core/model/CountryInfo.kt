@@ -1,4 +1,4 @@
-package com.rammdakk.getSms.data.net.model
+package com.rammdakk.getSms.data.core.model
 
 data class CountryInfo(
     val countryCode: String,

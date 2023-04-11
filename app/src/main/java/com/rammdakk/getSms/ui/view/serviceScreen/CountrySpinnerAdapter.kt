@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import androidx.annotation.LayoutRes
 import coil.api.load
 import coil.network.HttpException
-import com.rammdakk.getSms.data.net.model.CountryInfo
+import com.rammdakk.getSms.data.core.model.CountryInfo
 import com.rammdakk.getSms.databinding.SpinnerSubitemBinding
 import com.rammdakk.getSms.infra.UrlLinks
 

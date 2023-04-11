@@ -40,7 +40,7 @@ class WebViewScreen(
 }
 
 class AppNavigator(
-    var fragmentManager: FragmentManager?,
+    private var fragmentManager: FragmentManager?,
     @IdRes private val containerId: Int
 ) {
     fun navigateTo(
@@ -69,7 +69,7 @@ class AppNavigator(
 
     fun back() {
         if ((fragmentManager?.backStackEntryCount ?: 0) > 0) {
-            fragmentManager?.popBackStack();
+            fragmentManager?.popBackStack()
         }
     }
 }

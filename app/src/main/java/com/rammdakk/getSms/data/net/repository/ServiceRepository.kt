@@ -3,14 +3,14 @@ package com.rammdakk.getSms.data.net.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.rammdakk.getSms.SingleLiveEvent
+import com.rammdakk.getSms.data.core.model.CountryInfo
 import com.rammdakk.getSms.data.core.model.Service
 import com.rammdakk.getSms.data.net.api.Result
 import com.rammdakk.getSms.data.net.api.error.InternetError
 import com.rammdakk.getSms.data.net.datasource.DataSource
-import com.rammdakk.getSms.data.net.model.CountryInfo
 import com.rammdakk.getSms.data.net.model.NumberResponse
 import com.rammdakk.getSms.data.net.model.StatusResponse
+import com.rammdakk.getSms.infra.SingleLiveEvent
 import com.rammdakk.getSms.ioc.ApplicationComponentScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -27,13 +27,15 @@ class ServiceRepository @Inject constructor(
     private val _balance = MutableLiveData<Double>()
     val balance = _balance
 
-    private val _error = SingleLiveEvent<Result.Error<String>?>()
+    private val _error =
+        SingleLiveEvent<Result.Error<String>?>()
     val error = _error
 
     private val _countries = MutableLiveData<List<CountryInfo>>()
     val countries = _countries
 
-    private val _number = SingleLiveEvent<NumberResponse>()
+    private val _number =
+        SingleLiveEvent<NumberResponse>()
     val number = _number
 
     private val _status = MutableLiveData<StatusResponse>()
