@@ -154,7 +154,6 @@ class DataSource @Inject constructor(
                     val elements = doc.getElementsByAttributeValue("id", "copy")
                     val time = doc.getElementsByClass("countdown")
                     val codes = doc.getElementsByClass("codes")
-                    Log.d("Time", time[0].text())
                     RentedNumber(
                         serviceName = elements[0].text(),
                         numberId = elements[0].attr("rel"),

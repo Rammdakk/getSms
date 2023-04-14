@@ -36,6 +36,7 @@ class RentedNumbersFragment(private val apiKey: String, private val cookie: Stri
         savedInstanceState: Bundle?
     ): View {
         viewModel.configure(apiKey, cookie)
+        viewModel.getActiveNumbers()
         binding = FragmentRentedNumbersBinding.inflate(layoutInflater, container, false)
         fragmentViewComponent =
             RentedNumbersFragmentViewComponent(
@@ -54,9 +55,11 @@ class RentedNumbersFragment(private val apiKey: String, private val cookie: Stri
         super.onResume()
     }
 
-    override fun onDestroyView() {
+
+    override fun onDestroy() {
+        fragmentViewComponent?.rentedNumbersScreenController?.removeObserver()
         fragmentViewComponent?.rentedNumbersScreenController?.removeCallbacks()
-        super.onDestroyView()
+        super.onDestroy()
     }
 
     companion object {
