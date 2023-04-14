@@ -9,9 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.rammdakk.getSms.App
 import com.rammdakk.getSms.databinding.FragmentRentedNumbersBinding
-import com.rammdakk.getSms.infra.UrlLinks
-import com.rammdakk.getSms.ioc.CustomWebViewClient
-import com.rammdakk.getSms.ioc.activeNumbersScreen.GetActiveNumberHandlerImpl
 import com.rammdakk.getSms.ioc.activeNumbersScreen.RentedNumbersFragmentComponent
 import com.rammdakk.getSms.ioc.activeNumbersScreen.RentedNumbersFragmentViewComponent
 import com.rammdakk.getSms.ui.stateholders.RentedNumbersViewModel
@@ -40,12 +37,6 @@ class RentedNumbersFragment(private val apiKey: String, private val cookie: Stri
     ): View {
         viewModel.configure(apiKey, cookie)
         binding = FragmentRentedNumbersBinding.inflate(layoutInflater, container, false)
-        val webView = binding.ww
-        webView.webViewClient =
-            CustomWebViewClient(loadHandler = GetActiveNumberHandlerImpl(viewModel))
-        webView.settings.javaScriptEnabled = true
-        webView.loadUrl(UrlLinks.URL_RENTED_LIST)
-        //webView.loadUrl("http://192.168.1.109:8080/test/html_with_codes")
         fragmentViewComponent =
             RentedNumbersFragmentViewComponent(
                 fragmentComponent = fragmentComponent,
@@ -58,7 +49,7 @@ class RentedNumbersFragment(private val apiKey: String, private val cookie: Stri
     }
 
     override fun onResume() {
-        binding.ww.reload()
+        viewModel.getActiveNumbers()
         viewModel.updateBalance()
         super.onResume()
     }

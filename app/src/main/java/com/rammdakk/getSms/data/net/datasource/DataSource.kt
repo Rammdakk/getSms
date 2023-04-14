@@ -2,6 +2,7 @@ package com.rammdakk.getSms.data.net.datasource
 
 import android.util.Log
 import com.rammdakk.getSms.data.core.model.CountryInfo
+import com.rammdakk.getSms.data.core.model.RentedNumber
 import com.rammdakk.getSms.data.core.model.Service
 import com.rammdakk.getSms.data.net.api.Result
 import com.rammdakk.getSms.data.net.api.error.ErrorHandlerImpl
@@ -10,8 +11,12 @@ import com.rammdakk.getSms.data.net.api.exception.HttpException
 import com.rammdakk.getSms.data.net.api.vakSms.VakSmsApi
 import com.rammdakk.getSms.data.net.model.*
 import com.rammdakk.getSms.infra.UrlLinks
+import com.rammdakk.getSms.infra.castToInt
 import com.rammdakk.getSms.ioc.ApplicationComponentScope
+import org.jsoup.Jsoup
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 
 @ApplicationComponentScope
@@ -128,4 +133,41 @@ class DataSource @Inject constructor(
             Result.Error(ErrorHandlerImpl.getErrorType(ex), ex.message)
         }
     }
+
+    suspend fun loadNumbers(cookie: String): Result<List<RentedNumber>, String> =
+        suspendCoroutine { continuation ->
+            try {
+                Log.d("Ramil--", cookie)
+                val url =
+                    "https://vak-sms.com/getNumber/"
+                val doc = Jsoup.connect(url)
+                    .userAgent("Mozilla")
+                    .timeout(5000)
+                    .header("cookie", cookie)
+                    .referrer("http://google.com")
+                    .header("Host", "vak-sms.com")
+                    .get()
+                val elements = doc.getElementsByClass("dropdown-toggle").map {
+                    Jsoup.parse(it.html())
+                }
+                val res = elements.map { doc ->
+                    val elements = doc.getElementsByAttributeValue("id", "copy")
+                    val time = doc.getElementsByClass("countdown")
+                    val codes = doc.getElementsByClass("codes")
+                    Log.d("Time", time[0].text())
+                    RentedNumber(
+                        serviceName = elements[0].text(),
+                        numberId = elements[0].attr("rel"),
+                        timeLeft = time[0].text().castToInt() ?: 0,
+                        number = elements[1].attr("rel"),
+                        codes = codes[0].text()
+                    )
+                }
+                Log.d("Casted", res.toString())
+                continuation.resume(Result.Success(res))
+            } catch (ex: Exception) {
+                Log.d("EXX", ex.toString())
+                continuation.resume(Result.Error(ErrorHandlerImpl.getErrorType(ex), ex.message))
+            }
+        }
 }

@@ -57,6 +57,16 @@ class RentedNumbersScreenController(
             )
             mNotificationManager.createNotificationChannel(channel)
             mBuilder.setChannelId(channelId)
+            viewModel.numbersForPush.observe(lifecycleOwner) {
+                it.forEach {
+                    mBuilder.setContentTitle("${it.serviceName} - ${it.number.replace("+", "")}")
+                    mBuilder.setContentText("Код: ${it.codes}")
+                    mNotificationManager.notify(
+                        it.numberId.hashCode(),
+                        mBuilder.build()
+                    )
+                }
+            }
         }
     }
 
@@ -68,26 +78,19 @@ class RentedNumbersScreenController(
             updateInterval = if (numbers.isEmpty()) 40000L else 10000L
             adapter.submitList(numbers)
             binding.swipeRefreshLayout.isRefreshing = false
-            viewModel.numbersForPush.forEach {
-                mBuilder.setContentTitle("${it.serviceName} - ${it.number.replace("+", "")}")
-                mBuilder.setContentText("Код: ${it.codes}")
-                mNotificationManager.notify(
-                    it.numberId as? Int ?: 485263,
-                    mBuilder.build()
-                )
-            }
             setUpAutoRefresh()
         }
         viewModel.status.observe(lifecycleOwner) {
             Log.d("Ramil", "Status update $it")
-            binding.ww.reload()
+            viewModel.getActiveNumbers()
         }
     }
 
     private fun setUpSwipeToRefresh() {
         binding.swipeRefreshLayout.setOnRefreshListener {
-            binding.ww.reload()
+            viewModel.getActiveNumbers()
         }
+
     }
 
     private fun setUpAutoRefresh() {
@@ -95,8 +98,8 @@ class RentedNumbersScreenController(
         timerHandler = Handler(Looper.getMainLooper())
         timerRunnable = object : Runnable {
             override fun run() {
-                if (viewModel.numbersForPush.isNotEmpty()) updateInterval = 10000L
-                binding.ww.reload()
+                if (viewModel.numbers.value?.isNotEmpty() == true) updateInterval = 10000L
+                viewModel.getActiveNumbers()
                 timerHandler.postDelayed(this, updateInterval)
             }
         }
