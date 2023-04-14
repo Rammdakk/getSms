@@ -42,7 +42,7 @@ class RentedNumbersViewModel(
             val newForPush = filteredData.filter { number ->
                 !(oldNumbers.any { (it.numberId == number.numberId && it.codes == number.codes) }
                     ?: true)
-            }.filter { it.codes != "Ожидает SMS" }
+            }
             numbersForPush = newForPush
             oldNumbers = filteredData
         }

@@ -65,9 +65,17 @@ class RentedNumbersScreenController(
         binding.recyclerView.layoutManager = LinearLayoutManager(binding.root.context)
         binding.recyclerView.adapter = adapter
         viewModel.numbers.observe(lifecycleOwner) { numbers ->
-            updateInterval = if (numbers.isEmpty()) 60000L else 15000L
+            updateInterval = if (numbers.isEmpty()) 40000L else 10000L
             adapter.submitList(numbers)
             binding.swipeRefreshLayout.isRefreshing = false
+            viewModel.numbersForPush.forEach {
+                mBuilder.setContentTitle("${it.serviceName} - ${it.number.replace("+", "")}")
+                mBuilder.setContentText("Код: ${it.codes}")
+                mNotificationManager.notify(
+                    it.numberId as? Int ?: 485263,
+                    mBuilder.build()
+                )
+            }
             setUpAutoRefresh()
         }
         viewModel.status.observe(lifecycleOwner) {
@@ -87,15 +95,7 @@ class RentedNumbersScreenController(
         timerHandler = Handler(Looper.getMainLooper())
         timerRunnable = object : Runnable {
             override fun run() {
-                viewModel.numbersForPush.forEach {
-                    mBuilder.setContentTitle("Номер: ${it.number}")
-                    mBuilder.setContentText("Код: ${it.codes}")
-                    mNotificationManager.notify(
-                        it.timeLeft + it.serviceName.length,
-                        mBuilder.build()
-                    )
-                }
-                if (viewModel.numbersForPush.isNotEmpty()) updateInterval = 15000L
+                if (viewModel.numbersForPush.isNotEmpty()) updateInterval = 10000L
                 binding.ww.reload()
                 timerHandler.postDelayed(this, updateInterval)
             }

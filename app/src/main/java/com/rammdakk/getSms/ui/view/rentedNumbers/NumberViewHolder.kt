@@ -1,5 +1,7 @@
 package com.rammdakk.getSms.ui.view.rentedNumbers
 
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.rammdakk.getSms.R
@@ -7,6 +9,7 @@ import com.rammdakk.getSms.data.core.model.NumberStatus
 import com.rammdakk.getSms.data.core.model.RentedNumber
 import com.rammdakk.getSms.databinding.NumberCellBinding
 import com.rammdakk.getSms.ui.stateholders.RentedNumbersViewModel
+
 
 class NumberViewHolder(
     private val numberCellBinding: NumberCellBinding,
@@ -18,8 +21,18 @@ class NumberViewHolder(
         val res = context.resources
         numberCellBinding.timerTW.setTimer(rentedNumber.timeLeft - 3, ::hideItem)
         numberCellBinding.smsCodeSpinner.text = rentedNumber.codes
+        numberCellBinding.smsCodeSpinner.setOnClickListener {
+            val clipboard: ClipboardManager? =
+                context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
+            clipboard?.text = numberCellBinding.smsCodeSpinner.text
+        }
         numberCellBinding.numberServiceNameTW.text = rentedNumber.serviceName
         numberCellBinding.numberTW.text = rentedNumber.number
+        numberCellBinding.numberTW.setOnClickListener {
+            val clipboard: ClipboardManager? =
+                context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
+            clipboard?.text = numberCellBinding.numberTW.text
+        }
         if (rentedNumber.codes == "Ожидает SMS") {
             numberCellBinding.buttonNumberTW.text = res.getString(R.string.cancel_number)
             numberCellBinding.buttonNumberTW.backgroundTintList =
