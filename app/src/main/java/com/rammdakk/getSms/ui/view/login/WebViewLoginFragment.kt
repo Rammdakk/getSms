@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.webkit.CookieManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.view.isVisible
@@ -22,6 +24,7 @@ import com.rammdakk.getSms.ioc.WebViewLoadHandler
 import com.rammdakk.getSms.ioc.loginScreen.ResetPSWRDWebViewLoadHandlerImpl
 import com.rammdakk.getSms.ioc.loginScreen.SignInWebViewLoadHandlerImpl
 import com.rammdakk.getSms.ioc.loginScreen.SignUpWebViewLoadHandlerImpl
+
 
 class WebViewLoginFragment : Fragment(), ResultHandler<List<String>> {
     private lateinit var navigator: AppNavigator
@@ -78,12 +81,18 @@ class WebViewLoginFragment : Fragment(), ResultHandler<List<String>> {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun configureWebView(loadHandler: WebViewLoadHandler, url: String) {
+        (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?)?.hideSoftInputFromWindow(
+            requireView().windowToken,
+            0
+        )
         webView = binding.webview
+        CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
         webView.settings.javaScriptEnabled = true
         webView.webViewClient = CustomWebViewClient(
             loadHandler
         )
-        webView.loadUrl(url).apply {
+        webView.loadUrl(url)
+        webView.reload().apply {
             showLoading(true)
         }
     }
