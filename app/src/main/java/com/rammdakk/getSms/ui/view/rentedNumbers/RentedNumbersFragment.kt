@@ -16,7 +16,7 @@ import com.rammdakk.getSms.ioc.activeNumbersScreen.RentedNumbersFragmentComponen
 import com.rammdakk.getSms.ioc.activeNumbersScreen.RentedNumbersFragmentViewComponent
 import com.rammdakk.getSms.ui.stateholders.RentedNumbersViewModel
 
-class RentedNumbersFragment(private val apiKey: String, private val cookie: String) : Fragment() {
+class RentedNumbersFragment() : Fragment() {
 
     private val applicationComponent
         get() = App.get(requireContext()).applicationComponent
@@ -25,6 +25,8 @@ class RentedNumbersFragment(private val apiKey: String, private val cookie: Stri
     private var fragmentViewComponent: RentedNumbersFragmentViewComponent? = null
 
     private val viewModel: RentedNumbersViewModel by viewModels { applicationComponent.getViewModelFactory() }
+    private lateinit var apiKey: String
+    private lateinit var cookie: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("onCreate", "RentedNumbersFragment")
@@ -38,6 +40,8 @@ class RentedNumbersFragment(private val apiKey: String, private val cookie: Stri
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        apiKey = requireArguments().getString("apiKey")!!
+        cookie = requireArguments().getString("cookie")!!
         viewModel.configure(apiKey, cookie)
         binding = FragmentRentedNumbersBinding.inflate(layoutInflater, container, false)
         val webView = binding.ww
@@ -45,7 +49,6 @@ class RentedNumbersFragment(private val apiKey: String, private val cookie: Stri
             CustomWebViewClient(loadHandler = GetActiveNumberHandlerImpl(viewModel))
         webView.settings.javaScriptEnabled = true
         webView.loadUrl(UrlLinks.URL_RENTED_LIST)
-        //webView.loadUrl("http://192.168.1.109:8080/test/html_with_codes")
         fragmentViewComponent =
             RentedNumbersFragmentViewComponent(
                 fragmentComponent = fragmentComponent,
@@ -69,6 +72,13 @@ class RentedNumbersFragment(private val apiKey: String, private val cookie: Stri
     }
 
     companion object {
-        fun newInstance(apiKey: String, cookie: String) = RentedNumbersFragment(apiKey, cookie)
+        fun newInstance(apiKey: String, cookie: String): RentedNumbersFragment {
+            val bundle = Bundle()
+            bundle.putString("apiKey", apiKey)
+            bundle.putString("cookie", cookie)
+            return RentedNumbersFragment().apply {
+                this.arguments = bundle
+            }
+        }
     }
 }
