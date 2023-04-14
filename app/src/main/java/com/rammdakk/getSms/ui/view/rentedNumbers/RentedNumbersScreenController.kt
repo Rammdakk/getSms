@@ -12,8 +12,10 @@ import android.os.Looper
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rammdakk.getSms.R
+import com.rammdakk.getSms.data.core.model.RentedNumber
 import com.rammdakk.getSms.databinding.FragmentRentedNumbersBinding
 import com.rammdakk.getSms.ui.stateholders.RentedNumbersViewModel
 import com.rammdakk.getSms.ui.view.MainActivity
@@ -30,6 +32,19 @@ class RentedNumbersScreenController(
     private lateinit var mNotificationManager: NotificationManager
     private var timerRunnable: Runnable? = null
     private var updateInterval = 60000L
+
+    var myObserver: Observer<List<RentedNumber>> = object : Observer<List<RentedNumber>> {
+        override fun onChanged(value: List<RentedNumber>) {
+            value.forEach {
+                mBuilder.setContentTitle("${it.serviceName} - ${it.number.replace("+", "")}")
+                mBuilder.setContentText("Код: ${it.codes}")
+                mNotificationManager.notify(
+                    it.numberId.hashCode(),
+                    mBuilder.build()
+                )
+            }
+        }
+    }
 
     fun setUpViews() {
         setUpList()
@@ -57,6 +72,7 @@ class RentedNumbersScreenController(
             )
             mNotificationManager.createNotificationChannel(channel)
             mBuilder.setChannelId(channelId)
+            viewModel.numbersForPush.observeForever(myObserver)
         }
     }
 
@@ -65,29 +81,21 @@ class RentedNumbersScreenController(
         binding.recyclerView.layoutManager = LinearLayoutManager(binding.root.context)
         binding.recyclerView.adapter = adapter
         viewModel.numbers.observe(lifecycleOwner) { numbers ->
-            updateInterval = if (numbers.isEmpty()) 40000L else 10000L
             adapter.submitList(numbers)
             binding.swipeRefreshLayout.isRefreshing = false
-            viewModel.numbersForPush.forEach {
-                mBuilder.setContentTitle("${it.serviceName} - ${it.number.replace("+", "")}")
-                mBuilder.setContentText("Код: ${it.codes}")
-                mNotificationManager.notify(
-                    it.numberId as? Int ?: 485263,
-                    mBuilder.build()
-                )
-            }
             setUpAutoRefresh()
         }
         viewModel.status.observe(lifecycleOwner) {
             Log.d("Ramil", "Status update $it")
-            binding.ww.reload()
+            viewModel.getActiveNumbers()
         }
     }
 
     private fun setUpSwipeToRefresh() {
         binding.swipeRefreshLayout.setOnRefreshListener {
-            binding.ww.reload()
+            viewModel.getActiveNumbers()
         }
+
     }
 
     private fun setUpAutoRefresh() {
@@ -95,8 +103,10 @@ class RentedNumbersScreenController(
         timerHandler = Handler(Looper.getMainLooper())
         timerRunnable = object : Runnable {
             override fun run() {
-                if (viewModel.numbersForPush.isNotEmpty()) updateInterval = 10000L
-                binding.ww.reload()
+                removeCallbacks()
+                updateInterval =
+                    if (viewModel.numbers.value?.isNotEmpty() == true) 10000L else 40000L
+                viewModel.getActiveNumbers()
                 timerHandler.postDelayed(this, updateInterval)
             }
         }
@@ -105,6 +115,10 @@ class RentedNumbersScreenController(
 
     fun removeCallbacks() {
         timerRunnable?.let { timerHandler.removeCallbacks(it) }
+    }
+
+    fun removeObserver() {
+        viewModel.numbersForPush.removeObserver(myObserver)
     }
 
 }

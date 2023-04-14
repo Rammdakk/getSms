@@ -9,9 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.rammdakk.getSms.App
 import com.rammdakk.getSms.databinding.FragmentRentedNumbersBinding
-import com.rammdakk.getSms.infra.UrlLinks
-import com.rammdakk.getSms.ioc.CustomWebViewClient
-import com.rammdakk.getSms.ioc.activeNumbersScreen.GetActiveNumberHandlerImpl
 import com.rammdakk.getSms.ioc.activeNumbersScreen.RentedNumbersFragmentComponent
 import com.rammdakk.getSms.ioc.activeNumbersScreen.RentedNumbersFragmentViewComponent
 import com.rammdakk.getSms.ui.stateholders.RentedNumbersViewModel
@@ -43,12 +40,8 @@ class RentedNumbersFragment() : Fragment() {
         apiKey = requireArguments().getString("apiKey")!!
         cookie = requireArguments().getString("cookie")!!
         viewModel.configure(apiKey, cookie)
+        viewModel.getActiveNumbers()
         binding = FragmentRentedNumbersBinding.inflate(layoutInflater, container, false)
-        val webView = binding.ww
-        webView.webViewClient =
-            CustomWebViewClient(loadHandler = GetActiveNumberHandlerImpl(viewModel))
-        webView.settings.javaScriptEnabled = true
-        webView.loadUrl(UrlLinks.URL_RENTED_LIST)
         fragmentViewComponent =
             RentedNumbersFragmentViewComponent(
                 fragmentComponent = fragmentComponent,
@@ -61,14 +54,16 @@ class RentedNumbersFragment() : Fragment() {
     }
 
     override fun onResume() {
-        binding.ww.reload()
+        viewModel.getActiveNumbers()
         viewModel.updateBalance()
         super.onResume()
     }
 
-    override fun onDestroyView() {
+
+    override fun onDestroy() {
+        fragmentViewComponent?.rentedNumbersScreenController?.removeObserver()
         fragmentViewComponent?.rentedNumbersScreenController?.removeCallbacks()
-        super.onDestroyView()
+        super.onDestroy()
     }
 
     companion object {

@@ -4,6 +4,7 @@ package com.rammdakk.getSms.data.net.repository
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.rammdakk.getSms.data.core.model.CountryInfo
+import com.rammdakk.getSms.data.core.model.RentedNumber
 import com.rammdakk.getSms.data.core.model.Service
 import com.rammdakk.getSms.data.net.api.Result
 import com.rammdakk.getSms.data.net.api.error.InternetError
@@ -33,6 +34,9 @@ class ServiceRepository @Inject constructor(
 
     private val _countries = MutableLiveData<List<CountryInfo>>()
     val countries = _countries
+
+    private val _rentedNumbers = MutableLiveData<List<RentedNumber>>()
+    val rentedNumbers = _rentedNumbers
 
     private val _number =
         SingleLiveEvent<NumberResponse>()
@@ -157,6 +161,20 @@ class ServiceRepository @Inject constructor(
             is Result.Error -> {
                 _error.postValue(statusResponse)
                 Log.d("Loaded", countries.toString())
+            }
+        }
+    }
+
+    suspend fun getNumbers(cookie: String) {
+        val statusResponse = withContext(Dispatchers.IO) {
+            dataSource.loadNumbers(cookie)
+        }
+        when (statusResponse) {
+            is Result.Success -> {
+                _rentedNumbers.postValue(statusResponse.data!!)
+            }
+            is Result.Error -> {
+                _error.postValue(statusResponse)
             }
         }
     }
