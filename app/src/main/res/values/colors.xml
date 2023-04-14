@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="port_gore">#171A3B</color>
+    <color name="geraldine">#F69495</color>
+    <color name="port_gore2">#252950</color>
+    <color name="rhino">#363c75</color>
+    <color name="cloud_burst">#283261</color>
+    <color name="mantis">#59c355</color>
+    <color name="bittersweet">#ff685c</color>
+    <color name="koromiko">#ffbd5f</color>
+</resources>

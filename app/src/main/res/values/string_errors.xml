@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_network">Проблемы с подключением к интернету</string>
+    <string name="error_network_timeout">Превышено время ожидания ответа</string>
+    <string name="error_network_bad_request">Ошибка отправки запроса</string>
+    <string name="error_network_not_found">Не удалось найти страницу</string>
+    <string name="error_network_access_denied">Ошибка получения доступа</string>
+    <string name="error_network_unauthorized">Сессия авторизации сброшена</string>
+    <string name="error_network_service_unavailable">Сервер недоступен</string>
+    <string name="error_unknown">Неизвестная ошибка:\n%1$s</string>
+    <string name="error_50x">Ошибка сервера</string>
+    <string name="error_too_many_requests">Превышено доспустиое число запросов</string>
+    <string name="error_protocol_exception">Операция не поддерживается на вашем устройстве, воспользуйтесь веб версией</string>
+    <string name="no_data">Ошибка, не удалось получить данные</string>
+    <string name="warning_layout_title">Произошла ошибка:</string>
+    <string name="bad_status">Не удалось изменить статус номера, номер уже активен</string>
+    <string name="default_error">%1$s</string>
+</resources>
