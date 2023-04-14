@@ -14,7 +14,7 @@ import com.rammdakk.getSms.ioc.serviceScreen.ServiceScreenFragmentComponent
 import com.rammdakk.getSms.ioc.serviceScreen.ServiceScreenFragmentViewComponent
 import com.rammdakk.getSms.ui.stateholders.ServiceScreenViewModel
 
-class ServiceScreenFragment(private val apiKey: String, private val cookie: String) : Fragment() {
+class ServiceScreenFragment() : Fragment() {
 
 
     private val applicationComponent
@@ -25,6 +25,8 @@ class ServiceScreenFragment(private val apiKey: String, private val cookie: Stri
     private var fragmentViewComponent: ServiceScreenFragmentViewComponent? = null
 
     private val viewModel: ServiceScreenViewModel by viewModels { applicationComponent.getViewModelFactory() }
+    private lateinit var apiKey: String
+    private lateinit var cookie: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,8 @@ class ServiceScreenFragment(private val apiKey: String, private val cookie: Stri
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        apiKey = requireArguments().getString("apiKey")!!
+        cookie = requireArguments().getString("cookie")!!
         binding = FragmentServicesScreenBinding.inflate(layoutInflater)
         binding.recyclerView.isVisible = false
         viewModel.configure(apiKey, cookie)
@@ -60,7 +64,12 @@ class ServiceScreenFragment(private val apiKey: String, private val cookie: Stri
 
     companion object {
         fun newInstance(apiKey: String, cookie: String): ServiceScreenFragment {
-            return ServiceScreenFragment(apiKey, cookie)
+            val bundle = Bundle()
+            bundle.putString("apiKey", apiKey)
+            bundle.putString("cookie", cookie)
+            return ServiceScreenFragment().apply {
+                this.arguments = bundle
+            }
         }
     }
 

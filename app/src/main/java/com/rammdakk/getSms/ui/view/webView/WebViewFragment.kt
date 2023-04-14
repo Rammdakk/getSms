@@ -13,21 +13,42 @@ import com.rammdakk.getSms.databinding.FragmentWebViewBinding
 import com.rammdakk.getSms.ioc.CustomWebViewClient
 import com.rammdakk.getSms.ioc.WebViewLoadHandler
 
-class WebViewFragment(
-    private val url: String,
-    private val loadHandler: WebViewLoadHandler,
-    private val isVisible: Boolean
-) :
-    Fragment() {
+class WebViewFragment() : Fragment() {
+    private lateinit var url: String
+    private var isVisible: Boolean = true
 
     companion object {
         const val TAG = "WebViewFragment"
-        fun newInstance(url: String, loadHandler: WebViewLoadHandler, isVisible: Boolean) =
-            WebViewFragment(url, loadHandler, isVisible)
+        private lateinit var loadHandler: WebViewLoadHandler
+        fun newInstance(
+            url: String,
+            loadHandler: WebViewLoadHandler,
+            isVisible: Boolean
+        ): WebViewFragment {
+            this.loadHandler = loadHandler
+            val bundle = Bundle()
+            bundle.putString("url", url)
+            bundle.putBoolean("isVisible", isVisible)
+            return WebViewFragment().apply {
+                this.arguments = bundle
+//                it.configure(url, loadHandler, isVisible)
+            }
+        }
+
     }
 
     private lateinit var navigator: AppNavigator
     private lateinit var binding: FragmentWebViewBinding
+
+//    fun configure(
+//        url: String,
+//        loadHandler: WebViewLoadHandler,
+//        isVisible: Boolean
+//    ) {
+//        this.url = url
+//        this.loadHandler = loadHandler
+//        this.isVisible = isVisible
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +60,8 @@ class WebViewFragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        url = requireArguments().getString("url")!!
+        isVisible = requireArguments().getBoolean("isVisible")
         binding = FragmentWebViewBinding.inflate(layoutInflater, container, false)
         binding.webView.webViewClient =
             CustomWebViewClient(loadHandler = loadHandler)
