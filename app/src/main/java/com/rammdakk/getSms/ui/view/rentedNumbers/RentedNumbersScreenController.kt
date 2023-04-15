@@ -31,7 +31,7 @@ class RentedNumbersScreenController(
     private lateinit var mBuilder: NotificationCompat.Builder
     private lateinit var mNotificationManager: NotificationManager
     private var timerRunnable: Runnable? = null
-    private var updateInterval = 60000L
+    private var updateInterval = 10000L
 
     var myObserver: Observer<List<RentedNumber>> = object : Observer<List<RentedNumber>> {
         override fun onChanged(value: List<RentedNumber>) {
