@@ -2,7 +2,11 @@ package com.rammdakk.getSms.ui.view.login
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,7 +84,11 @@ class WebViewLoginFragment : Fragment(), ResultHandler<List<String>> {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private fun configureWebView(loadHandler: WebViewLoadHandler, url: String) {
+    private fun configureWebView(
+        loadHandler: WebViewLoadHandler,
+        url: String,
+        timeOut: Int = 15000
+    ) {
         (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?)?.hideSoftInputFromWindow(
             requireView().windowToken,
             0
@@ -95,6 +103,14 @@ class WebViewLoginFragment : Fragment(), ResultHandler<List<String>> {
         webView.reload().apply {
             showLoading(true)
         }
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (webView.getGlobalVisibleRect(Rect())) {
+                webView.stopLoading()
+                Log.d("WebViewLoginFragment", "LoginError")
+                onError("Сервер не отвечает, попробуйте позже.")
+            }
+        }, timeOut.toLong())
     }
 
     private fun showLoading(showProgressBar: Boolean) {

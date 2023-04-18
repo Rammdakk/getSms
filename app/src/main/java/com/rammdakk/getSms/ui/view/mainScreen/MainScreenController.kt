@@ -71,7 +71,7 @@ class MainScreenController(
                 "com.rammdakk.getSms", Context.MODE_PRIVATE
             ).edit().apply {
                 remove("accessKey").apply()
-                remove("cookie").apply()
+                remove("cookies").apply()
             }
             navigator.navigateTo(LogInScreen)
         }
