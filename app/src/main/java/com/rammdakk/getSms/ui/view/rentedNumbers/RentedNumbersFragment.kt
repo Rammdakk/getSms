@@ -61,7 +61,6 @@ class RentedNumbersFragment() : Fragment() {
 
 
     override fun onDestroy() {
-        fragmentViewComponent?.rentedNumbersScreenController?.removeObserver()
         fragmentViewComponent?.rentedNumbersScreenController?.removeCallbacks()
         super.onDestroy()
     }

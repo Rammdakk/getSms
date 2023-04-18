@@ -1,9 +1,6 @@
 package com.rammdakk.getSms.ui.view.mainScreen
 
 import android.content.Context
-import android.util.Log
-import android.webkit.WebView
-import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.snackbar.Snackbar
 import com.rammdakk.getSms.AppNavigator
@@ -15,8 +12,6 @@ import com.rammdakk.getSms.data.net.api.error.ErrorMessageConverterImpl
 import com.rammdakk.getSms.data.net.api.error.InternetError
 import com.rammdakk.getSms.databinding.FragmentMainScreenBinding
 import com.rammdakk.getSms.infra.UrlLinks
-import com.rammdakk.getSms.ioc.CustomWebViewClient
-import com.rammdakk.getSms.ioc.WebViewLoadHandler
 import com.rammdakk.getSms.ioc.mainScreen.TopUpBalanceWebViewLoadHandlerImpl
 import com.rammdakk.getSms.ui.stateholders.MainScreenViewModel
 import com.rammdakk.getSms.ui.view.CustomSnackbar
@@ -74,18 +69,11 @@ class MainScreenController(
         binding.signoutIW.setOnClickListener {
             it.context.getSharedPreferences(
                 "com.rammdakk.getSms", Context.MODE_PRIVATE
-            ).edit().remove("accessKey").apply()
-            WebView(it.context).apply {
-                webViewClient = CustomWebViewClient(object : WebViewLoadHandler {
-                    override fun handleLoading(webView: WebView, url: String) {
-                        Log.d("URL", url)
-                    }
-                })
-                isVisible = false
+            ).edit().apply {
+                remove("accessKey").apply()
+                remove("cookie").apply()
             }
-                .loadUrl(UrlLinks.URL_LOGOUT).apply {
-                    navigator.navigateTo(LogInScreen)
-                }
+            navigator.navigateTo(LogInScreen)
         }
     }
 }

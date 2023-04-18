@@ -80,8 +80,8 @@ class MainScreenFragment : Fragment() {
             ), listOf("Сервисы", "Активации")
         )
         binding.pager.adapter = adapter
-        binding.pager.currentItem = 0
         binding.tabLayout.setupWithViewPager(binding.pager)
+        binding.pager.currentItem = 0
         return binding.root
     }
 }

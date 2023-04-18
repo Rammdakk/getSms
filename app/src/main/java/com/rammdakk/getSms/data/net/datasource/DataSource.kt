@@ -137,7 +137,6 @@ class DataSource @Inject constructor(
     suspend fun loadNumbers(cookie: String): Result<List<RentedNumber>, String> =
         suspendCoroutine { continuation ->
             try {
-                Log.d("Ramil--", cookie)
                 val url =
                     "https://vak-sms.com/getNumber/"
                 val doc = Jsoup.connect(url)
