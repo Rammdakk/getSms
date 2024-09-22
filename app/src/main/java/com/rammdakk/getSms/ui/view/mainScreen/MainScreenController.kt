@@ -58,13 +58,14 @@ class MainScreenController(
     }
 
     private fun setUpButtons() {
-        binding.topUpBalanceTW.setOnClickListener {
-            navigator.navigateTo(
-                WebViewScreen(
-                    UrlLinks.URL_BALANCE,
-                    TopUpBalanceWebViewLoadHandlerImpl()
-                ), true
-            )
+        binding.balanceIW.setOnClickListener{
+            launchBalanceWebView()
+        }
+        binding.balanceTW.setOnClickListener{
+            launchBalanceWebView()
+        }
+        binding.balanceSumTW.setOnClickListener{
+            launchBalanceWebView()
         }
         binding.signoutIW.setOnClickListener {
             it.context.getSharedPreferences(
@@ -75,5 +76,14 @@ class MainScreenController(
             }
             navigator.navigateTo(LogInScreen)
         }
+    }
+
+    private fun launchBalanceWebView(){
+        navigator.navigateTo(
+            WebViewScreen(
+                UrlLinks.URL_BALANCE,
+                TopUpBalanceWebViewLoadHandlerImpl()
+            ), true
+        )
     }
 }

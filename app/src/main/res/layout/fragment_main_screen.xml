@@ -14,24 +14,23 @@
         android:id="@+id/signoutIW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginEnd="4dp"
         android:src="@drawable/signout_icon"
-        app:layout_constraintBottom_toBottomOf="@id/balanceSumTW"
-        app:layout_constraintEnd_toEndOf="@id/topUpBalanceTW"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.142" />
+        app:layout_constraintBottom_toBottomOf="@+id/balanceIW"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/balanceIW"
+        app:layout_constraintVertical_bias="0.5" />
 
     <ImageView
         android:id="@+id/balanceIW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/round_background"
         android:src="@drawable/balance_icon"
         app:layout_constraintBottom_toBottomOf="@id/balanceSumTW"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signoutIW"
-        tools:layout_editor_absoluteX="10dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/balanceTW"
@@ -56,33 +55,19 @@
         app:layout_constraintStart_toStartOf="@+id/balanceTW"
         app:layout_constraintTop_toBottomOf="@+id/balanceTW" />
 
-    <TextView
-        android:id="@+id/topUpBalanceTW"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/top_up_balance_button_selector"
-        android:paddingHorizontal="5dp"
-        android:text="ПОПОЛНИТЬ"
-        android:textColor="#56c43a"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/balanceIW"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/balanceIW" />
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:background="#ffaaaa"
-        app:layout_constraintTop_toBottomOf="@+id/balanceSumTW" />
+        app:layout_constraintTop_toBottomOf="@+id/balanceSumTW"
+        tools:layout_editor_absoluteX="10dp" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="5dp"
         android:background="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tab_layout"
