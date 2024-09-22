@@ -1,9 +1,6 @@
 package com.rammdakk.getSms.ui.view.serviceScreen
 
-import android.content.Context
-import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -11,7 +8,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.internal.ContextUtils.getActivity
 import com.google.android.material.tabs.TabLayout
 import com.rammdakk.getSms.R
 import com.rammdakk.getSms.databinding.FragmentServicesScreenBinding
@@ -29,20 +25,6 @@ class ServiceScreenController(
         setUpList()
         setUpSwipeToRefresh()
         setUpCountrySpinner()
-        setUpSearch()
-    }
-
-    private fun setUpSearch() {
-        binding.searchViewEditText.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                Log.d("has", " focus")
-            } else {
-                val imm: InputMethodManager =
-                    getActivity(binding.root.context)?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
-                Log.d("lost", " focus")
-            }
-        }
     }
 
     private fun setUpCountrySpinner() {
@@ -86,7 +68,10 @@ class ServiceScreenController(
         })
         binding.recyclerView.adapter = adapter
         viewModel.services.observe(lifecycleOwner) { newService ->
-            adapter.submitList(newService)
+            val searchText = binding.searchViewEditText.text.toString().lowercase()
+            adapter.submitList(newService.filter {
+                it.serviceName.lowercase().startsWith(searchText)
+            })
             binding.swipeRefreshLayout.isRefreshing = false
         }
         binding.searchViewEditText.doOnTextChanged { text, _, _, _ ->
